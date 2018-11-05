@@ -132,6 +132,14 @@ class DragGraph extends Component {
     });
   }
 
+  componentDidUpdate(preProps, preState) {
+    // 通知父组件图的状态
+    if (!_.isEqual(preState, this.state)) {
+      const { edges = [], nodes = [] } = this.state;
+      this.props.onChange && this.props.onChange({ edges, nodes });
+    }
+  }
+
   // 连线事件
   onConnection = (connObj, originalEvent) => {
     if (!originalEvent) {
@@ -175,17 +183,6 @@ class DragGraph extends Component {
           )
       )
     });
-    this.updateParent();
-  };
-
-  // 更新父组件状态
-  updateParent = () => {
-    if (this.props.onChange) {
-      this.props.onChange({
-        edges: this.state.edges,
-        nodes: this.state.nodes
-      });
-    }
   };
 
   // 绑定父组件传入的事件
@@ -300,6 +297,7 @@ class DragGraph extends Component {
   };
 
   render() {
+    console.log('render')
     const nodesDom = this.state.nodes.map(node => {
       const style = node.style || {};
 
@@ -362,5 +360,6 @@ class DragGraph extends Component {
 DragGraph.propTypes = {
   jsPlumbSettings: PropTypes.object, // 编排器组件的初始化样式
   data: PropTypes.object, // 图数据，data.node 是节点，data.edges 是边
+  onChange: PropTypes.func
 };
 export default DragGraph;

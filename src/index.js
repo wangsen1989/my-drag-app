@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
+import DragGraph from "./DragGraph";
 import registerServiceWorker from "./registerServiceWorker";
 
 // mock 图数据结构（节点和边）
 
-let nodes = [
+const nodes = [
   {
     id: "1",
     name: "Node 1",
@@ -28,7 +28,7 @@ let nodes = [
     style: { left: "500px", top: "500px" }
   }
 ];
-let edges = [
+const edges = [
   {
     sourceId: "1",
     targetId: "2"
@@ -43,8 +43,28 @@ let edges = [
   }
 ];
 
-ReactDOM.render(
-  <App data={{ nodes, edges }} />,
-  document.getElementById("root")
-);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {
+        nodes,
+        edges
+      }
+    };
+  }
+  render() {
+    const { data } = this.state;
+    return (
+      <DragGraph
+        data={data}
+        onChange={data => {
+          this.setState({ data });
+          console.log(data);
+        }}
+      />
+    );
+  }
+}
+ReactDOM.render(<App />, document.getElementById("root"));
 registerServiceWorker();
