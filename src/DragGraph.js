@@ -1,13 +1,6 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { jsPlumb } from "jsplumb";
-import _ from "lodash";
-
-const baseColor = "gray";
-
 /* 
   已实现功能：
-  1：整个图容器、节点、边的增删、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
+  1：整个图容器、节点、边，他们的 连接、分离、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
 */
 
 /* 
@@ -18,6 +11,13 @@ const baseColor = "gray";
   4: 是否可有环(有向)。[ 1 -> 2 -> 3 -> 4 -> 1 ]，只判断最后操作的节点 4 的出度，是否有指回自己的入度和入度的入度
   5: 如下路径，虽然没环，但 1 被 4 跨层级重复依赖，是否可以？[ 1 -> 2 -> 3 -> 4; 1 -> 4; ]。只判断最后操作的节点 1 的出度，和深度遍历 1 的出度的出度，是否有重合
 */
+
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { jsPlumb } from "jsplumb";
+import _ from "lodash";
+
+const baseColor = "gray";
 
 class DragGraph extends Component {
   static defaultProps = {
