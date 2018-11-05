@@ -26,6 +26,16 @@ const nodes = [
     id: "4",
     name: "Node 4",
     style: { left: "500px", top: "500px" }
+  },
+  {
+    id: "5",
+    name: "Node 5",
+    style: { left: "600px", top: "300px" }
+  },
+  {
+    id: "6",
+    name: "Node 6",
+    style: { left: "100px", top: "500px" }
   }
 ];
 const edges = [
