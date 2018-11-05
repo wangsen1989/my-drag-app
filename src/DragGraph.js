@@ -6,7 +6,7 @@ import _ from "lodash";
 const baseColor = "gray";
 
 // 图中元素，整个页面、节点、边的增删、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
-// TODO: 是否多锚点，已连接的线是否可删除、是否可用鼠标分离，不可自己连自己，不可重复链接，是否可有环，错误环的标识，初始值是否有坐标
+// TODO: 是否多锚点，已连接的线是否可删除、是否可用鼠标分离，不可自己连自己，不可重复链接，是否可有环(有向和无向)，错误环的标识或禁用锚点，初始值是否有坐标
 
 class DragGraph extends Component {
   static defaultProps = {
@@ -362,9 +362,9 @@ class DragGraph extends Component {
 }
 
 DragGraph.propTypes = {
-  jsPlumbSettings: PropTypes.object, // 编排器组件的初始化样式
-  data: PropTypes.object, // 图数据，data.nodes 是节点，data.edges 是边
-  onChange: PropTypes.func, // 将新状态通知父组件
-  graphId: PropTypes.string // 图容器 dom 的 id
+  jsPlumbSettings: PropTypes.object, // 图组件的初始化样式
+  data: PropTypes.object.isRequired, // 图数据，data.nodes 是节点，data.edges 是边
+  onChange: PropTypes.func, // 将图新状态通知父组件
+  graphId: PropTypes.string.isRequired // 图组件 dom 的 id
 };
 export default DragGraph;
