@@ -297,7 +297,7 @@ class DragGraph extends Component {
   };
 
   render() {
-    console.log('render')
+    console.log("render");
     const nodesDom = this.state.nodes.map(node => {
       const style = node.style || {};
 
@@ -323,34 +323,32 @@ class DragGraph extends Component {
       2;
 
     return (
-      <div className="App">
+      <div
+        key={JSPLUMB_ID}
+        className="jsplumb-box"
+        onWheel={this.onCanvasMousewheel}
+        onMouseMove={this.onCanvasMousemove}
+        onMouseDown={this.onCanvasMousedown}
+        onMouseUp={this.onCanvasMouseUpLeave}
+        onMouseLeave={this.onCanvasMouseUpLeave}
+        onContextMenu={event => {
+          // 不展示浏览器默认菜单键
+          event.stopPropagation();
+          event.preventDefault();
+        }}
+      >
         <div
-          key={JSPLUMB_ID}
-          className="jsplumb-box"
-          onWheel={this.onCanvasMousewheel}
-          onMouseMove={this.onCanvasMousemove}
-          onMouseDown={this.onCanvasMousedown}
-          onMouseUp={this.onCanvasMouseUpLeave}
-          onMouseLeave={this.onCanvasMouseUpLeave}
-          onContextMenu={event => {
-            // 不展示浏览器默认菜单键
-            event.stopPropagation();
-            event.preventDefault();
+          className="jsplumb-canvas"
+          ref={JSPLUMB_ID}
+          id={JSPLUMB_ID}
+          style={{
+            transformOrigin: "0px 0px 0px",
+            transform: `translate(${translateWidth}px, ${translateHeight}px) scale(${
+              this.state._scale
+            })`
           }}
         >
-          <div
-            className="jsplumb-canvas"
-            ref={JSPLUMB_ID}
-            id={JSPLUMB_ID}
-            style={{
-              transformOrigin: "0px 0px 0px",
-              transform: `translate(${translateWidth}px, ${translateHeight}px) scale(${
-                this.state._scale
-              })`
-            }}
-          >
-            {nodesDom}
-          </div>
+          {nodesDom}
         </div>
       </div>
     );
@@ -359,7 +357,10 @@ class DragGraph extends Component {
 
 DragGraph.propTypes = {
   jsPlumbSettings: PropTypes.object, // 编排器组件的初始化样式
-  data: PropTypes.object, // 图数据，data.node 是节点，data.edges 是边
+  data: PropTypes.object, // 图数据，data.nodes 是节点，data.edges 是边
   onChange: PropTypes.func
 };
 export default DragGraph;
+
+// 图中元素，整个页面、节点、边的增删、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
+// TODO: 是否多锚点，已连接的线是否可删除、是否可用鼠标分离，不可自己连自己，不可重复链接，是否可有环，错误环的标识，初始值是否有坐标
