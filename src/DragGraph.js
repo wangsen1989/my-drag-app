@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { jsPlumb } from "jsplumb";
 import _ from "lodash";
 
-const color = "gray";
+const baseColor = "gray";
 
 // 图中元素，整个页面、节点、边的增删、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
 // TODO: 是否多锚点，已连接的线是否可删除、是否可用鼠标分离，不可自己连自己，不可重复链接，是否可有环，错误环的标识，初始值是否有坐标
@@ -26,23 +26,23 @@ class DragGraph extends Component {
         zIndex: 2000
       },
       PaintStyle: {
-        stroke: color,
-        strokeStyle: color,
+        stroke: baseColor,
+        strokeStyle: baseColor,
         lineWidth: 2,
         radius: 5
       },
       EndpointStyle: {
         radius: 5,
-        fill: color,
-        fillStyle: color
+        fill: baseColor,
+        fillStyle: baseColor
       },
       HoverPaintStyle: {
-        stroke: "#ec9f2e",
-        strokeStyle: "#ec9f2e"
+        stroke: baseColor,
+        strokeStyle: baseColor
       },
       EndpointHoverStyle: {
-        fill: "#ec9f2e",
-        fillStyle: "#ec9f2e"
+        fill: baseColor,
+        fillStyle: baseColor
       },
       ConnectionOverlays: [
         // 箭头样式
@@ -53,8 +53,8 @@ class DragGraph extends Component {
           },
           {
             foldback: 0.5,
-            fill: color,
-            fillStyle: color,
+            fill: baseColor,
+            fillStyle: baseColor,
             width: 14
           }
         ]
@@ -368,4 +368,3 @@ DragGraph.propTypes = {
   graphId: PropTypes.string // 图容器 dom 的 id
 };
 export default DragGraph;
-
