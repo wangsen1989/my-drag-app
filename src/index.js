@@ -57,6 +57,7 @@ class App extends React.Component {
     const { data } = this.state;
     return (
       <DragGraph
+        graphId="demo"
         data={data}
         onChange={data => {
           this.setState({ data });

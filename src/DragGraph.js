@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { jsPlumb } from "jsplumb";
 import _ from "lodash";
 
-const JSPLUMB_ID = "jsplumb_box";
 const color = "gray";
+
+// 图中元素，整个页面、节点、边的增删、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
+// TODO: 是否多锚点，已连接的线是否可删除、是否可用鼠标分离，不可自己连自己，不可重复链接，是否可有环，错误环的标识，初始值是否有坐标
 
 class DragGraph extends Component {
   static defaultProps = {
@@ -57,7 +59,8 @@ class DragGraph extends Component {
           }
         ]
       ]
-    }
+    },
+    graphId: "js_plumb_box_container_id" // 图容器 dom 的 id
   };
   constructor(props) {
     super(props);
@@ -80,8 +83,9 @@ class DragGraph extends Component {
 
   componentDidMount() {
     jsPlumb.ready(() => {
+      const { graphId } = this.props;
       const jsPlumbInstance = jsPlumb.getInstance(this.props.jsPlumbSettings);
-      jsPlumbInstance.setContainer(document.getElementById(JSPLUMB_ID));
+      jsPlumbInstance.setContainer(document.getElementById(graphId));
       jsPlumbInstance.bind("connection", this.onConnection);
       jsPlumbInstance.bind("contextmenu", this.onDelConnection);
       jsPlumbInstance.bind("connectionDetached", this.onDelConnection);
@@ -238,10 +242,11 @@ class DragGraph extends Component {
 
   // 拖动节点后重新计算坐标
   upDateNode = options => {
-    let nodesDom = this.refs[JSPLUMB_ID].querySelectorAll(".gui-canvas-node");
+    const { graphId } = this.props;
+    let nodesDom = this.refs[graphId].querySelectorAll(".gui-canvas-node");
     if (options) {
-      this.refs[JSPLUMB_ID].style.left = "0px";
-      this.refs[JSPLUMB_ID].style.top = "0px";
+      this.refs[graphId].style.left = "0px";
+      this.refs[graphId].style.top = "0px";
     }
     options = options || {};
     this.setState({
@@ -265,14 +270,15 @@ class DragGraph extends Component {
 
   // 释放画布
   onCanvasMouseUpLeave = e => {
-    let self = this.state;
+    const self = this.state;
+    const { graphId } = this.props;
 
     if (self.dragging) {
-      let _left = self._left + e.pageX - self._initX;
-      let _top = self._top + e.pageY - self._initY;
+      const _left = self._left + e.pageX - self._initX;
+      const _top = self._top + e.pageY - self._initY;
 
-      this.refs[JSPLUMB_ID].style.left = _left + "px";
-      this.refs[JSPLUMB_ID].style.top = _top + "px";
+      this.refs[graphId].style.left = _left + "px";
+      this.refs[graphId].style.top = _top + "px";
       this.setState({
         _left,
         _top,
@@ -287,17 +293,17 @@ class DragGraph extends Component {
 
   // 移动画布
   onCanvasMousemove = e => {
-    let self = this.state;
+    const { graphId } = this.props;
+    const self = this.state;
     if (!self.dragging) {
       return;
     }
-    this.refs[JSPLUMB_ID].style.left =
-      self._left + e.pageX - self._initX + "px";
-    this.refs[JSPLUMB_ID].style.top = self._top + e.pageY - self._initY + "px";
+    this.refs[graphId].style.left = self._left + e.pageX - self._initX + "px";
+    this.refs[graphId].style.top = self._top + e.pageY - self._initY + "px";
   };
 
   render() {
-    console.log("render");
+    const { graphId } = this.props;
     const nodesDom = this.state.nodes.map(node => {
       const style = node.style || {};
 
@@ -324,7 +330,7 @@ class DragGraph extends Component {
 
     return (
       <div
-        key={JSPLUMB_ID}
+        key={graphId}
         className="jsplumb-box"
         onWheel={this.onCanvasMousewheel}
         onMouseMove={this.onCanvasMousemove}
@@ -339,8 +345,8 @@ class DragGraph extends Component {
       >
         <div
           className="jsplumb-canvas"
-          ref={JSPLUMB_ID}
-          id={JSPLUMB_ID}
+          ref={graphId}
+          id={graphId}
           style={{
             transformOrigin: "0px 0px 0px",
             transform: `translate(${translateWidth}px, ${translateHeight}px) scale(${
@@ -358,9 +364,8 @@ class DragGraph extends Component {
 DragGraph.propTypes = {
   jsPlumbSettings: PropTypes.object, // 编排器组件的初始化样式
   data: PropTypes.object, // 图数据，data.nodes 是节点，data.edges 是边
-  onChange: PropTypes.func
+  onChange: PropTypes.func, // 将新状态通知父组件
+  graphId: PropTypes.string // 图容器 dom 的 id
 };
 export default DragGraph;
 
-// 图中元素，整个页面、节点、边的增删、拖动、放大缩小, 都会触发自身状态更改，并将新状态通知父组件
-// TODO: 是否多锚点，已连接的线是否可删除、是否可用鼠标分离，不可自己连自己，不可重复链接，是否可有环，错误环的标识，初始值是否有坐标
