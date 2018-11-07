@@ -110,17 +110,30 @@ class App extends React.Component {
             <LeftList
               data={leftNodes}
               onDragStart={e => {
-                console.log(e);
+                e.dataTransfer.effectAllowed = "move";
+                console.log(e.target.dataset);
               }}
               onDragOver={e => {
-                console.log(e);
+                // console.log(e.target.dataset);
               }}
               onDragEnd={e => {
-                console.log(e);
+                console.log(e.target.dataset);
               }}
             />
           </div>
-          <div className="right">
+          <div
+            className="right"
+            onDragOver={e => {
+              e.dataTransfer.dropEffect = "move";
+              e.preventDefault();
+              console.log("right over", e.target);
+            }}
+            onDrop={e => {
+              e.stopPropagation(); // 不再派发事件。解决Firefox浏览器，打开新窗口的问题。
+              e.preventDefault();
+              console.log("right drop", e.target);
+            }}
+          >
             <DragGraph
               graphId="demo"
               data={rightNodes}
@@ -128,6 +141,9 @@ class App extends React.Component {
                 this.setState({ rightNodes });
                 console.log(rightNodes);
               }}
+              //   eventListeners={[
+              //       {}
+              //   ]}
             />
           </div>
         </div>
