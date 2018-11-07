@@ -4,37 +4,7 @@ import "./index.css";
 import LeftList from "./LeftList";
 import DragGraph from "./DragGraph";
 import registerServiceWorker from "./registerServiceWorker";
-const colors = [
-  {
-    newIndex: 1,
-    color: "red"
-  },
 
-  {
-    newIndex: 2,
-    color: "green"
-  },
-
-  {
-    newIndex: 3,
-    color: "blue"
-  },
-
-  {
-    newIndex: 4,
-    color: "yellow"
-  },
-
-  {
-    newIndex: 5,
-    color: "orange"
-  },
-
-  {
-    newIndex: 6,
-    color: "black"
-  }
-];
 // mock 图数据结构（节点和边）
 
 const nodes = [
@@ -89,9 +59,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: {
-        leftNodes: new Array(20)
-          .fill("left")
-          .map((v, i) => ({ id: `left${i}`, name: `left node${i}` })),
+        leftNodes: {
+          nodes: new Array(20)
+            .fill("left")
+            .map((v, i) => ({ id: `left${i}`, name: `left node${i}` }))
+        },
         rightNodes: {
           nodes,
           edges
@@ -99,51 +71,72 @@ class App extends React.Component {
       }
     };
   }
+
+  // 左侧拖拽开始时，记录当下拖拽的节点
+  onLeftStart = e => {
+    e.dataTransfer.effectAllowed = "move";
+
+    const {
+      data: { leftNodes = {} }
+    } = this.state;
+
+    const draggingNode = leftNodes.nodes.find(
+      node => node.id === e.target.dataset.id
+    );
+
+    this.setState({ draggingNode });
+    console.log(e.target.dataset, draggingNode);
+  };
+
+  // 左侧拖拽结束，放在右侧时，把当下拖拽的节点加入右侧，并从左侧剔除
+  onRightDrop = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    let {
+      data,
+      data: { leftNodes = {}, rightNodes = {} },
+      draggingNode
+    } = this.state;
+    rightNodes.nodes.push(draggingNode);
+    leftNodes = {
+      ...leftNodes,
+      nodes: leftNodes.nodes.filter(node => node.id !== draggingNode.id)
+    };
+    this.setState({ data: { ...data, leftNodes, rightNodes } }, () => {
+      console.log("right drop", this.state.data);
+    });
+  };
+
+  // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态
+  onRightChange = rightNodes => {
+    const { data } = this.state;
+    this.setState({ data: { ...data, rightNodes } });
+    console.log(rightNodes);
+  };
+
   render() {
     const {
-      data: { leftNodes = [], rightNodes = [] }
+      data: { leftNodes = {}, rightNodes = {} }
     } = this.state;
     return (
       <div className="father">
         <div className="main">
           <div className="left">
-            <LeftList
-              data={leftNodes}
-              onDragStart={e => {
-                e.dataTransfer.effectAllowed = "move";
-                console.log(e.target.dataset);
-              }}
-              onDragOver={e => {
-                // console.log(e.target.dataset);
-              }}
-              onDragEnd={e => {
-                console.log(e.target.dataset);
-              }}
-            />
+            <LeftList data={leftNodes.nodes} onDragStart={this.onLeftStart} />
           </div>
           <div
             className="right"
             onDragOver={e => {
               e.dataTransfer.dropEffect = "move";
               e.preventDefault();
-              console.log("right over", e.target);
+              //   console.log("right over", e.target);
             }}
-            onDrop={e => {
-              e.stopPropagation(); // 不再派发事件。解决Firefox浏览器，打开新窗口的问题。
-              e.preventDefault();
-              console.log("right drop", e.target);
-            }}
+            onDrop={this.onRightDrop}
           >
             <DragGraph
               graphId="demo"
               data={rightNodes}
-              onChange={rightNodes => {
-                this.setState({ rightNodes });
-                console.log(rightNodes);
-              }}
-              //   eventListeners={[
-              //       {}
-              //   ]}
+              onChange={this.onRightChange}
             />
           </div>
         </div>

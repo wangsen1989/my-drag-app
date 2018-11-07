@@ -5,7 +5,12 @@ class LeftList extends React.Component {
     super(props);
     this.state = { ...props };
   }
-
+  componentDidMount() {
+    this.setState({ data: this.props.data || [] });
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ data: nextProps.data || [] });
+  }
   dragStart = e => {
     this.dragged = e.currentTarget;
     const { onDragStart } = this.props;
@@ -65,7 +70,7 @@ class LeftList extends React.Component {
           return (
             <li
               data-sort-id={i} // 拖动时重新排序的顺序
-              data-node-id={item.id} // 数据真实的 id
+              data-id={item.id} // 数据真实的 id
               key={item.id}
               className="left-node"
               draggable="true"
