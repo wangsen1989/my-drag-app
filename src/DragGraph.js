@@ -104,44 +104,9 @@ class DragGraph extends Component {
       jsPlumbInstance.bind("contextmenu", this.onDelConnection);
       jsPlumbInstance.bind("connectionDetached", this.onDelConnection);
       this.setEventListeners(jsPlumbInstance);
-
-      //画点: 每个节点四个锚点
-      let nodes = this.state.nodes;
-      for (let i = 0; i < nodes.length; i++) {
-        let nUUID = nodes[i].id;
-        ["RightMiddle", "LeftMiddle", "TopCenter", "BottomCenter"].forEach(
-          v => {
-            jsPlumbInstance.addEndpoint(
-              nUUID,
-              {
-                isTarget: true,
-                isSource: true
-              },
-              {
-                uuid: nUUID + v,
-                anchor: v,
-                maxConnections: -1
-              }
-            );
-          }
-        );
-        jsPlumbInstance.draggable(nUUID);
-      }
-
-      //画线：初始化时，节点连线统一从下出，从上入
-      let edges = this.state.edges;
-      for (let j = 0; j < edges.length; j++) {
-        let connection = jsPlumbInstance.connect({
-          uuids: [
-            edges[j].sourceId + "BottomCenter",
-            edges[j].targetId + "TopCenter"
-          ]
-        });
-        connection.setPaintStyle({
-          stroke: "#8b91a0",
-          strokeStyle: "#8b91a0"
-        });
-      }
+      // 画点，画线
+      this.drawPoint(jsPlumbInstance);
+      this.drawLine(jsPlumbInstance);
 
       this.setState({
         isJsPlumbInstanceCreated: true,
@@ -157,6 +122,71 @@ class DragGraph extends Component {
       this.props.onChange && this.props.onChange({ edges, nodes });
     }
   }
+  componentWillReceiveProps(nextProps) {
+    // 将最新传进来的节点重新画
+    if (!_.isEqual(this.props.data, nextProps.data)) {
+      console.log("将最新传进来的节点重新画", this.props.data, nextProps.data);
+
+      this.setState({ ...nextProps.data }, () => {
+        this.drawPoint(this.state.jsPlumbInstance);
+      });
+    }
+  }
+
+  drawPoint(jsPlumbInstance) {
+    //画点: 每个节点四个锚点
+    let nodes = this.state.nodes;
+    for (let i = 0; i < nodes.length; i++) {
+      let nUUID = nodes[i].id;
+      ["RightMiddle", "LeftMiddle", "TopCenter", "BottomCenter"].forEach(v => {
+        jsPlumbInstance.addEndpoint(
+          nUUID,
+          {
+            isTarget: true,
+            isSource: true
+          },
+          {
+            uuid: nUUID + v,
+            anchor: v,
+            maxConnections: -1
+          }
+        );
+      });
+      jsPlumbInstance.draggable(nUUID);
+    }
+  }
+  drawLine = jsPlumbInstance => {
+    //画线：初始化时，节点连线统一从下出，从上入
+    let edges = this.state.edges;
+    for (let j = 0; j < edges.length; j++) {
+      let connection = jsPlumbInstance.connect({
+        uuids: [
+          edges[j].sourceId + "BottomCenter",
+          edges[j].targetId + "TopCenter"
+        ]
+      });
+      connection.setPaintStyle({
+        stroke: "#8b91a0",
+        strokeStyle: "#8b91a0"
+      });
+    }
+  };
+
+  // 绑定父组件传入的事件
+  setEventListeners = jsPlumbInstance => {
+    const eventListeners = this.props.eventListeners;
+    if (
+      eventListeners &&
+      typeof eventListeners === "object" &&
+      typeof eventListeners.length === "number"
+    ) {
+      Object.keys(eventListeners).forEach(event => {
+        if (typeof eventListeners[event] !== "undefined") {
+          jsPlumbInstance.bind(event, eventListeners[event]);
+        }
+      });
+    }
+  };
 
   // 连线事件
   onConnection = (connObj, originalEvent) => {
@@ -201,22 +231,6 @@ class DragGraph extends Component {
           )
       )
     });
-  };
-
-  // 绑定父组件传入的事件
-  setEventListeners = jsPlumbInstance => {
-    const eventListeners = this.props.eventListeners;
-    if (
-      eventListeners &&
-      typeof eventListeners === "object" &&
-      typeof eventListeners.length === "number"
-    ) {
-      Object.keys(eventListeners).forEach(event => {
-        if (typeof eventListeners[event] !== "undefined") {
-          jsPlumbInstance.bind(event, eventListeners[event]);
-        }
-      });
-    }
   };
 
   // 缩放画布

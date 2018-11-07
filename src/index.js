@@ -97,7 +97,11 @@ class App extends React.Component {
       data: { leftNodes = {}, rightNodes = {} },
       draggingNode
     } = this.state;
-    rightNodes.nodes.push(draggingNode);
+    // rightNodes.nodes.push(draggingNode);
+    rightNodes = {
+      ...rightNodes,
+      nodes: [...rightNodes.nodes, draggingNode]
+    };
     leftNodes = {
       ...leftNodes,
       nodes: leftNodes.nodes.filter(node => node.id !== draggingNode.id)
