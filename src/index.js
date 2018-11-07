@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import LeftList from './LeftList'
+import LeftList from "./LeftList";
 import DragGraph from "./DragGraph";
 import registerServiceWorker from "./registerServiceWorker";
 const colors = [
@@ -107,7 +107,18 @@ class App extends React.Component {
       <div className="father">
         <div className="main">
           <div className="left">
-            <LeftList data={colors} />
+            <LeftList
+              data={leftNodes}
+              onDragStart={e => {
+                console.log(e);
+              }}
+              onDragOver={e => {
+                console.log(e);
+              }}
+              onDragEnd={e => {
+                console.log(e);
+              }}
+            />
           </div>
           <div className="right">
             <DragGraph
@@ -120,7 +131,6 @@ class App extends React.Component {
             />
           </div>
         </div>
-        <div className="foot">foot</div>
       </div>
     );
   }

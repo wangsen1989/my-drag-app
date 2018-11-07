@@ -6,48 +6,45 @@ class LeftList extends React.Component {
     this.state = { ...props };
   }
 
-  dragStart(e) {
+  dragStart = e => {
     this.dragged = e.currentTarget;
-  }
-  dragEnd(e) {
+    const { onDragStart } = this.props;
+    onDragStart && onDragStart(e);
+  };
+  dragEnd = e => {
     this.dragged.style.display = "block";
 
+    // 去掉动画的类
     e.target.classList.remove("drag-up");
-    this.over.classList.remove("drag-up");
-
     e.target.classList.remove("drag-down");
+    this.over.classList.remove("drag-up");
     this.over.classList.remove("drag-down");
 
-    var data = this.state.data;
-    var from = Number(this.dragged.dataset.id);
-    var to = Number(this.over.dataset.id);
+    // 数据重新排列
+    const { data = [] } = this.state;
+    const from = Number(this.dragged.dataset["sortId"]);
+    const to = Number(this.over.dataset["sortId"]);
     data.splice(to, 0, data.splice(from, 1)[0]);
-
-    //set newIndex to judge direction of drag and drop
-    data = data.map((doc, index) => {
-      doc.newIndex = index + 1;
-      return doc;
-    });
-
     this.setState({ data: data });
-  }
 
-  dragOver(e) {
+    const { onDragEnd } = this.props;
+    onDragEnd && onDragEnd(e);
+  };
+
+  dragOver = e => {
     e.preventDefault();
-
     this.dragged.style.display = "none";
-
     if (e.target.tagName !== "LI") {
       return;
     }
 
-    //判断当前拖拽target 和 经过的target 的 newIndex
+    //判断当前拖拽target 和 经过的target 的上下顺序，加动画的类
+    const dgIndex = this.dragged.dataset["sortId"];
+    const taIndex = e.target.dataset["sortId"];
+    const animateName =
+      Number(dgIndex) > Number(taIndex) ? "drag-up" : "drag-down";
 
-    const dgIndex = JSON.parse(this.dragged.dataset.item).newIndex;
-    const taIndex = JSON.parse(e.target.dataset.item).newIndex;
-    const animateName = dgIndex > taIndex ? "drag-up" : "drag-down";
-
-    if (this.over && e.target.dataset.item !== this.over.dataset.item) {
+    if (this.over) {
       this.over.classList.remove("drag-up", "drag-down");
     }
 
@@ -55,33 +52,30 @@ class LeftList extends React.Component {
       e.target.classList.add(animateName);
       this.over = e.target;
     }
-  }
+
+    const { onDragOver } = this.props;
+    onDragOver && onDragOver(e);
+  };
+
   render() {
-    var listItems = this.state.data.map((item, i) => {
-      return (
-        <li
-          data-id={i}
-          key={i}
-          style={{
-            height: "60px",
-            border: "solid 1px #cccccc",
-            margin: "10px 30%",
-            borderRadius: "5px",
-            backgroundColor: "green",
-            color: "#ffffff"
-          }}
-          draggable="true"
-          onDragEnd={this.dragEnd.bind(this)}
-          onDragStart={this.dragStart.bind(this)}
-          data-item={JSON.stringify(item)}
-        >
-          {item.color}
-        </li>
-      );
-    });
+    const { data = [] } = this.state;
     return (
-      <ul onDragOver={this.dragOver.bind(this)} className="contain">
-        {listItems}
+      <ul onDragOver={this.dragOver} className="left-node-contain">
+        {data.map((item, i) => {
+          return (
+            <li
+              data-sort-id={i} // 拖动时重新排序的顺序
+              data-node-id={item.id} // 数据真实的 id
+              key={item.id}
+              className="left-node"
+              draggable="true"
+              onDragEnd={this.dragEnd}
+              onDragStart={this.dragStart}
+            >
+              {item.name}
+            </li>
+          );
+        })}
       </ul>
     );
   }
