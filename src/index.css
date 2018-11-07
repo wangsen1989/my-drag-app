@@ -8,27 +8,37 @@ body {
   padding: 0;
   font-family: "Microsoft Yahei", sans-serif;
 }
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
 }
 
-.App-header {
-  position: relative;
-  padding: 0 30px;
-  height: 60px;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 60px;
-  color: #8590a6;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(26,26,26,.1);
-  background-clip: content-box;
-  z-index: 2;
+.father {
+  display: flex;
+  flex-direction: column;
+  margin: 50px;
 }
-
-.jsplumb-box{
+.main {
+  display: flex;
+  height: 800px;
+}
+.left {
+  width: 20%;
+  border: 1px solid black;
+  overflow-y: auto;
+  padding: 10px;
+}
+.right {
+  width: 80%;
+  border: 1px solid black;
+}
+.foot {
+  height: 100px;
+  border: 1px solid black;
+}
+.jsplumb-box {
   position: relative;
   width: 100%;
   height: calc(100vh - 60px);
@@ -36,20 +46,14 @@ html, body, #root {
   cursor: move;
   user-select: none;
 }
-.jsplumb-canvas{
+.jsplumb-canvas {
   position: relative;
   height: 100%;
   width: 50px;
   height: 50px;
 }
-/* 
-border: 1px solid #c1c1c1;
-background: #F6F6F6 ;
-overflow: hidden;
-z-index: 2;
-cursor: move; */
 
-.gui-canvas-node{
+.gui-canvas-node {
   position: absolute;
   box-sizing: border-box;
   width: 240px;
@@ -58,8 +62,20 @@ cursor: move; */
   border: 1px solid #e0e7ed;
   border-radius: 3px;
   background: #dad8d8;
-  box-shadow: 0 1px 4px rgba(40,40,40,0.15);
+  box-shadow: 0 1px 4px rgba(40, 40, 40, 0.15);
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* 左侧节点 */
+.left-node {
+  width: 80%;
+  height: 80px;
+  border: 1px solid black;
+  margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

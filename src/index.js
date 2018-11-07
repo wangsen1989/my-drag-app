@@ -58,22 +58,41 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: {
-        nodes,
-        edges
+        leftNodes: new Array(20)
+          .fill("left")
+          .map((v, i) => ({ id: `left${i}`, name: `left node${i}` })),
+        rightNodes: {
+          nodes,
+          edges
+        }
       }
     };
   }
   render() {
-    const { data } = this.state;
+    const {
+      data: { leftNodes = [], rightNodes = [] }
+    } = this.state;
     return (
-      <DragGraph
-        graphId="demo"
-        data={data}
-        onChange={data => {
-          this.setState({ data });
-          console.log(data);
-        }}
-      />
+      <div className="father">
+        <div className="main">
+          <div className="left">
+            {leftNodes.map((v, i) => {
+              return <div className='left-node' draggable>{v.name}</div>;
+            })}
+          </div>
+          <div className="right">
+            <DragGraph
+              graphId="demo"
+              data={rightNodes}
+              onChange={rightNodes => {
+                this.setState({ rightNodes });
+                console.log(rightNodes);
+              }}
+            />
+          </div>
+        </div>
+        <div className="foot">foot</div>
+      </div>
     );
   }
 }
