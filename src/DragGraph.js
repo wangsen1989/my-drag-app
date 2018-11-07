@@ -18,59 +18,59 @@ import { jsPlumb } from "jsplumb";
 import _ from "lodash";
 
 const baseColor = "gray";
-
+const hoverBaseColor = "orange";
+// 编排器组件的初始化样式
+const defaultJsPlumbSettings = {
+  Connector: [
+    "Flowchart", // 连线的类型，流程图 Flowchart、贝塞尔曲线 Bezier 等
+    {
+      alwaysRespectStubs: true,
+      cornerRadius: 20,
+      midpoint: 0.2,
+      stub: [10, 15]
+    }
+  ],
+  DragOptions: {
+    cursor: "pointer",
+    zIndex: 2000
+  },
+  PaintStyle: {
+    stroke: baseColor,
+    strokeStyle: baseColor,
+    lineWidth: 2,
+    radius: 5
+  },
+  EndpointStyle: {
+    radius: 5,
+    fill: baseColor,
+    fillStyle: baseColor
+  },
+  HoverPaintStyle: {
+    stroke: hoverBaseColor,
+    strokeStyle: hoverBaseColor
+  },
+  EndpointHoverStyle: {
+    fill: hoverBaseColor,
+    fillStyle: hoverBaseColor
+  },
+  ConnectionOverlays: [
+    // 箭头样式
+    [
+      "Arrow",
+      {
+        location: 1
+      },
+      {
+        foldback: 0.5,
+        fill: baseColor,
+        fillStyle: baseColor,
+        width: 14
+      }
+    ]
+  ]
+};
 class DragGraph extends Component {
   static defaultProps = {
-    // 编排器组件的初始化样式
-    jsPlumbSettings: {
-      Connector: [
-        "Flowchart", // 连线的类型，流程图 Flowchart、贝塞尔曲线 Bezier 等
-        {
-          alwaysRespectStubs: true,
-          cornerRadius: 20,
-          midpoint: 0.2,
-          stub: [10, 15]
-        }
-      ],
-      DragOptions: {
-        cursor: "pointer",
-        zIndex: 2000
-      },
-      PaintStyle: {
-        stroke: baseColor,
-        strokeStyle: baseColor,
-        lineWidth: 2,
-        radius: 5
-      },
-      EndpointStyle: {
-        radius: 5,
-        fill: baseColor,
-        fillStyle: baseColor
-      },
-      HoverPaintStyle: {
-        stroke: baseColor,
-        strokeStyle: baseColor
-      },
-      EndpointHoverStyle: {
-        fill: baseColor,
-        fillStyle: baseColor
-      },
-      ConnectionOverlays: [
-        // 箭头样式
-        [
-          "Arrow",
-          {
-            location: 1
-          },
-          {
-            foldback: 0.5,
-            fill: baseColor,
-            fillStyle: baseColor,
-            width: 14
-          }
-        ]
-      ]
-    },
     graphId: "js_plumb_box_container_id" // 图容器 dom 的 id
   };
   constructor(props) {
@@ -95,44 +95,47 @@ class DragGraph extends Component {
   componentDidMount() {
     jsPlumb.ready(() => {
       const { graphId } = this.props;
-      const jsPlumbInstance = jsPlumb.getInstance(this.props.jsPlumbSettings);
+      const jsPlumbInstance = jsPlumb.getInstance({
+        ...defaultJsPlumbSettings,
+        ...this.props.jsPlumbSettings
+      });
       jsPlumbInstance.setContainer(document.getElementById(graphId));
       jsPlumbInstance.bind("connection", this.onConnection);
       jsPlumbInstance.bind("contextmenu", this.onDelConnection);
       jsPlumbInstance.bind("connectionDetached", this.onDelConnection);
       this.setEventListeners(jsPlumbInstance);
 
-      let anSourceEndpoint = {
-        isSource: true
-        // Anchor: ["TopCenter"], // 入锚点
-      };
-      let anTargetEndpoint = {
-        isTarget: true
-        // Anchor: ["BottomCenter"], // 出锚点
-      };
-
-      //画点
+      //画点: 每个节点四个锚点
       let nodes = this.state.nodes;
       for (let i = 0; i < nodes.length; i++) {
         let nUUID = nodes[i].id;
-        jsPlumbInstance.addEndpoint(nUUID, anSourceEndpoint, {
-          uuid: nUUID + "-bottom",
-          anchor: "Bottom",
-          maxConnections: -1
-        });
-        jsPlumbInstance.addEndpoint(nUUID, anTargetEndpoint, {
-          uuid: nUUID + "-top",
-          anchor: "Top",
-          maxConnections: -1
-        });
+        ["RightMiddle", "LeftMiddle", "TopCenter", "BottomCenter"].forEach(
+          v => {
+            jsPlumbInstance.addEndpoint(
+              nUUID,
+              {
+                isTarget: true,
+                isSource: true
+              },
+              {
+                uuid: nUUID + v,
+                anchor: v,
+                maxConnections: -1
+              }
+            );
+          }
+        );
         jsPlumbInstance.draggable(nUUID);
       }
 
-      //画线
+      //画线：初始化时，节点连线统一从下出，从上入
       let edges = this.state.edges;
       for (let j = 0; j < edges.length; j++) {
         let connection = jsPlumbInstance.connect({
-          uuids: [edges[j].sourceId + "-bottom", edges[j].targetId + "-top"]
+          uuids: [
+            edges[j].sourceId + "BottomCenter",
+            edges[j].targetId + "TopCenter"
+          ]
         });
         connection.setPaintStyle({
           stroke: "#8b91a0",

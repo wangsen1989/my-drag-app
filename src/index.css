@@ -60,4 +60,7 @@ cursor: move; */
   background: #dad8d8;
   box-shadow: 0 1px 4px rgba(40,40,40,0.15);
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
