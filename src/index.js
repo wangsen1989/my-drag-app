@@ -1,9 +1,40 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import LeftList from './LeftList'
 import DragGraph from "./DragGraph";
 import registerServiceWorker from "./registerServiceWorker";
+const colors = [
+  {
+    newIndex: 1,
+    color: "red"
+  },
 
+  {
+    newIndex: 2,
+    color: "green"
+  },
+
+  {
+    newIndex: 3,
+    color: "blue"
+  },
+
+  {
+    newIndex: 4,
+    color: "yellow"
+  },
+
+  {
+    newIndex: 5,
+    color: "orange"
+  },
+
+  {
+    newIndex: 6,
+    color: "black"
+  }
+];
 // mock 图数据结构（节点和边）
 
 const nodes = [
@@ -76,9 +107,7 @@ class App extends React.Component {
       <div className="father">
         <div className="main">
           <div className="left">
-            {leftNodes.map((v, i) => {
-              return <div className='left-node' draggable>{v.name}</div>;
-            })}
+            <LeftList data={colors} />
           </div>
           <div className="right">
             <DragGraph
