@@ -125,8 +125,6 @@ class DragGraph extends Component {
   componentWillReceiveProps(nextProps) {
     // 将最新传进来的节点重新画
     if (!_.isEqual(this.props.data, nextProps.data)) {
-      console.log("将最新传进来的节点重新画", this.props.data, nextProps.data);
-
       this.setState({ ...nextProps.data }, () => {
         this.drawPoint(this.state.jsPlumbInstance);
       });

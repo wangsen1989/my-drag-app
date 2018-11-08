@@ -96,7 +96,6 @@ class App extends React.Component {
     // 记录鼠标到 正在拖拽节点的内边 的距离，便于 drop 时计算节点的放置坐标
     this.distanceX = e.clientX - e.target.offsetLeft;
     this.distanceY = e.clientY - e.target.offsetTop;
-    // console.log(this.distanceX, this.distanceY);
   };
 
   // 鼠标拖拽由左进入右时，计算被拖拽节点在右侧应该放置的新坐标
@@ -108,7 +107,6 @@ class App extends React.Component {
       top: e.clientY - e.target.offsetTop - this.distanceY
     };
     this.draggingNodeStyle = draggingNodeStyle;
-    console.log("right over", JSON.stringify(draggingNodeStyle));
   };
 
   // 左侧拖拽结束，drop 在右侧时，把当下拖拽的节点加入右侧，并从左侧剔除
@@ -133,16 +131,16 @@ class App extends React.Component {
       ...leftNodes,
       nodes: leftNodes.nodes.filter(node => node.id !== draggingNode.id)
     };
-    this.setState({ data: { ...data, leftNodes, rightNodes } }, () => {
-      console.log("right drop", this.state.data);
-    });
+    this.setState({ data: { ...data, leftNodes, rightNodes } });
+    // 清除左侧列表残留的动画样式
+    this.leftListInstance.over &&
+      this.leftListInstance.over.classList.remove("drag-up", "drag-down");
   };
 
   // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态
   onRightChange = rightNodes => {
     const { data } = this.state;
     this.setState({ data: { ...data, rightNodes } });
-    console.log(rightNodes);
   };
 
   render() {
@@ -153,7 +151,11 @@ class App extends React.Component {
       <div className="father">
         <div className="main">
           <div className="left">
-            <LeftList data={leftNodes.nodes} onDragStart={this.onLeftStart} />
+            <LeftList
+              data={leftNodes.nodes}
+              onDragStart={this.onLeftStart}
+              ref={ref => (this.leftListInstance = ref)}
+            />
           </div>
           <div
             className="right"
