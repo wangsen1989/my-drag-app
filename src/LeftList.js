@@ -17,7 +17,7 @@ class LeftList extends React.Component {
     onDragStart && onDragStart(e);
   };
   dragEnd = e => {
-    this.dragged.style.display = "block";
+    this.dragged.style.display = "flex";
 
     // 去掉动画的类
     e.target.classList.remove("drag-up");
