@@ -70,25 +70,48 @@ class App extends React.Component {
         }
       }
     };
+
+    // 记录鼠标到 正在拖拽节点的内边 的距离
+    this.distanceX = 0;
+    this.distanceY = 0;
+    // 记录正在拖拽到右侧的节点的放置坐标
+    this.draggingNodeStyle = null;
   }
 
   // 左侧拖拽开始时，记录当下拖拽的节点
   onLeftStart = e => {
+    // onLeftStart 的 effectAllowed  和 onRightOver 的 dropEffect 必须一致才能 drop
     e.dataTransfer.effectAllowed = "move";
 
     const {
       data: { leftNodes = {} }
     } = this.state;
-
+    // 记录当下拖拽的节点
     const draggingNode = leftNodes.nodes.find(
       node => node.id === e.target.dataset.id
     );
-
     this.setState({ draggingNode });
-    console.log(e.target.dataset, draggingNode);
+    // 清空上次记录的节点的放置坐标
+    this.draggingNodeStyle = null;
+    // 记录鼠标到 正在拖拽节点的内边 的距离，便于 drop 时计算节点的放置坐标
+    this.distanceX = e.clientX - e.target.offsetLeft;
+    this.distanceY = e.clientY - e.target.offsetTop;
+    // console.log(this.distanceX, this.distanceY);
   };
 
-  // 左侧拖拽结束，放在右侧时，把当下拖拽的节点加入右侧，并从左侧剔除
+  // 鼠标拖拽由左进入右时，计算被拖拽节点在右侧应该放置的新坐标
+  onRightOver = e => {
+    e.dataTransfer.dropEffect = "move";
+    e.preventDefault();
+    const draggingNodeStyle = {
+      left: e.clientX - e.target.offsetLeft - this.distanceX,
+      top: e.clientY - e.target.offsetTop - this.distanceY
+    };
+    this.draggingNodeStyle = draggingNodeStyle;
+    console.log("right over", JSON.stringify(draggingNodeStyle));
+  };
+
+  // 左侧拖拽结束，drop 在右侧时，把当下拖拽的节点加入右侧，并从左侧剔除
   onRightDrop = e => {
     e.stopPropagation();
     e.preventDefault();
@@ -97,11 +120,15 @@ class App extends React.Component {
       data: { leftNodes = {}, rightNodes = {} },
       draggingNode
     } = this.state;
-    // rightNodes.nodes.push(draggingNode);
+    // 节点加入右侧，并设置新的放置坐标
     rightNodes = {
       ...rightNodes,
-      nodes: [...rightNodes.nodes, draggingNode]
+      nodes: [
+        ...rightNodes.nodes,
+        { ...draggingNode, style: { ...this.draggingNodeStyle } }
+      ]
     };
+    // 并从左侧剔除
     leftNodes = {
       ...leftNodes,
       nodes: leftNodes.nodes.filter(node => node.id !== draggingNode.id)
@@ -130,11 +157,7 @@ class App extends React.Component {
           </div>
           <div
             className="right"
-            onDragOver={e => {
-              e.dataTransfer.dropEffect = "move";
-              e.preventDefault();
-              //   console.log("right over", e.target);
-            }}
+            onDragOver={this.onRightOver}
             onDrop={this.onRightDrop}
           >
             <DragGraph
