@@ -148,8 +148,8 @@ class App extends React.Component {
       data: { leftNodes = {}, rightNodes = {} }
     } = this.state;
     return (
-      <div className="father">
-        <div className="main">
+      <div className="app">
+        <div className="father">
           <div className="left">
             <LeftList
               data={leftNodes.nodes}
