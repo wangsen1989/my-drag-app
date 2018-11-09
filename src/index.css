@@ -29,15 +29,16 @@ body,
 /* 左侧骨架 */
 .left {
   width: 25%;
-  border: 1px solid black;
   box-sizing: border-box;
   overflow: auto;
+  background: rgba(67, 67, 67, 1);
+  border-right: 1px solid rgba(107, 107, 107, 0.509803921568627);
 }
 /* 右侧骨架 */
 .right {
   width: 75%;
-  border: 1px solid black;
   box-sizing: border-box;
+  background: rgba(67, 67, 67, 1);
 }
 
 /* 右侧图组件容器 */
@@ -61,10 +62,10 @@ body,
   box-sizing: border-box;
   width: 240px;
   height: 80px;
-  color: #fff;
+  color: #666666;
   border: 1px solid #e0e7ed;
   border-radius: 3px;
-  background: #dad8d8;
+  background: #fff;
   box-shadow: 0 1px 4px rgba(40, 40, 40, 0.15);
   cursor: pointer;
   display: flex;
@@ -86,10 +87,10 @@ body,
   box-sizing: border-box;
   width: 90%;
   height: 80px;
-  color: #fff;
+  color: #666666;
   border: 1px solid #e0e7ed;
   border-radius: 3px;
-  background: #dad8d8;
+  background: #fff;
   box-shadow: 0 1px 4px rgba(40, 40, 40, 0.15);
   display: flex;
   justify-content: center;
