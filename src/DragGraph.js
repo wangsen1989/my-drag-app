@@ -95,7 +95,7 @@ class DragGraph extends Component {
   componentDidMount() {
     jsPlumb.ready(() => {
       const { graphId } = this.props;
-      const jsPlumbInstance = jsPlumb.getInstance({
+      const jsPlumbInstance = jsPlumb.importDefaults({
         ...defaultJsPlumbSettings,
         ...this.props.jsPlumbSettings
       });
