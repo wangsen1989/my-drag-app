@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import LeftList from "./LeftList";
-import DragGraph from "./DragGraph";
+import DragGraphJoint from "./DragGraphJoint";
 import registerServiceWorker from "./registerServiceWorker";
 
 // mock 图数据结构（节点和边）
@@ -162,10 +162,11 @@ class App extends React.Component {
             onDragOver={this.onRightOver}
             onDrop={this.onRightDrop}
           >
-            <DragGraph
-              graphId="demo"
+            <DragGraphJoint
               data={rightNodes}
               onChange={this.onRightChange}
+              config={{
+              }}
             />
           </div>
         </div>
