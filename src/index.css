@@ -20,7 +20,6 @@ body,
   height: 700px;
 }
 
-
 /* 左右整体父级容器 */
 .father {
   display: flex;
@@ -40,24 +39,9 @@ body,
   box-sizing: border-box;
   background: rgba(67, 67, 67, 1);
 }
-
-/* 右侧节点 */
-.gui-canvas-node {
-  position: absolute;
-  box-sizing: border-box;
-  width: 240px;
-  height: 80px;
-  color: #666666;
-  border: 1px solid #e0e7ed;
-  border-radius: 3px;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(40, 40, 40, 0.15);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.joint-paper-background {
+  background: rgba(67, 67, 67, 1);
 }
-
 /* 左侧节点列表的容器 */
 .left-node-contain {
   width: 100%;

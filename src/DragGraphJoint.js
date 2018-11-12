@@ -4,10 +4,11 @@ import joint from "jointjs";
 import _ from "lodash";
 import "./joint.min.css";
 
+const baseBlue = "#72a5ff";
 // node 节点模板
 const nodeComponent = new joint.shapes.standard.Rectangle({
   position: { x: 0, y: 0 }, //位置信息
-  size: { width: 120, height: 60 }, //大小
+  size: { width: 129, height: 38 }, //大小
   portMarkup: [
     {
       //锚点样式
@@ -15,8 +16,8 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
       selector: "portBody",
       attributes: {
         fill: "#ff0000",
-        stroke: "#000000",
-        r: 10
+        stroke: baseBlue,
+        r: 3
       }
     }
   ],
@@ -41,6 +42,7 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
         }
       }
     },
+    //每个节点 4 个锚点
     items: [
       {
         id: "pTop",
@@ -64,17 +66,15 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
       }
     ]
   },
+  //   矩形节点样式
   attrs: {
-    root: { magnet: false }, //root 部位
-    body: { fill: "blue" }, //矩形实体填充
+    root: { magnet: false }, //root 部位?
+    body: { fill: "#617aa9", "stroke-width": 0 }, //矩形实体填充
     label: {
       //内部文字
       pointeEvents: "none",
       text: "",
-      refX: 0.5,
-      refY: 20,
-      textAnchor: "middle",
-      fill: "#000000"
+      fill: "#fff"
     }
   }
 });
@@ -131,27 +131,40 @@ class DragGraphJoint extends React.Component {
       const link = new joint.dia.Link({
         source: { id: this.edgesIdMap[edge.sourceId], port: "pBottom" },
         target: { id: this.edgesIdMap[edge.targetId], port: "pTop" },
-
-      connector: {name: 'rounded'},
-      router: { name: 'manhattan' },
-      attrs: { // 连接线样式
-        ".connection": {
-          stroke: "#333333",
-          "stroke-width": 3
+        connector: { name: "rounded" }, // 连接线路径风格
+        router: { name: "manhattan" }, // 连接线路径风格
+        attrs: {
+          // 连接线样式
+          ".connection": {
+            stroke: baseBlue,
+            "stroke-width": 2
+          },
+          ".marker-target": {
+            // 连接线箭头样式
+            fill: baseBlue,
+            "stroke-width": 0,
+            d: "M 10 0 L 0 5 L 10 10 z"
+          }
         },
-        ".marker-target": { // 连接线箭头样式
-          fill: "#333333",
-          d: "M 10 0 L 0 5 L 10 10 z"
-        }
-      }
-    //     router: function(v) {
-    //       console.log(arguments);
-    //       while (v.length > 0) {
-    //         v.pop();
-    //       }
-    //       return [];
-    //     },
+        // labels: [
+        //   // 连接线中间可加 label
+        //   {
+        //     position: 0.5,
+        //     attrs: {
+        //       text: {
+        //         text: "on"
+        //       }
+        //     }
+        //   }
+        // ]
       });
+      // 连接线单击默认会生出一个中间节点，ux 并不需要这样，所以把节点都去掉
+      link.on("change:vertices", function(child, vertices) {
+        while (vertices.length > 0) {
+          vertices.pop();
+        }
+      });
+
       // 图中加入线
       this.graph.addCell(link);
     });
