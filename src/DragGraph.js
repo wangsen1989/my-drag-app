@@ -83,7 +83,7 @@ class DragGraph extends Component {
       isJsPlumbInstanceCreated: false,
       dragging: false, // 是否触发画布拖动
       nodeDragging: false, // 是否触发node拖动
-      _ratio: 0.25, // 滚轮的比率
+      _ratio: 0.05, // 滚轮每次缩放的步长
       _scale: 1, // 画布缩放比例
       _left: 0, // 画布Left位置
       _top: 0, // 画布Top位置
@@ -231,19 +231,19 @@ class DragGraph extends Component {
     });
   };
 
-  // 缩放画布
+  // 缩放画布 最大最小一倍
   onCanvasMousewheel = e => {
-    let self = this.state;
+    let { _scale, _ratio } = this.state;
     //放大
     if (e.deltaY < 0) {
       this.setState({
-        _scale: self._scale + self._scale * self._ratio
+        _scale: _scale + _scale * _ratio > 2 ? 2 : _scale + _scale * _ratio
       });
     }
     //缩小
     if (e.deltaY > 0) {
       this.setState({
-        _scale: self._scale - self._scale * self._ratio
+        _scale: _scale - _scale * _ratio < 0.5 ? 0.5 : _scale - _scale * _ratio
       });
     }
   };
