@@ -5,6 +5,7 @@ import _ from "lodash";
 import "./joint.min.css";
 
 const baseBlue = "#72a5ff";
+
 // node 节点模板
 const nodeComponent = new joint.shapes.standard.Rectangle({
   position: { x: 0, y: 0 }, //位置信息
@@ -91,13 +92,41 @@ class DragGraphJoint extends React.Component {
 
   componentDidMount() {
     this.graph = new joint.dia.Graph();
+
+    // 定义一种边，含默认连接线样式
+    const link = new joint.dia.Link({
+      connector: { name: "rounded" }, // 连接线路径风格 https://resources.jointjs.com/demos/routing
+      router: { name: "manhattan" }, // 连接线路径风格
+      attrs: {
+        // 连接线样式
+        ".connection": {
+          stroke: baseBlue,
+          "stroke-width": 2
+        },
+        ".marker-target": {
+          // 连接线箭头样式
+          fill: baseBlue,
+          "stroke-width": 0,
+          d: "M 10 0 L 0 5 L 10 10 z"
+        }
+      }
+    });
+    // 连接线单击默认会生出一个中间节点，ux 并不需要这样，所以把节点都去掉
+    // 此处竟然没用
+    link.on("change:vertices", function(child, vertices) {
+      while (vertices.length > 0) {
+        vertices.pop();
+      }
+    });
+
     // 初始化画布
     this.paper = new joint.dia.Paper({
       el: ReactDOM.findDOMNode(this.refs.placeholder),
       width: "100%",
       height: "100%",
       gridSize: 1,
-      model: this.graph
+      model: this.graph,
+      defaultLink: link
     });
 
     let { nodes, edges } = this.state;
@@ -106,6 +135,8 @@ class DragGraphJoint extends React.Component {
     // 画边
     this.drawEdges(edges);
   }
+
+  // 画节点
   drawNodes = nodes => {
     this.edgesIdMap = {};
     _.forEach(nodes, node => {
@@ -126,8 +157,10 @@ class DragGraphJoint extends React.Component {
     });
   };
 
+  // 画边
   drawEdges = edges => {
     _.forEach(edges, edge => {
+      // 定义一种边
       const link = new joint.dia.Link({
         source: { id: this.edgesIdMap[edge.sourceId], port: "pBottom" },
         target: { id: this.edgesIdMap[edge.targetId], port: "pTop" },
@@ -145,7 +178,7 @@ class DragGraphJoint extends React.Component {
             "stroke-width": 0,
             d: "M 10 0 L 0 5 L 10 10 z"
           }
-        },
+        }
         // labels: [
         //   // 连接线中间可加 label
         //   {
@@ -169,6 +202,7 @@ class DragGraphJoint extends React.Component {
       this.graph.addCell(link);
     });
   };
+
   render() {
     return <div ref="placeholder" />;
   }
