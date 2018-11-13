@@ -59,7 +59,8 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
       //内部文字
       pointeEvents: "none",
       text: "",
-      fill: "#fff"
+      fill: "#fff",
+      class: "rect-text", // 自定义的 class
     }
   }
 });
@@ -71,7 +72,7 @@ const defaultLinkCfg = {
     // 连接线样式
     ".connection": {
       stroke: baseBlue,
-      "stroke-width": 2
+      "stroke-width": 1
     },
     ".marker-target": {
       // 连接线箭头样式
