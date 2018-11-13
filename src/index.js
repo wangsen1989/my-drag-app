@@ -1,11 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import LeftList from "./LeftList";
 import DragGraphJoint from "./DragGraphJoint";
 import registerServiceWorker from "./registerServiceWorker";
 import _ from "lodash";
-// require('./index.less');
+import "./index.less";
 
 // mock 图数据结构（节点和边）
 

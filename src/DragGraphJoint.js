@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import joint from "jointjs";
 import _ from "lodash";
-import "./joint.min.css";
+import "./joint.min.less";
 
 const baseBlue = "#72a5ff";
 
@@ -16,33 +16,17 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "circle",
       selector: "portBody",
       attributes: {
-        fill: "none",
-        stroke: baseBlue,
-        r: 5 // 太小了就只能链接一根线
-      }
-    }
-  ],
-  portLabelMarkup: [
-    {
-      //锚点 label 的样式
-      tagName: "text",
-      selector: "portLabel",
-      attributes: {
-        fill: "#ff0000"
+        r: 5, // 锚点半径
+        fill: "none", // 锚点填充
+        "stroke-width": 1, // 锚点外层圈半径，hover上去会变为 3，太小了鼠标选不上
+        stroke: baseBlue, // 锚点外层圈填充
+        magnet: true // 显示选中十字架套索
       }
     }
   ],
   ports: {
     //锚点自定义组，位置和数量
-    groups: {
-      p: {
-        position: "absolute",
-        label: { position: "outside" },
-        attrs: {
-          portBody: { fill: "none", magnet: true }
-        }
-      }
-    },
+    groups: { p: { position: "absolute" } },
     //每个节点 4 个锚点
     items: [
       {
@@ -145,7 +129,7 @@ class DragGraphJoint extends React.Component {
         default: {
           name: "stroke",
           options: {
-            padding: 15
+            padding: 5
           }
         }
       },
