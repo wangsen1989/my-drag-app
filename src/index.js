@@ -4,6 +4,7 @@ import "./index.css";
 import LeftList from "./LeftList";
 import DragGraphJoint from "./DragGraphJoint";
 import registerServiceWorker from "./registerServiceWorker";
+import _ from "lodash";
 
 // mock 图数据结构（节点和边）
 
@@ -167,6 +168,17 @@ class App extends React.Component {
               data={rightNodes}
               onChange={this.onRightChange}
               config={{}}
+              validateConnection={(nodes, edges, source, target) => {
+                console.log(nodes, edges, source, target);
+                const sourceId = _.get(source, "model.id");
+                const targetId = _.get(target, "model.id");
+                if (sourceId === targetId) {
+                  return false;
+                  // }else if(){}
+                  // else{
+                  //   return true;
+                }
+              }}
             />
           </div>
         </div>

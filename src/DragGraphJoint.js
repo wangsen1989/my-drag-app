@@ -166,8 +166,8 @@ class DragGraphJoint extends React.Component {
         let validate = true;
         if (validateConnection) {
           validate = validateConnection(nodes, edges, source, target);
+          validate = validate === undefined ? true : validate;
         }
-        console.log(nodes, edges, source, target);
         return validate;
       }
     });
