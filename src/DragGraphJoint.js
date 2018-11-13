@@ -97,6 +97,20 @@ const defaultLinkCfg = {
     }
   }
 };
+const CustomLinkView = joint.dia.LinkView.extend({
+  // 自定义连线的事件:
+  // pointerclick: function(evt, x, y) {
+  //   this.addVertex(x, y);
+  // },
+  // 自定义 options:
+  options: joint.util.defaults(
+    {
+      linkToolsOffset: 50
+    },
+    joint.dia.LinkView.prototype.options
+  )
+});
+
 class DragGraphJoint extends React.Component {
   constructor(props) {
     super(props);
@@ -121,7 +135,8 @@ class DragGraphJoint extends React.Component {
       gridSize: 1,
       model: this.graph,
       defaultLink: link,
-      interactive: { vertexAdd: false } // 禁止点击连线多出节点
+      interactive: { vertexAdd: false }, // 禁止点击连线多出节点
+      linkView: CustomLinkView
     });
 
     let { nodes, edges } = this.state;
