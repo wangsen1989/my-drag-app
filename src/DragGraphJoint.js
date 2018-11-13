@@ -136,7 +136,25 @@ class DragGraphJoint extends React.Component {
       model: this.graph,
       defaultLink: link,
       interactive: { vertexAdd: false }, // 禁止点击连线多出节点
-      linkView: CustomLinkView
+      linkView: CustomLinkView,
+      // snapLinks: true, // 近距离自动粘附
+      linkPinning: false, // 连线必须链接到节点才有效
+      highlighting: {
+        default: {
+          name: "stroke",
+          options: {
+            padding: 6
+          }
+        }
+      },
+      validateConnection: function(
+        sourceView,
+        sourceMagnet,
+        targetView,
+        targetMagnet
+      ) {
+        return sourceMagnet != targetMagnet;
+      }
     });
 
     let { nodes, edges } = this.state;
