@@ -28,23 +28,40 @@ body,
 /* 左侧骨架 */
 .left {
   width: 25%;
+  height: 100%;
   max-width: 200px;
   min-width: 100px;
   box-sizing: border-box;
-  overflow: auto;
   background: rgba(67, 67, 67, 1);
-  border-right: 1px solid rgba(107, 107, 107, 0.509803921568627);
+  border-right: 5px solid rgb(81, 79, 79);
 }
 /* 右侧骨架 */
 .right {
   width: 75%;
+  height: 100%;
   box-sizing: border-box;
   background: rgba(67, 67, 67, 1);
 }
-.joint-paper-background {
-  background: rgba(67, 67, 67, 1);
+
+/* 两侧标题 */
+.left-title,
+.right-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5%;
+  box-sizing: border-box;
+  background: rgba(123, 119, 119, 0.509803921568627);
+  color: #bcbcbc;
 }
-/* 左侧节点列表的容器 */
+/* 两侧的容器 */
+.left-content,
+.right-content {
+  height: 95%;
+}
+.left-content {
+  overflow: auto;
+}
 .left-node-contain {
   width: 100%;
   display: flex;
@@ -72,14 +89,14 @@ body,
 }
 /* 拖拽动画 */
 .drag-up {
-  animation: dragup ease 0.2s 1;
+  animation: dragup ease 0.6s 1;
   animation-fill-mode: forwards;
   border: solid 2px #cccccc;
   box-sizing: border-box;
 }
 
 .drag-down {
-  animation: dragdown ease 0.2s 1;
+  animation: dragdown ease 0.6s 1;
   animation-fill-mode: forwards;
   border: solid 2px #cccccc;
   box-sizing: border-box;

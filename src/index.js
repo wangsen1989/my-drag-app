@@ -152,34 +152,40 @@ class App extends React.Component {
       <div className="app">
         <div className="father">
           <div className="left">
-            <LeftList
-              data={leftNodes.nodes}
-              onDragStart={this.onLeftStart}
-              ref={ref => (this.leftListInstance = ref)}
-            />
+            <div className="left-title">无依赖区域</div>
+            <div div className="left-content">
+              <LeftList
+                data={leftNodes.nodes}
+                onDragStart={this.onLeftStart}
+                ref={ref => (this.leftListInstance = ref)}
+              />
+            </div>
           </div>
           <div
             className="right"
             onDragOver={this.onRightOver}
             onDrop={this.onRightDrop}
           >
-            <DragGraphJoint
-              ref={ref => (this.DragGraphJoint = ref)}
-              data={rightNodes}
-              onChange={this.onRightChange}
-              config={{}}
-              validateConnection={(nodes, edges, source, target) => {
-                console.log(nodes, edges, source, target);
-                const sourceId = _.get(source, "model.id");
-                const targetId = _.get(target, "model.id");
-                if (sourceId === targetId) {
-                  return false;
-                  // }else if(){}
-                  // else{
-                  //   return true;
-                }
-              }}
-            />
+            <div className="right-title">依赖区域</div>
+            <div className="right-content">
+              <DragGraphJoint
+                ref={ref => (this.DragGraphJoint = ref)}
+                data={rightNodes}
+                onChange={this.onRightChange}
+                config={{}}
+                validateConnection={(nodes, edges, source, target) => {
+                  console.log(nodes, edges, source, target);
+                  const sourceId = _.get(source, "model.id");
+                  const targetId = _.get(target, "model.id");
+                  if (sourceId === targetId) {
+                    return false;
+                    // }else if(){}
+                    // else{
+                    //   return true;
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
         <button
