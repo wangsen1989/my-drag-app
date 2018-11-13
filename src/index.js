@@ -12,32 +12,32 @@ const nodes = [
   {
     id: "1",
     name: "Node 1",
-    style: { left: "10px", top: "10px" }
+    style: { left: 10, top: 10 }
   },
   {
     id: "2",
     name: "Node 2",
-    style: { left: "150px", top: "150px" }
+    style: { left: 150, top: 150 }
   },
   {
     id: "3",
     name: "Node 3",
-    style: { left: "300px", top: "300px" }
+    style: { left: 300, top: 300 }
   },
   {
     id: "4",
     name: "Node 4",
-    style: { left: "500px", top: "500px" }
+    style: { left: 500, top: 500 }
   },
   {
     id: "5",
     name: "Node 5",
-    style: { left: "600px", top: "300px" }
+    style: { left: 600, top: 300 }
   },
   {
     id: "6",
     name: "Node 6",
-    style: { left: "100px", top: "500px" }
+    style: { left: 100, top: 500 }
   }
 ];
 const edges = [
@@ -95,8 +95,8 @@ class App extends React.Component {
     // 清空上次记录的节点的放置坐标
     this.draggingNodeStyle = null;
     // 记录鼠标到 正在拖拽节点的内边 的距离，便于 drop 时计算节点的放置坐标
-    this.distanceX = e.clientX - e.target.offsetLeft;
-    this.distanceY = e.clientY - e.target.offsetTop;
+    this.distanceX = e.clientX - (e.target.offsetLeft || 0);
+    this.distanceY = e.clientY - (e.target.offsetTop || 0);
   };
 
   // 鼠标拖拽由左进入右时，计算被拖拽节点在右侧应该放置的新坐标
@@ -104,8 +104,8 @@ class App extends React.Component {
     e.dataTransfer.dropEffect = "move";
     e.preventDefault();
     const draggingNodeStyle = {
-      left: e.clientX - e.target.offsetLeft - this.distanceX,
-      top: e.clientY - e.target.offsetTop - this.distanceY
+      left: e.clientX - (e.target.offsetLeft || 0) - this.distanceX,
+      top: e.clientY - (e.target.offsetTop || 0) - this.distanceY
     };
     this.draggingNodeStyle = draggingNodeStyle;
   };
