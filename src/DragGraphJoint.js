@@ -138,7 +138,7 @@ class DragGraphJoint extends React.Component {
 
   // 画节点
   drawNodes = nodes => {
-    this.edgesIdMap = {};
+    this.nodeMapToCell = {};
     _.forEach(nodes, node => {
       const {
         id,
@@ -153,7 +153,7 @@ class DragGraphJoint extends React.Component {
       // 图中加入节点
       this.graph.addCell(cell);
       // 把 node.id 和 cell.id 映射，因为画线时只识别 cell.id
-      this.edgesIdMap[id] = cell.id;
+      this.nodeMapToCell[id] = cell.id;
     });
   };
 
@@ -162,8 +162,8 @@ class DragGraphJoint extends React.Component {
     _.forEach(edges, edge => {
       // 定义一种边
       const link = new joint.dia.Link({
-        source: { id: this.edgesIdMap[edge.sourceId], port: "pBottom" },
-        target: { id: this.edgesIdMap[edge.targetId], port: "pTop" },
+        source: { id: this.nodeMapToCell[edge.sourceId], port: "pBottom" },
+        target: { id: this.nodeMapToCell[edge.targetId], port: "pTop" },
         connector: { name: "rounded" }, // 连接线路径风格
         router: { name: "manhattan" }, // 连接线路径风格
         attrs: {
