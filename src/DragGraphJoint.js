@@ -127,6 +127,7 @@ class DragGraphJoint extends React.Component {
     // 定义一种边，含默认连接线样式
     const link = new joint.dia.Link(defaultLinkCfg);
 
+    const that = this; // 实例化 paper 需要用 es5 的 this
     // 初始化画布
     this.paper = new joint.dia.Paper({
       el: ReactDOM.findDOMNode(this.refs.placeholder),
@@ -137,24 +138,38 @@ class DragGraphJoint extends React.Component {
       defaultLink: link,
       interactive: { vertexAdd: false }, // 禁止点击连线多出节点
       linkView: CustomLinkView,
-      // snapLinks: true, // 近距离自动粘附
+      snapLinks: { radius: 20 }, // 近距离自动粘附
       linkPinning: false, // false 连线必须链接到节点才有效
-      highlighting: { // 锚点被接触时高亮
+      highlighting: {
+        // 锚点被接触时周围高亮
         default: {
           name: "stroke",
           options: {
-            padding: 8
+            padding: 15
           }
         }
       },
-      // validateConnection: function(
-      //   sourceView,
-      //   sourceMagnet,
-      //   targetView,
-      //   targetMagnet
-      // ) {
-      //   return sourceMagnet != targetMagnet;
-      // }
+      validateConnection: function(
+        //提供校验接口
+        cellViewS,
+        magnetS,
+        cellViewT,
+        magnetT,
+        end,
+        linkView
+      ) {
+        const edges = this.model.getLinks(),
+          nodes = this.model.getElements(),
+          source = cellViewS,
+          target = cellViewT,
+          { validateConnection } = that.props;
+        let validate = true;
+        if (validateConnection) {
+          validate = validateConnection(nodes, edges, source, target);
+        }
+        console.log(nodes, edges, source, target);
+        return validate;
+      }
     });
 
     let { nodes, edges } = this.state;
