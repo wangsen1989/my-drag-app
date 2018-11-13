@@ -80,6 +80,23 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
   }
 });
 
+const defaultLinkCfg = {
+  connector: { name: "rounded" }, // 连接线路径风格 https://resources.jointjs.com/demos/routing
+  router: { name: "manhattan" }, // 连接线路径风格
+  attrs: {
+    // 连接线样式
+    ".connection": {
+      stroke: baseBlue,
+      "stroke-width": 2
+    },
+    ".marker-target": {
+      // 连接线箭头样式
+      fill: baseBlue,
+      "stroke-width": 0,
+      d: "M 10 0 L 0 5 L 10 10 z"
+    }
+  }
+};
 class DragGraphJoint extends React.Component {
   constructor(props) {
     super(props);
@@ -94,23 +111,7 @@ class DragGraphJoint extends React.Component {
     this.graph = new joint.dia.Graph();
 
     // 定义一种边，含默认连接线样式
-    const link = new joint.dia.Link({
-      connector: { name: "rounded" }, // 连接线路径风格 https://resources.jointjs.com/demos/routing
-      router: { name: "manhattan" }, // 连接线路径风格
-      attrs: {
-        // 连接线样式
-        ".connection": {
-          stroke: baseBlue,
-          "stroke-width": 2
-        },
-        ".marker-target": {
-          // 连接线箭头样式
-          fill: baseBlue,
-          "stroke-width": 0,
-          d: "M 10 0 L 0 5 L 10 10 z"
-        }
-      }
-    });
+    const link = new joint.dia.Link(defaultLinkCfg);
 
     // 初始化画布
     this.paper = new joint.dia.Paper({
@@ -119,7 +120,8 @@ class DragGraphJoint extends React.Component {
       height: "100%",
       gridSize: 1,
       model: this.graph,
-      defaultLink: link
+      defaultLink: link,
+      interactive: { vertexAdd: false } // 禁止点击连线多出节点
     });
 
     let { nodes, edges } = this.state;
@@ -157,27 +159,7 @@ class DragGraphJoint extends React.Component {
       const link = new joint.dia.Link({
         source: { id: this.nodeMapToCell[edge.sourceId], port: "pBottom" },
         target: { id: this.nodeMapToCell[edge.targetId], port: "pTop" },
-        connector: { name: "rounded" }, // 连接线路径风格
-        router: { name: "manhattan" }, // 连接线路径风格
-        attrs: {
-          // 连接线样式
-          ".connection": {
-            stroke: baseBlue,
-            "stroke-width": 2
-          },
-          ".marker-target": {
-            // 连接线箭头样式
-            fill: baseBlue,
-            "stroke-width": 0,
-            d: "M 10 0 L 0 5 L 10 10 z"
-          }
-        }
-      });
-      // 连接线单击默认会生出一个中间节点，ux 并不需要这样，所以把节点都去掉
-      link.on("change:vertices", function(child, vertices) {
-        while (vertices.length > 0) {
-          vertices.pop();
-        }
+        ...defaultLinkCfg
       });
 
       // 图中加入线
