@@ -274,3 +274,10 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 .joint-link.joint-theme-modern .marker-vertex-remove {
   fill: #fff;
 }
+/* 节点的锚点 */
+/* .joint-port-body{
+  display: none;
+}
+.joint-port-body:hover{
+  display: block;
+} */

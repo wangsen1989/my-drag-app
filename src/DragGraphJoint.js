@@ -16,7 +16,7 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "circle",
       selector: "portBody",
       attributes: {
-        fill: "#9a9aae",
+        fill: "none",
         stroke: baseBlue,
         r: 5 // 太小了就只能链接一根线
       }
@@ -39,7 +39,7 @@ const nodeComponent = new joint.shapes.standard.Rectangle({
         position: "absolute",
         label: { position: "outside" },
         attrs: {
-          portBody: { fill: "#9a9aae", magnet: true }
+          portBody: { fill: "none", magnet: true }
         }
       }
     },
