@@ -163,13 +163,23 @@ class App extends React.Component {
             onDrop={this.onRightDrop}
           >
             <DragGraphJoint
+              ref={ref => (this.DragGraphJoint = ref)}
               data={rightNodes}
               onChange={this.onRightChange}
-              config={{
-              }}
+              config={{}}
             />
           </div>
         </div>
+        <button
+          onClick={() => {
+            const nodes = this.DragGraphJoint.paper.model.getElements(),
+              edges = this.DragGraphJoint.paper.model.getLinks(),
+              nodeMapToCell = this.DragGraphJoint.nodeMapToCell;
+            console.log(nodes, edges, nodeMapToCell);
+          }}
+        >
+          提交
+        </button>
       </div>
     );
   }

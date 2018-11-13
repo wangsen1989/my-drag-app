@@ -111,13 +111,6 @@ class DragGraphJoint extends React.Component {
         }
       }
     });
-    // 连接线单击默认会生出一个中间节点，ux 并不需要这样，所以把节点都去掉
-    // 此处竟然没用
-    link.on("change:vertices", function(child, vertices) {
-      while (vertices.length > 0) {
-        vertices.pop();
-      }
-    });
 
     // 初始化画布
     this.paper = new joint.dia.Paper({
@@ -179,17 +172,6 @@ class DragGraphJoint extends React.Component {
             d: "M 10 0 L 0 5 L 10 10 z"
           }
         }
-        // labels: [
-        //   // 连接线中间可加 label
-        //   {
-        //     position: 0.5,
-        //     attrs: {
-        //       text: {
-        //         text: "on"
-        //       }
-        //     }
-        //   }
-        // ]
       });
       // 连接线单击默认会生出一个中间节点，ux 并不需要这样，所以把节点都去掉
       link.on("change:vertices", function(child, vertices) {
