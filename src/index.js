@@ -95,17 +95,18 @@ class App extends React.Component {
     // 清空上次记录的节点的放置坐标
     this.draggingNodeStyle = null;
     // 记录鼠标到 正在拖拽节点的内边 的距离，便于 drop 时计算节点的放置坐标
-    this.distanceX = e.clientX - (e.target.offsetLeft || 0);
-    this.distanceY = e.clientY - (e.target.offsetTop || 0);
+    this.distanceX = e.clientX - (e.currentTarget.offsetLeft || 0);
+    this.distanceY = e.clientY - (e.currentTarget.offsetTop || 0);
   };
 
   // 鼠标拖拽由左进入右时，计算被拖拽节点在右侧应该放置的新坐标
   onRightOver = e => {
     e.dataTransfer.dropEffect = "move";
     e.preventDefault();
+    // 要取 right-content 的 offset，用 currentTarget，不然 targrt 会取到子元素 svg
     const draggingNodeStyle = {
-      left: e.clientX - (e.target.offsetLeft || 0) - this.distanceX,
-      top: e.clientY - (e.target.offsetTop || 0) - this.distanceY
+      left: e.clientX - (e.currentTarget.offsetLeft || 0) - this.distanceX,
+      top: e.clientY - (e.currentTarget.offsetTop || 0) - this.distanceY
     };
     this.draggingNodeStyle = draggingNodeStyle;
   };
@@ -161,20 +162,20 @@ class App extends React.Component {
               />
             </div>
           </div>
-          <div
-            className="right"
-            onDragOver={this.onRightOver}
-            onDrop={this.onRightDrop}
-          >
+          <div className="right">
             <div className="right-title">依赖区域</div>
-            <div className="right-content">
+            <div
+              className="right-content"
+              onDragOver={this.onRightOver}
+              onDrop={this.onRightDrop}
+            >
               <DragGraphJoint
                 ref={ref => (this.DragGraphJoint = ref)}
                 data={rightNodes}
                 onChange={this.onRightChange}
                 config={{}}
                 validateConnection={(nodes, edges, source, target) => {
-                  console.log(nodes, edges, source, target);
+                  // console.log(nodes, edges, source, target);
                   const sourceId = _.get(source, "model.id");
                   const targetId = _.get(target, "model.id");
                   if (sourceId === targetId) {
