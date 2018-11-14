@@ -48,7 +48,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     },
     delete: {
       r: 5,
-      fill: "#f33636",
+      fill: "#f05c2b",
       //   stroke: "#000",
       refX: "100%",
       cy: 4,
