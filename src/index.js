@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
-import Drags from "./drags";
+import LeftDragRight from "./drags";
 import "./index.less";
 // mock 图数据结构（节点和边）
 
@@ -55,6 +55,7 @@ const edges = [
 class App extends React.Component {
   constructor(props) {
     super(props);
+    // TODO: 将一组数据分依赖
     this.state = {
       data: {
         leftNodes: {
@@ -74,7 +75,20 @@ class App extends React.Component {
     const { data } = this.state;
     return (
       <div className="xxx">
-        <Drags data={data} />
+        {/* LeftDragRight 只接受分好组的数据 */}
+        <LeftDragRight
+          data={data}
+          onChange={data => {
+            this.setState({ data });
+          }}
+        />
+        <button
+          onClick={() => {
+            console.log(this.state.data);
+          }}
+        >
+          提交
+        </button>
       </div>
     );
   }
