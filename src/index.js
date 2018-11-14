@@ -140,9 +140,10 @@ class App extends React.Component {
   };
 
   // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态
-  onRightChange = rightNodes => {
-    const { data } = this.state;
-    this.setState({ data: { ...data, rightNodes } });
+  onRightChange = rightData => {
+    // const { data } = this.state;
+    // this.setState({ data: { ...data, rightNodes } });
+    console.log(rightData);
   };
 
   render() {
