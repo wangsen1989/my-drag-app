@@ -1,4 +1,5 @@
 import joint from "jointjs";
+import _ from "lodash";
 
 const baseBlue = "#72a5ff";
 
@@ -155,8 +156,15 @@ export const paperCgf = that => {
     // 定义当用户自己拖拽时的默认边
     defaultLink: function(cellView) {
       const link = new joint.dia.Link(defaultLinkCfg);
-      // 监听边的删除并传出去
-      link.on("remove", that.handleChange);
+      // 监听边的删除并传出去, 连自己和连线取消事件也会触发 remove
+      link.on("remove", linkView => {
+        const { source: { id } = {}, target: { id: _id } = {} } = _.get(
+          linkView,
+          "attributes",
+          {}
+        );
+        _id && id !== _id && that.handleChange();
+      });
       return link;
     },
     interactive: { vertexAdd: false }, // 禁止点击连线多出节点

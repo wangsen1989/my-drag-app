@@ -28,8 +28,6 @@ class DragGraphJoint extends React.Component {
     this.drawEdges(edges);
     // view 画布监听点击事件，处理自定义交互
     this.listenPaper(this.paper);
-    // model 监听数据的变化并传出去,但是不能响应边的删除和节点的增删，所以边和节点需要自己监听部分事件
-    this.graph.on("change", this.handleChange);
   }
 
   // 画所有传进来的节点。此后用户外部再传节点，再在 componentWillReceiveProps 单独画那一个节点
@@ -47,6 +45,10 @@ class DragGraphJoint extends React.Component {
         .position(Number(left), Number(top))
         .attr("label/text", name);
 
+      // 监听节点位置改变
+      cell.on("change:position", (element1, position) => {
+        this.handleChange();
+      });
       // model view 中加入节点
       this.graph.addCell(cell);
 
@@ -58,14 +60,21 @@ class DragGraphJoint extends React.Component {
   // 画所有外部传进来的边。此后用户手动连线不用处理，框架会自己同步数据和视图
   drawEdges = edges => {
     _.forEach(edges, edge => {
-      // 定义一种边
+      // 定义初次加载时的边
       const link = new joint.dia.Link({
         source: { id: this.nodeMapToCell[edge.sourceId], port: "pBottom" },
         target: { id: this.nodeMapToCell[edge.targetId], port: "pTop" },
         ...defaultLinkCfg
       });
-      // 监听边的删除并传出去
-      link.on("remove", this.handleChange);
+      // 监听边的删除并传出去, 连自己和连线取消事件也会触发 remove
+      link.on("remove", linkView => {
+        const { source: { id } = {}, target: { id: _id } = {} } = _.get(
+          linkView,
+          "attributes",
+          {}
+        );
+        _id && id !== _id && this.handleChange();
+      });
 
       // model view 中加入边
       this.graph.addCell(link);
@@ -91,6 +100,11 @@ class DragGraphJoint extends React.Component {
         // console.log(elementView.model);
         this.handleChange();
       }
+    });
+    // 监听连线成功事件
+    paper.on("link:connect", (...rest) => {
+      this.handleChange();
+      // console.log(rest);
     });
   }
 

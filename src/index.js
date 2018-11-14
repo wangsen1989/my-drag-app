@@ -180,6 +180,7 @@ class App extends React.Component {
                   const sourceId = _.get(source, "model.id");
                   const targetId = _.get(target, "model.id");
                   if (sourceId === targetId) {
+                    console.log("自己不能连自己");
                     return false;
                     // }else if(){}
                     // else{
