@@ -151,7 +151,7 @@ export const paperCgf = that => {
     height: "100%",
     gridSize: 1,
 
-    model: that.graph, // 数据模型
+    model: that.graph, // 绑定数据模型 model
     defaultLink: new joint.dia.Link(defaultLinkCfg), // 定义一种边，含默认连接线样式
     interactive: { vertexAdd: false }, // 禁止点击连线多出节点
     linkView: CustomLinkView, // 自定义连线上的事件和小工具

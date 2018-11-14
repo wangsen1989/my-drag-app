@@ -18,15 +18,20 @@ class DragGraphJoint extends React.Component {
 
   componentDidMount() {
     const { nodes, edges } = this.state;
-    // 初始化数据模型
+    // 初始化数据模型 model
     this.graph = new joint.dia.Graph();
-    // 初始化画布
+    // 初始化画布 view， paperCgf 中会把 model view 双向绑定
     this.paper = new joint.dia.Paper(paperCgf(this));
-    this.listenPaper(this.paper);
-    // 画节点
+    // 画节点：改变 view 并把数据录入 model
     this.drawNodes(nodes);
-    // 画边
+    // 画边：改变 view 并把数据录入 model
     this.drawEdges(edges);
+    // view 画布监听点击事件，处理自定义交互
+    this.listenPaper(this.paper);
+    // model 监听数据的变化并传出去
+    this.graph.on("change", function() {
+      console.log(arguments);
+    });
   }
 
   // 画所有传进来的节点。此后用户外部再传节点，再在 componentWillReceiveProps 单独画那一个节点
@@ -38,16 +43,16 @@ class DragGraphJoint extends React.Component {
         style: { left, top }
       } = node;
 
-      // 按照模板自定义每个节点的位置， 信息
+      // view： 按照模板自定义每个节点的位置， 信息
       const cell = nodeComponent
         .clone()
         .position(Number(left), Number(top))
         .attr("label/text", name);
 
-      // 图中加入节点
+      // model view 中加入节点
       this.graph.addCell(cell);
 
-      // 把 node.id 和 画节点生成的 cell.id 映射
+      // 把 node.id 和 画节点生成的 cell.id 映射，drawEdges 时找到 node 节点对应的 cell
       this.nodeMapToCell[id] = cell.id;
     });
   };
@@ -62,7 +67,7 @@ class DragGraphJoint extends React.Component {
         ...defaultLinkCfg
       });
 
-      // 图中加入边
+      // model view 中加入边
       this.graph.addCell(link);
     });
   };
@@ -87,6 +92,7 @@ class DragGraphJoint extends React.Component {
       }
     });
   }
+
   componentWillReceiveProps(nextProps) {
     // 外部新传进来节点，只需再画最新传进来的那一个节点
     if (!_.isEqual(this.props.data, nextProps.data)) {
