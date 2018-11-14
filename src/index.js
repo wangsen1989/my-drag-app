@@ -144,14 +144,14 @@ class App extends React.Component {
     let {
       data: { leftNodes, rightNodes }
     } = this.state;
-    const { nodes, edges, helpDate } = data;
-
-    if (rightNodes.nodes.length > nodes.length) {
+    const { nodes, edges } = data;
+    const preIds = _.map(rightNodes.nodes, node => node.id);
+    const nowIds = _.map(nodes, node => node.id);
+    if (preIds.length > nowIds.length) {
       // 说明右侧删除了节点
-      const { deleteNodeId } = helpDate;
       const deleteNode = _.find(
         rightNodes.nodes,
-        node => (node.id = deleteNodeId)
+        node => node.id === _.difference(preIds, nowIds)[0]
       );
       // 加入左侧
       !_.isEmpty(deleteNode) &&
