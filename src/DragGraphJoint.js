@@ -68,11 +68,18 @@ class DragGraphJoint extends React.Component {
   };
 
   listenPaper(paper) {
-    paper.on("element:contextmenu", function() {
-      console.log("菜单键", arguments);
+    // 点击节点显示删除节点按钮
+    paper.on("cell:pointerclick", cell => {
+      cell.el.classList.add("delete-cell-show");
+      this.CurrentclickCell = cell.el;
     });
+    // 点击空白处不显示删除节点按钮
+    paper.on("blank:pointerclick", () => {
+      this.CurrentclickCell &&
+        this.CurrentclickCell.classList.remove("delete-cell-show");
+    });
+    // 点删除节点按钮提示用户
     paper.on("element:delete", function(elementView, evt) {
-      // Stop any further actions with the element view e.g. dragging
       evt.stopPropagation();
       if (window.confirm("确定要把该节点移到左侧无依赖区吗?")) {
         elementView.model.remove();
