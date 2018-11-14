@@ -116,6 +116,10 @@ class DragGraphJoint extends React.Component {
       if (window.confirm("确定要把该节点移到左侧无依赖区吗?")) {
         elementView.model.remove();
         // console.log(elementView.model);
+        this.nodeMapToCells = _.filter(
+          this.nodeMapToCells,
+          nMapC => nMapC.cellId !== elementView.model.id
+        );
         this.handleChange();
       }
     });
