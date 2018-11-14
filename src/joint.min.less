@@ -19,37 +19,11 @@
 [magnet="true"]:not(.joint-element) {
   cursor: crosshair;
 }
-.marker-arrowheads,
-.marker-vertices {
-  cursor: move;
-  opacity: 0;
-}
 [magnet="true"]:not(.joint-element):hover {
   opacity: 0.7;
 }
 .joint-element {
   cursor: move;
-}
-.joint-element:hover .joint-port-body {
-  stroke-width: 3;
-}
-.joint-element:hover .joint-port-body:hover {
-  stroke-width: 8;
-  opacity: 1;
-}
-.delete-cell-show .joint-delete-circle {
-  fill: #f05c2b;
-  display: block;
-}
-.delete-cell-show .joint-delete-x {
-  fill: #fff;
-  display: block;
-}
-.joint-delete-circle {
-  display: none;
-}
-.joint-delete-x {
-  display: none;
 }
 
 .joint-element * {
@@ -79,19 +53,42 @@
 .rect-text {
   font-size: 12px;
 }
-.joint-paper.joint-theme-default {
-  background-color: #fff;
-}
-.joint-paper.joint-theme-default:hover {
-  background-color: #fff;
-}
 
+// 节点的锚点和删除按钮
+.joint-element:hover .joint-port-body {
+  stroke-width: 3;
+}
+.joint-element:hover .joint-port-body:hover {
+  stroke-width: 8;
+  opacity: 1;
+}
+.delete-cell-show .joint-delete-circle {
+  fill: #f05c2b;
+  display: block;
+}
+.delete-cell-show .joint-delete-x {
+  fill: #fff;
+  display: block;
+}
+.joint-delete-circle {
+  display: none;
+}
+.joint-delete-x {
+  display: none;
+}
 /* 连接线 外层的一层遮罩，hover 上去显现 */
 
 .joint-link .connection,
 .joint-link .connection-wrap {
   fill: none;
 }
+
+.marker-arrowheads,
+.marker-vertices {
+  cursor: move;
+  opacity: 0;
+}
+
 .marker-arrowheads {
   display: none;
 }
