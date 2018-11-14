@@ -13,7 +13,7 @@ class DragGraphJoint extends React.Component {
       nodes
     };
     //把 node.id 和 画节点生成的 cell.id 映射，因为画线时只识别 cell.id
-    this.nodeMapToCell = {};
+    this.nodeMapToCells = [];
   }
 
   componentDidMount() {
@@ -43,7 +43,8 @@ class DragGraphJoint extends React.Component {
       const cell = nodeComponent
         .clone()
         .position(Number(left), Number(top))
-        .attr("label/text", name);
+        .attr("label/text", name)
+        .set("originNodeData", node);
 
       // 监听节点位置改变
       cell.on("change:position", (element1, position) => {
@@ -53,17 +54,29 @@ class DragGraphJoint extends React.Component {
       this.graph.addCell(cell);
 
       // 把 node.id 和 画节点生成的 cell.id 映射，drawEdges 时找到 node 节点对应的 cell
-      this.nodeMapToCell[id] = cell.id;
+      this.nodeMapToCells.push({
+        nodeId: id,
+        cellId: cell.id,
+        name
+      });
     });
   };
 
   // 画所有外部传进来的边。此后用户手动连线不用处理，框架会自己同步数据和视图
   drawEdges = edges => {
     _.forEach(edges, edge => {
+      const sourceCellId = _.find(
+        this.nodeMapToCells,
+        nMapC => nMapC.nodeId === edge.sourceId
+      ).cellId;
+      const targetCellId = _.find(
+        this.nodeMapToCells,
+        nMapC => nMapC.nodeId === edge.targetId
+      ).cellId;
       // 定义初次加载时的边
       const link = new joint.dia.Link({
-        source: { id: this.nodeMapToCell[edge.sourceId], port: "pBottom" },
-        target: { id: this.nodeMapToCell[edge.targetId], port: "pTop" },
+        source: { id: sourceCellId, port: "pBottom" },
+        target: { id: targetCellId, port: "pTop" },
         ...defaultLinkCfg
       });
       // 监听边的删除并传出去, 连自己和连线取消事件也会触发 remove
@@ -75,9 +88,9 @@ class DragGraphJoint extends React.Component {
         );
         if (_id && id !== _id) {
           // remove 后，数据没有马上变化，所以过滤一下
-          let edges = this.graph.getLinks(); //获取所有边
-          edges = _.filter(edges, edge => edge.id !== linkView.id);
-          this.handleChange({ edges });
+          let links = this.graph.getLinks(); //获取所有边
+          links = _.filter(links, link => link.id !== linkView.id);
+          this.handleChange({ links });
         }
       });
 
@@ -125,9 +138,40 @@ class DragGraphJoint extends React.Component {
     // TODO: 外部删除节点和边
   }
 
-  handleChange = ({ nodes: _nodes, edges: _edges } = {}) => {
-    const edges = _edges || this.graph.getLinks(); //获取所有边
-    const nodes = this.graph.getElements(); //获取所有节点
+  handleChange = ({ links: _links } = {}) => {
+    const links = _links || this.graph.getLinks(); //获取所有边
+    const cells = this.graph.getElements(); //获取所有节点
+
+    const nodes = _.map(cells, cell => {
+      const {
+        originNodeData: { id, name },
+        position
+      } = _.get(cell, "attributes");
+      return {
+        id,
+        name,
+        style: position
+      };
+    });
+
+    const edges = _.map(links, link => {
+      const {
+        source: { id: sourceCellId } = {},
+        target: { id: targetCellId } = {}
+      } = _.get(link, "attributes", {});
+
+      const sourceNodeId = _.find(
+        this.nodeMapToCells,
+        nMapC => nMapC.cellId === sourceCellId
+      ).nodeId;
+      const targetNodeId = _.find(
+        this.nodeMapToCells,
+        nMapC => nMapC.cellId === targetCellId
+      ).nodeId;
+
+      return { sourceId: sourceNodeId, targetId: targetNodeId };
+    });
+
     const { onChange } = this.props;
     onChange && onChange({ nodes, edges });
   };
