@@ -4,11 +4,75 @@ const baseBlue = "#72a5ff";
 
 // node 节点模板
 export const nodeComponent = new joint.shapes.standard.Rectangle({
-  position: { x: 0, y: 0 }, //位置信息
-  size: { width: 129, height: 38 }, //大小
+  position: { x: 0, y: 0 }, // 位置信息
+  size: { width: 129, height: 38 }, // 大小
+  // 自定义矩形节点内部元素
+  markup: [
+    {
+      // 矩形
+      tagName: "rect",
+      selector: "body"
+    },
+    {
+      // 内部文字
+      tagName: "text",
+      selector: "label"
+    },
+    {
+      // 右上角删除按钮
+      tagName: "circle",
+      selector: "delete"
+    },
+    {
+      // 按钮里的图标
+      tagName: "path",
+      selector: "x"
+    }
+  ],
+  // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
+  attrs: {
+    body: {
+      fill: "#617aa9",
+      stroke: "#000",
+      "stroke-width": 0,
+      rx: 5,
+      ty: 5
+    },
+
+    label: {
+      // 内部文字
+      pointeEvents: "none",
+      text: "",
+      fill: "#fff",
+      class: "rect-text" // 自定义的 class
+    },
+    delete: {
+      r: 5,
+      fill: "#f33636",
+      //   stroke: "#000",
+      refX: "100%",
+      cy: 4,
+      cx: -4,
+      event: "element:delete", // 右上角删除按钮添加点击事件
+      cursor: "pointer",
+      transform: "translate(7.5,-7) scale(1.5)",
+      class: "joint-delete-circle"
+    },
+    x: {
+      r: 2,
+      fill: "#fff",
+      //   stroke: "#000",
+      refX: "100%",
+      d:
+        "M -4 1, -4 -1, -1 -1, -1 -4, 1 -4, 1 -1 ,4 -1, 4 1, 1 1, 1 4, -1 4,-1 1 z",
+      transform: "translate(1.5,-1.5) rotate(45deg) scale(1.5)",
+      pointerEvents: "none",
+      class: "joint-delete-x"
+    }
+  },
+  //自定义节点四周的锚点
   portMarkup: [
     {
-      //锚点样式
       tagName: "circle",
       selector: "portBody",
       attributes: {
@@ -46,18 +110,6 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
         args: { x: 0, y: "50%" }
       }
     ]
-  },
-  //   矩形节点样式
-  attrs: {
-    root: { magnet: false }, //root 部位?
-    body: { fill: "#617aa9", "stroke-width": 0 }, //矩形实体填充
-    label: {
-      //内部文字
-      pointeEvents: "none",
-      text: "",
-      fill: "#fff",
-      class: "rect-text" // 自定义的 class
-    }
   }
 });
 

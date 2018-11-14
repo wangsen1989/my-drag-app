@@ -1,4 +1,3 @@
-
 .joint-viewport {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -29,6 +28,18 @@
 }
 .joint-element:hover .joint-port-body {
   stroke-width: 3;
+}
+.joint-element .joint-delete-circle {
+  opacity: 0;
+}
+.joint-element .joint-delete-x {
+  opacity: 0;
+}
+.joint-element:hover .joint-delete-circle {
+  opacity: 1;
+}
+.joint-element:hover .joint-delete-x {
+  opacity: 1;
 }
 
 .joint-element * {
@@ -111,6 +122,10 @@
 }
 .joint-link.joint-theme-dark .connection {
   stroke-linejoin: round;
+}
+
+.tool-remove {
+  transform: scale(0.7);
 }
 .joint-link.joint-theme-dark .link-tools .tool-remove circle {
   fill: #f33636;
