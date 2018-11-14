@@ -64,7 +64,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       //   stroke: "#000",
       refX: "100%",
       d:
-        "M -4 1, -4 -1, -1 -1, -1 -4, 1 -4, 1 -1 ,4 -1, 4 1, 1 1, 1 4, -1 4,-1 1 z",
+        "M -3.5 0.7, -3.5 -0.7, -0.7 -0.7, -0.7 -3.5, 0.7 -3.5, 0.7 -0.7 ,3.5 -0.7, 3.5 0.7, 0.7 0.7, 0.7 3.5, -0.7 3.5,-0.7 0.7 z",
       transform: "translate(1.5,-1.5) rotate(45deg) scale(1.5)",
       pointerEvents: "none",
       class: "joint-delete-x"
