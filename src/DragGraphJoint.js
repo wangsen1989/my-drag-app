@@ -120,7 +120,7 @@ class DragGraphJoint extends React.Component {
           this.nodeMapToCells,
           nMapC => nMapC.cellId !== elementView.model.id
         );
-        this.handleChange()
+        this.handleChange();
       }
     });
     // 监听连线成功事件
@@ -132,12 +132,15 @@ class DragGraphJoint extends React.Component {
   componentWillReceiveProps(nextProps) {
     // 外部新传进来节点，只需再画最新传进来的那一个节点
     if (!_.isEqual(this.props.data, nextProps.data)) {
-      // this.drawNodes(
-      //   _.difference(
-      //     _.get(nextProps, "data.nodes"),
-      //     _.get(this.props, "data.nodes")
-      //   )
-      // );
+      const thisNodeIds = _.map(this.props.data.nodes, node => node.id);
+      const nextNodeIds = _.map(nextProps.data.nodes, node => node.id);
+      if (nextNodeIds.length > thisNodeIds.length) {
+        const justAddNode = _.filter(
+          nextProps.data.nodes,
+          node => node.id === _.difference(nextNodeIds, thisNodeIds)[0]
+        );
+        !_.isEmpty(justAddNode) && this.drawNodes(justAddNode);
+      }
     }
     // TODO: 外部删除节点和边
   }
