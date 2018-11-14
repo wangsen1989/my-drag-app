@@ -38,9 +38,11 @@
   opacity: 1;
 }
 .joint-element .joint-delete-circle {
+  fill: #f05c2b;
   opacity: 0;
 }
 .joint-element .joint-delete-x {
+  fill: #fff;
   opacity: 0;
 }
 .joint-element:hover .joint-delete-circle {
@@ -121,11 +123,21 @@
 .joint-link.joint-theme-default .connection {
   stroke-linejoin: round;
 }
+// 连线上的删除按钮
+.tool-remove {
+  // transform: scale(0.7);
+}
 .joint-link.joint-theme-default .link-tools .tool-remove circle {
   fill: #f05c2b;
+  r: 6;
 }
 .joint-link.joint-theme-default .link-tools .tool-remove path {
   fill: #fff;
+  // transform: scale(0.7);
+  d: path(
+    "M -3.5 0.7, -3.5 -0.7, -0.7 -0.7, -0.7 -3.5, 0.7 -3.5, 0.7 -0.7 ,3.5 -0.7, 3.5 0.7, 0.7 0.7, 0.7 3.5, -0.7 3.5,-0.7 0.7 z"
+  );
+  transform: rotate(45deg) scale(1.5);
 }
 .joint-link.joint-theme-default .marker-arrowhead {
   fill: #1abc9c;

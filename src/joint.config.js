@@ -47,25 +47,21 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       class: "rect-text" // 自定义的 class
     },
     delete: {
-      r: 5,
+      r: 6,
       fill: "#f05c2b",
-      //   stroke: "#000",
       refX: "100%",
       cy: 4,
       cx: -4,
       event: "element:delete", // 右上角删除按钮添加点击事件
       cursor: "pointer",
-      transform: "translate(7.5,-7) scale(1.5)",
+      transform: "translate(7.5,-7) scale(1)",
       class: "joint-delete-circle"
     },
     x: {
-      r: 2,
-      fill: "#fff",
-      //   stroke: "#000",
       refX: "100%",
       d:
         "M -3.5 0.7, -3.5 -0.7, -0.7 -0.7, -0.7 -3.5, 0.7 -3.5, 0.7 -0.7 ,3.5 -0.7, 3.5 0.7, 0.7 0.7, 0.7 3.5, -0.7 3.5,-0.7 0.7 z",
-      transform: "translate(1.5,-1.5) rotate(45deg) scale(1.5)",
+      transform: "translate(3.5,-2.8) rotate(45deg) scale(1.3)",
       pointerEvents: "none",
       class: "joint-delete-x"
     }
