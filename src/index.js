@@ -140,10 +140,27 @@ class App extends React.Component {
   };
 
   // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态
-  onRightChange = rightData => {
-    // const { data } = this.state;
-    // this.setState({ data: { ...data, rightNodes } });
-    console.log(rightData);
+  onRightChange = data => {
+    let {
+      data: { leftNodes, rightNodes }
+    } = this.state;
+    const { nodes, edges, helpDate } = data;
+
+    if (rightNodes.nodes.length > nodes.length) {
+      // 说明右侧删除了节点
+      const { deleteNodeId } = helpDate;
+      const deleteNode = _.find(
+        rightNodes.nodes,
+        node => (node.id = deleteNodeId)
+      );
+      // 加入左侧
+      !_.isEmpty(deleteNode) &&
+        (leftNodes = { ...leftNodes, nodes: [deleteNode, ...leftNodes.nodes] });
+    }
+
+    this.setState({ data: { leftNodes, rightNodes: { nodes, edges } } }, () => {
+      console.log(this.state);
+    });
   };
 
   render() {

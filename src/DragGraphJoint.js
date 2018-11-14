@@ -120,7 +120,9 @@ class DragGraphJoint extends React.Component {
           this.nodeMapToCells,
           nMapC => nMapC.cellId !== elementView.model.id
         );
-        this.handleChange();
+        this.handleChange({
+          deleteNodeId: _.get(elementView, "model.attributes.originNodeData.id")
+        });
       }
     });
     // 监听连线成功事件
@@ -132,17 +134,17 @@ class DragGraphJoint extends React.Component {
   componentWillReceiveProps(nextProps) {
     // 外部新传进来节点，只需再画最新传进来的那一个节点
     if (!_.isEqual(this.props.data, nextProps.data)) {
-      this.drawNodes(
-        _.difference(
-          _.get(nextProps, "data.nodes"),
-          _.get(this.props, "data.nodes")
-        )
-      );
+      // this.drawNodes(
+      //   _.difference(
+      //     _.get(nextProps, "data.nodes"),
+      //     _.get(this.props, "data.nodes")
+      //   )
+      // );
     }
     // TODO: 外部删除节点和边
   }
 
-  handleChange = ({ links: _links } = {}) => {
+  handleChange = ({ links: _links, ...helpDate } = {}) => {
     const links = _links || this.graph.getLinks(); //获取所有边
     const cells = this.graph.getElements(); //获取所有节点
 
@@ -177,7 +179,7 @@ class DragGraphJoint extends React.Component {
     });
 
     const { onChange } = this.props;
-    onChange && onChange({ nodes, edges });
+    onChange && onChange({ nodes, edges, helpDate });
   };
   render() {
     return <div id="placeholder" />;
