@@ -12,6 +12,10 @@
   right: 0;
   bottom: 0;
 }
+
+.joint-paper-background {
+  background: rgba(67, 67, 67, 1);
+}
 [magnet="true"]:not(.joint-element) {
   cursor: crosshair;
 }
@@ -28,6 +32,10 @@
 }
 .joint-element:hover .joint-port-body {
   stroke-width: 3;
+}
+.joint-element:hover .joint-port-body:hover {
+  stroke-width: 8;
+  opacity: 1;
 }
 .joint-element .joint-delete-circle {
   opacity: 0;
@@ -61,8 +69,6 @@
   fill: none;
 }
 .marker-arrowheads {
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
   display: none;
 }
 .link-tools {
@@ -75,20 +81,6 @@
 .joint-link:hover .link-tools,
 .joint-link:hover .marker-arrowheads,
 .joint-link:hover .marker-vertices {
-  opacity: 1;
-}
-.marker-vertex-remove {
-  cursor: pointer;
-  opacity: 0.1;
-}
-.marker-vertex-group:hover .marker-vertex-remove {
-  opacity: 1;
-}
-.marker-vertex-remove-area {
-  opacity: 0.1;
-  cursor: pointer;
-}
-.marker-vertex-group:hover .marker-vertex-remove-area {
   opacity: 1;
 }
 .joint-element .fobj {
@@ -105,59 +97,6 @@
   display: table-cell;
   padding: 0 5px;
 }
-.joint-paper.joint-theme-dark {
-  background-color: #18191b;
-}
-.joint-link.joint-theme-dark .connection-wrap {
-  stroke: #8f8ff3;
-  stroke-width: 15;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0;
-  cursor: move;
-}
-.joint-link.joint-theme-dark .connection-wrap:hover {
-  opacity: 0.4;
-  stroke-opacity: 0.4;
-}
-.joint-link.joint-theme-dark .connection {
-  stroke-linejoin: round;
-}
-
-.tool-remove {
-  transform: scale(0.7);
-}
-.joint-link.joint-theme-dark .link-tools .tool-remove circle {
-  fill: #f33636;
-}
-.joint-link.joint-theme-dark .link-tools .tool-remove path {
-  fill: #fff;
-}
-.joint-link.joint-theme-dark .link-tools [event="link:options"] circle {
-  fill: green;
-}
-.joint-link.joint-theme-dark .marker-vertex {
-  fill: #5652db;
-}
-.joint-link.joint-theme-dark .marker-vertex:hover {
-  fill: #8e8ce1;
-  stroke: none;
-}
-.joint-link.joint-theme-dark .marker-arrowhead {
-  fill: #5652db;
-}
-.joint-link.joint-theme-dark .marker-arrowhead:hover {
-  fill: #8e8ce1;
-  stroke: none;
-}
-.joint-link.joint-theme-dark .marker-vertex-remove-area {
-  fill: green;
-  stroke: #006400;
-}
-.joint-link.joint-theme-dark .marker-vertex-remove {
-  fill: #fff;
-  stroke: #fff;
-}
 .joint-paper.joint-theme-default {
   background-color: #fff;
 }
@@ -173,7 +112,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: 0;
-  cursor: move;
+  // cursor: move;
 }
 .joint-link.joint-theme-default .connection-wrap:hover {
   opacity: 0.4;
@@ -188,13 +127,6 @@
 .joint-link.joint-theme-default .link-tools .tool-remove path {
   fill: #fff;
 }
-.joint-link.joint-theme-default .marker-vertex {
-  fill: #1abc9c;
-}
-.joint-link.joint-theme-default .marker-vertex:hover {
-  fill: #34495e;
-  stroke: none;
-}
 .joint-link.joint-theme-default .marker-arrowhead {
   fill: #1abc9c;
 }
@@ -202,92 +134,6 @@
   fill: #f39c12;
   stroke: none;
 }
-.joint-link.joint-theme-default .marker-vertex-remove {
-  fill: #fff;
-}
-.joint-link.joint-theme-material .connection-wrap {
-  stroke: #000;
-  stroke-width: 15;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0;
-  cursor: move;
-}
-.joint-link.joint-theme-material .connection-wrap:hover {
-  opacity: 0.4;
-  stroke-opacity: 0.4;
-}
-.joint-link.joint-theme-material .connection {
-  stroke-linejoin: round;
-}
-.joint-link.joint-theme-material .link-tools .tool-remove circle {
-  fill: #c64242;
-}
-.joint-link.joint-theme-material .link-tools .tool-remove path {
-  fill: #fff;
-}
-.joint-link.joint-theme-material .marker-vertex {
-  fill: #d0d8e8;
-}
-.joint-link.joint-theme-material .marker-vertex:hover {
-  fill: #5fa9ee;
-  stroke: none;
-}
-.joint-link.joint-theme-material .marker-arrowhead {
-  fill: #d0d8e8;
-}
-.joint-link.joint-theme-material .marker-arrowhead:hover {
-  fill: #5fa9ee;
-  stroke: none;
-}
-.joint-link.joint-theme-material .marker-vertex-remove-area {
-  fill: #5fa9ee;
-}
-.joint-link.joint-theme-material .marker-vertex-remove {
-  fill: #fff;
-}
-.joint-link.joint-theme-modern .connection-wrap {
-  stroke: #000;
-  stroke-width: 15;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0;
-  cursor: move;
-}
-.joint-link.joint-theme-modern .connection-wrap:hover {
-  opacity: 0.4;
-  stroke-opacity: 0.4;
-}
-.joint-link.joint-theme-modern .connection {
-  stroke-linejoin: round;
-}
-.joint-link.joint-theme-modern .link-tools .tool-remove circle {
-  fill: #ed6338;
-}
-.joint-link.joint-theme-modern .link-tools .tool-remove path {
-  fill: #fff;
-}
-.joint-link.joint-theme-modern .marker-vertex {
-  fill: #1abc9c;
-}
-.joint-link.joint-theme-modern .marker-vertex:hover {
-  fill: #34495e;
-  stroke: none;
-}
-.joint-link.joint-theme-modern .marker-arrowhead {
-  fill: #1abc9c;
-}
-.joint-link.joint-theme-modern .marker-arrowhead:hover {
-  fill: #f39c12;
-  stroke: none;
-}
-.joint-link.joint-theme-modern .marker-vertex-remove {
-  fill: #fff;
-}
 .rect-text {
   font-size: 12px;
-}
-
-.joint-paper-background {
-  background: rgba(67, 67, 67, 1);
 }

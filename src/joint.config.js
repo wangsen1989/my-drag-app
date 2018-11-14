@@ -78,7 +78,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       attributes: {
         r: 5, // 锚点半径
         fill: "none", // 锚点填充
-        "stroke-width": 1, // 锚点外层圈半径，hover上去会变为 3，太小了鼠标选不上
+        "stroke-width": 1, // 锚点外层圈半径，hover上去会变为 5，太小了鼠标选不上
         stroke: baseBlue, // 锚点外层圈填充
         magnet: true // 显示选中十字架套索
       }
