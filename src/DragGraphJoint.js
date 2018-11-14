@@ -22,6 +22,7 @@ class DragGraphJoint extends React.Component {
     this.graph = new joint.dia.Graph();
     // 初始化画布
     this.paper = new joint.dia.Paper(paperCgf(this));
+    this.listenPaper(this.paper);
     // 画节点
     this.drawNodes(nodes);
     // 画边
@@ -66,6 +67,19 @@ class DragGraphJoint extends React.Component {
     });
   };
 
+  listenPaper(paper) {
+    paper.on("element:contextmenu", function() {
+      console.log("菜单键", arguments);
+    });
+    paper.on("element:delete", function(elementView, evt) {
+      // Stop any further actions with the element view e.g. dragging
+      evt.stopPropagation();
+      if (window.confirm("确定要把该节点移到左侧无依赖区吗?")) {
+        elementView.model.remove();
+        console.log(elementView.model);
+      }
+    });
+  }
   componentWillReceiveProps(nextProps) {
     // 外部新传进来节点，只需再画最新传进来的那一个节点
     if (!_.isEqual(this.props.data, nextProps.data)) {
