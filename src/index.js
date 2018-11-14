@@ -133,7 +133,12 @@ class App extends React.Component {
       ...leftNodes,
       nodes: leftNodes.nodes.filter(node => node.id !== draggingNode.id)
     };
-    this.setState({ data: { ...data, leftNodes, rightNodes } });
+
+    // 更新数据并传给父组件
+    this.setState({ data: { ...data, leftNodes, rightNodes } }, () => {
+      const { onChange } = this.props;
+      onChange && onChange(this.state.data);
+    });
     // 清除左侧列表残留的动画样式
     this.leftListInstance.over &&
       this.leftListInstance.over.classList.remove("drag-up", "drag-down");
@@ -147,8 +152,9 @@ class App extends React.Component {
     const { nodes, edges } = data;
     const preIds = _.map(rightNodes.nodes, node => node.id);
     const nowIds = _.map(nodes, node => node.id);
+
+    // 说明右侧删除了节点
     if (preIds.length > nowIds.length) {
-      // 说明右侧删除了节点
       const deleteNode = _.find(
         rightNodes.nodes,
         node => node.id === _.difference(preIds, nowIds)[0]
@@ -157,9 +163,10 @@ class App extends React.Component {
       !_.isEmpty(deleteNode) &&
         (leftNodes = { ...leftNodes, nodes: [deleteNode, ...leftNodes.nodes] });
     }
-
+    // 更新数据并传给父组件
     this.setState({ data: { leftNodes, rightNodes: { nodes, edges } } }, () => {
-      console.log(this.state);
+      const { onChange } = this.props;
+      onChange && onChange(this.state.data);
     });
   };
 
@@ -208,16 +215,6 @@ class App extends React.Component {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => {
-            const nodes = this.DragGraphJoint.paper.model.getElements(),
-              edges = this.DragGraphJoint.paper.model.getLinks(),
-              nodeMapToCell = this.DragGraphJoint.nodeMapToCell;
-            console.log(nodes, edges, nodeMapToCell);
-          }}
-        >
-          提交
-        </button>
       </div>
     );
   }
