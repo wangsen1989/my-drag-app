@@ -163,7 +163,12 @@ export const paperCgf = that => {
           "attributes",
           {}
         );
-        _id && id !== _id && that.handleChange();
+        if (_id && id !== _id) {
+          // remove 后，数据没有马上变化，所以过滤一下
+          let edges = that.graph.getLinks(); //获取所有边
+          edges = _.filter(edges, edge => edge.id !== linkView.id);
+          that.handleChange({ edges });
+        }
       });
       return link;
     },

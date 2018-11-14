@@ -73,7 +73,12 @@ class DragGraphJoint extends React.Component {
           "attributes",
           {}
         );
-        _id && id !== _id && this.handleChange();
+        if (_id && id !== _id) {
+          // remove 后，数据没有马上变化，所以过滤一下
+          let edges = this.graph.getLinks(); //获取所有边
+          edges = _.filter(edges, edge => edge.id !== linkView.id);
+          this.handleChange({ edges });
+        }
       });
 
       // model view 中加入边
@@ -104,7 +109,6 @@ class DragGraphJoint extends React.Component {
     // 监听连线成功事件
     paper.on("link:connect", (...rest) => {
       this.handleChange();
-      // console.log(rest);
     });
   }
 
@@ -121,8 +125,8 @@ class DragGraphJoint extends React.Component {
     // TODO: 外部删除节点和边
   }
 
-  handleChange = () => {
-    const edges = this.graph.getLinks(); //获取所有边
+  handleChange = ({ nodes: _nodes, edges: _edges } = {}) => {
+    const edges = _edges || this.graph.getLinks(); //获取所有边
     const nodes = this.graph.getElements(); //获取所有节点
     const { onChange } = this.props;
     onChange && onChange({ nodes, edges });
