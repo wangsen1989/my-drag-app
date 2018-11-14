@@ -152,7 +152,13 @@ export const paperCgf = that => {
     gridSize: 1,
 
     model: that.graph, // 绑定数据模型 model
-    defaultLink: new joint.dia.Link(defaultLinkCfg), // 定义一种边，含默认连接线样式
+    // 定义当用户自己拖拽时的默认边
+    defaultLink: function(cellView) {
+      const link = new joint.dia.Link(defaultLinkCfg);
+      // 监听边的删除并传出去
+      link.on("remove", that.handleChange);
+      return link;
+    },
     interactive: { vertexAdd: false }, // 禁止点击连线多出节点
     linkView: CustomLinkView, // 自定义连线上的事件和小工具
     snapLinks: { radius: 20 }, // 近距离自动粘附

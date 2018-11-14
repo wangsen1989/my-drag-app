@@ -28,10 +28,8 @@ class DragGraphJoint extends React.Component {
     this.drawEdges(edges);
     // view 画布监听点击事件，处理自定义交互
     this.listenPaper(this.paper);
-    // model 监听数据的变化并传出去
-    this.graph.on("change", function() {
-      console.log(arguments);
-    });
+    // model 监听数据的变化并传出去,但是不能响应边的删除和节点的新增，所以边和节点需要自己监听部分事件
+    this.graph.on("change", this.handleChange);
   }
 
   // 画所有传进来的节点。此后用户外部再传节点，再在 componentWillReceiveProps 单独画那一个节点
@@ -66,6 +64,8 @@ class DragGraphJoint extends React.Component {
         target: { id: this.nodeMapToCell[edge.targetId], port: "pTop" },
         ...defaultLinkCfg
       });
+      // 监听边的删除并传出去
+      link.on("remove", this.handleChange);
 
       // model view 中加入边
       this.graph.addCell(link);
@@ -102,10 +102,16 @@ class DragGraphJoint extends React.Component {
           _.get(this.props, "data.nodes")
         )
       );
+      this.handleChange();
     }
     // TODO: 外部删除节点和边
   }
 
+  handleChange = () => {
+    const edges = this.graph.getLinks(); //获取所有边
+    const nodes = this.graph.getElements(); //获取所有节点
+    console.log(nodes, edges);
+  };
   render() {
     return <div id="placeholder" />;
   }
