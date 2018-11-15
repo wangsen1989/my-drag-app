@@ -225,25 +225,35 @@ export const validateConnectFun = (edges, source, target) => {
     //检验当前连线会导致环: 操作 src 去连接 target，而 target 已有继任者是 src
     const hasLoopFun = (src, target) => {
       let noLoop = true;
+      const hasVisited = []; // 已访问的节点缓存,防止重复访问
       const dfs = vertex => {
         const kids = getKids(vertex);
         if (kids.length === 0) return; // 没有继任者，不存在环
+
         for (let kid of kids) {
+          if (hasVisited.includes(kid)) {
+            console.log(`${kid}已经被缓存过，不需再访问,继续下一轮`);
+            continue;
+          }
           if (kid === src) {
             noLoop = false;
+            console.log(kid, "处有环！");
             break; // 有环，跳出
           } else if (getKids(kid).length > 0) {
             // 深度遍历继任者
             dfs(kid);
           }
+          // vertex 的 kids 里， kid1 访问完毕，在访问下一个同辈 kid 之前，把 kid1 加到已访问的缓存
+          hasVisited.push(kid);
+          console.log("完全被访问完毕的数组", hasVisited);
         }
       };
+
       dfs(target);
       return noLoop;
     };
 
     const noLoop = hasLoopFun(sourceId, targetId);
-    !noLoop && console.log("有环！");
     return noLoop;
   }
 };
