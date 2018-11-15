@@ -4,11 +4,40 @@ import DragGraphJoint from "./DragGraphJoint";
 import _ from "lodash";
 import "./index.less";
 
+/* 
+  // 本组件接受和传输到父组件的数据格式为
+  { 
+    nodes: [
+      { id: xx, name: xx, style: { left: xx, top: xx } },
+      { id: xx, name: xx }
+    ],
+    edges: [
+      { sourceId: xx, targetId: xx },
+    ]
+  }
+  // 本组件转换并传给左右子组件的数据格式为
+  { 
+    leftNodes: { nodes: [] }; // 左侧无依赖只有节点,
+    rightNodes: { nodes: [], edges: [] }; // 右侧有节点和边
+  }
+*/
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    // 将外部传来的未分组的数据分左右组
+    const { data: { nodes = [], edges = [] } = {} } = props;
+    const leftNodes = { nodes: [] }; // 左侧无依赖只有节点
+    const rightNodes = { nodes: [], edges }; // 右侧有节点和边
+    // 有位置信息的放在右侧，无位置信息的放左侧
+    _.forEach(nodes, node => {
+      if (_.isEmpty(node.style)) {
+        leftNodes.nodes.push(node);
+      } else {
+        rightNodes.nodes.push(node);
+      }
+    });
     this.state = {
-      data: props.data || {}
+      data: { leftNodes, rightNodes }
     };
 
     // 记录鼠标到 正在拖拽节点的内边 的距离
@@ -74,10 +103,11 @@ export default class App extends React.Component {
     };
 
     // 更新数据并传给父组件
-    this.setState({ data: { ...data, leftNodes, rightNodes } }, () => {
-      const { onChange } = this.props;
-      onChange && onChange(this.state.data);
-    });
+    this.setState(
+      { data: { ...data, leftNodes, rightNodes } },
+      this.handleChange
+    );
+
     // 清除左侧列表残留的动画样式
     this.leftListInstance.over &&
       this.leftListInstance.over.classList.remove("drag-up", "drag-down");
@@ -108,10 +138,22 @@ export default class App extends React.Component {
       }
     }
     // 更新数据并传给父组件
-    this.setState({ data: { leftNodes, rightNodes: { nodes, edges } } }, () => {
-      const { onChange } = this.props;
-      onChange && onChange(this.state.data);
-    });
+    this.setState(
+      { data: { leftNodes, rightNodes: { nodes, edges } } },
+      this.handleChange
+    );
+  };
+
+  handleChange = () => {
+    const { onChange } = this.props;
+    const {
+      data: {
+        leftNodes: { nodes: lNode = [] },
+        rightNodes: { nodes: Rnodes = [], edges = [] }
+      }
+    } = this.state;
+    // 将所有的 nodes 合并在一起，发给父组件
+    onChange && onChange({ nodes: [...lNode, ...Rnodes], edges });
   };
 
   render() {

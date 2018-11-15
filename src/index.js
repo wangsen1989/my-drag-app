@@ -5,69 +5,62 @@ import LeftDragRight from "./drags";
 import "./index.less";
 // mock 图数据结构（节点和边）
 
-const nodes = [
-  {
-    id: "1",
-    name: "Node 1",
-    style: { left: 10, top: 10 }
-  },
-  {
-    id: "2",
-    name: "Node 2",
-    style: { left: 150, top: 150 }
-  },
-  {
-    id: "3",
-    name: "Node 3",
-    style: { left: 300, top: 300 }
-  },
-  {
-    id: "4",
-    name: "Node 4",
-    style: { left: 500, top: 500 }
-  },
-  {
-    id: "5",
-    name: "Node 5",
-    style: { left: 600, top: 300 }
-  },
-  {
-    id: "6",
-    name: "Node 6",
-    style: { left: 100, top: 500 }
-  }
-];
-const edges = [
-  {
-    sourceId: "1",
-    targetId: "2"
-  },
-  {
-    sourceId: "2",
-    targetId: "3"
-  },
-  {
-    sourceId: "3",
-    targetId: "4"
-  }
-];
+const data = {
+  nodes: [
+    ...new Array(20)
+      .fill("left")
+      .map((v, i) => ({ id: `left${i}`, name: `left node${i}` })),
+    {
+      id: "1",
+      name: "Node 1",
+      style: { left: 10, top: 10 }
+    },
+    {
+      id: "2",
+      name: "Node 2",
+      style: { left: 150, top: 150 }
+    },
+    {
+      id: "3",
+      name: "Node 3",
+      style: { left: 300, top: 300 }
+    },
+    {
+      id: "4",
+      name: "Node 4",
+      style: { left: 500, top: 500 }
+    },
+    {
+      id: "5",
+      name: "Node 5",
+      style: { left: 600, top: 300 }
+    },
+    {
+      id: "6",
+      name: "Node 6",
+      style: { left: 100, top: 500 }
+    }
+  ],
+  edges: [
+    {
+      sourceId: "1",
+      targetId: "2"
+    },
+    {
+      sourceId: "2",
+      targetId: "3"
+    },
+    {
+      sourceId: "3",
+      targetId: "4"
+    }
+  ]
+};
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: {
-        leftNodes: {
-          nodes: new Array(20)
-            .fill("left")
-            .map((v, i) => ({ id: `left${i}`, name: `left node${i}` }))
-        },
-        rightNodes: {
-          nodes,
-          edges
-        }
-      }
-    };
+    this.state = { data };
   }
 
   render() {
@@ -77,8 +70,8 @@ class App extends React.Component {
         {/* LeftDragRight 接受未分组组的数据 */}
         <LeftDragRight
           data={data}
-          onChange={data => {
-            this.setState({ data });
+          onChange={newData => {
+            this.setState({ data: newData });
           }}
         />
         <button
