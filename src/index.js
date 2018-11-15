@@ -81,8 +81,8 @@ class App extends React.Component {
             } = this.state;
             nodes = [
               {
-                id: Math.random(),
-                name: `新节点-${Math.random()}`
+                id: Math.random().toString().substr(0,5),
+                name: `新节点-${Math.random().toString().substr(0,5)}`
               },
               ...nodes
             ];

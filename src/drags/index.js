@@ -21,23 +21,30 @@ import "./index.less";
     rightNodes: { nodes: [], edges: [] }; // 右侧有节点和边
   }
 */
+
+// 将外部传来的未分组的数据分左右组
+const separate = (data = {}) => {
+  const { nodes = [], edges = [] } = data;
+  const leftNodes = { nodes: [] }; // 左侧无依赖只有节点
+  const rightNodes = { nodes: [], edges }; // 右侧有节点和边
+  // 有位置信息的放在右侧，无位置信息的放左侧
+  _.forEach(nodes, node => {
+    if (_.isEmpty(node.style)) {
+      leftNodes.nodes.push(node);
+    } else {
+      rightNodes.nodes.push(node);
+    }
+  });
+  return { leftNodes, rightNodes };
+};
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     // 将外部传来的未分组的数据分左右组
-    const { data: { nodes = [], edges = [] } = {} } = props;
-    const leftNodes = { nodes: [] }; // 左侧无依赖只有节点
-    const rightNodes = { nodes: [], edges }; // 右侧有节点和边
-    // 有位置信息的放在右侧，无位置信息的放左侧
-    _.forEach(nodes, node => {
-      if (_.isEmpty(node.style)) {
-        leftNodes.nodes.push(node);
-      } else {
-        rightNodes.nodes.push(node);
-      }
-    });
+    const separateData = separate(props.data);
     this.state = {
-      data: { leftNodes, rightNodes }
+      data: separateData
     };
 
     // 记录鼠标到 正在拖拽节点的内边 的距离
@@ -155,6 +162,13 @@ export default class App extends React.Component {
     // 将所有的 nodes 合并在一起，发给父组件
     onChange && onChange({ nodes: [...lNode, ...Rnodes], edges });
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(this.props.data, nextProps.data)) {
+      const separateData = separate(nextProps.data);
+      this.setState({ data: separateData });
+    }
+  }
 
   render() {
     const {
