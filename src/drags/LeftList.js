@@ -23,10 +23,8 @@ class LeftList extends React.Component {
     this.dragged.style.display = "flex";
 
     // 去掉动画的类
-    e.target.classList.remove("drag-up");
-    e.target.classList.remove("drag-down");
-    this.over.classList.remove("drag-up");
-    this.over.classList.remove("drag-down");
+    e.target.classList.remove("drag-up","drag-down");
+    this.over.classList.remove("drag-up","drag-down");
 
     // 数据重新排列
     const { data = [] } = this.state;
