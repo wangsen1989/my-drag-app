@@ -199,16 +199,54 @@ export default class App extends React.Component {
                 data={rightNodes}
                 onChange={this.onRightChange}
                 config={{}}
-                validateConnection={(nodes, edges, source, target) => {
+                validateConnection={(_nodes, _edges, source, target) => {
                   // console.log(nodes, edges, source, target);
-                  const sourceId = _.get(source, "model.id");
-                  const targetId = _.get(target, "model.id");
+                  const sourceId = _.get(
+                    source,
+                    "model.attributes.originNodeData.id"
+                  );
+                  const targetId = _.get(
+                    target,
+                    "model.attributes.originNodeData.id"
+                  );
+                  const {
+                    rightNodes: { edges }
+                  } = this.state.data;
                   if (sourceId === targetId) {
                     console.log("自己不能连自己");
                     return false;
-                    // }else if(){}
-                    // else{
-                    //   return true;
+                  } else if (_.find(edges, { sourceId, targetId })) {
+                    console.log("不能重复链接");
+                    return false;
+                  } else {
+                    // 拿到继任者方法
+                    const getKids = v =>
+                      edges
+                        .filter(edge => edge.sourceId === v)
+                        .map(edge => edge.targetId);
+                    //检验当前链接的线会导致环
+                    const hasLoopFun = (src, target) => {
+                      let noLoop = true;
+                      const dfs = vertex => {
+                        const kids = getKids(vertex);
+                        if (kids.length === 0) return; // 没有继任者，不存在环
+                        for (let i = 0; i < kids.length; i++) {
+                          if (kids[i] === src) {
+                            noLoop = false;
+                            break; // 有环，跳出
+                          } else if (getKids(kids[i]).length > 0) {
+                            // 深度遍历继任者
+                            dfs(kids[i]);
+                          }
+                        }
+                      };
+
+                      dfs(target);
+                      return noLoop;
+                    };
+                    const noLoop = hasLoopFun(sourceId, targetId);
+                    !noLoop && console.log("有环！");
+                    return noLoop;
                   }
                 }}
               />
