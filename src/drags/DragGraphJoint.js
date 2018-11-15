@@ -130,10 +130,10 @@ class DragGraphJoint extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // 外部新传进来节点，只需再画最新传进来的那一个节点
     if (!_.isEqual(this.props.data, nextProps.data)) {
       const thisNodeIds = _.map(this.props.data.nodes, node => node.id);
       const nextNodeIds = _.map(nextProps.data.nodes, node => node.id);
+      // 外部新传进来节点，只需再画最新传进来的那一个节点
       if (nextNodeIds.length > thisNodeIds.length) {
         const justAddNode = _.filter(
           nextProps.data.nodes,
@@ -141,8 +141,31 @@ class DragGraphJoint extends React.Component {
         );
         !_.isEmpty(justAddNode) && this.drawNodes(justAddNode);
       }
+      if (nextNodeIds.length < thisNodeIds.length) {
+        // 外部删除节点，删除模型里节点信息；内部删除也会走进这里
+        const justDeleteCellId = _.get(
+          _.find(
+            this.nodeMapToCells,
+            nMapC => nMapC.nodeId === _.difference(thisNodeIds, nextNodeIds)[0]
+          ),
+          "cellId"
+        );
+        // 内部删除也会走进这里，只是到这里时 justDeleteCell 已经被删除，就不走下面的流程了
+        if (justDeleteCellId) {
+          const justDeleteCell = _.find(
+            this.graph.getElements(),
+            cell => cell.id === justDeleteCellId
+          );
+          if (justDeleteCell) {
+            justDeleteCell.remove();
+            this.nodeMapToCells = _.filter(
+              this.nodeMapToCells,
+              nMapC => nMapC.cellId !== justDeleteCellId
+            );
+          }
+        }
+      }
     }
-    // TODO: 外部删除节点和边
   }
 
   handleChange = ({ links: _links } = {}) => {
@@ -182,6 +205,7 @@ class DragGraphJoint extends React.Component {
     const { onChange } = this.props;
     onChange && onChange({ nodes, edges });
   };
+
   render() {
     return <div id="placeholder" />;
   }

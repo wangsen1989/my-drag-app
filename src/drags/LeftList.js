@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 
 class LeftList extends React.Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class LeftList extends React.Component {
     this.setState({ data: this.props.data || [] });
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({ data: nextProps.data || [] });
+    if (!_.isEqual(this.props.data, nextProps.data)) {
+      this.setState({ data: nextProps.data || [] });
+    }
   }
   dragStart = e => {
     this.dragged = e.currentTarget;
