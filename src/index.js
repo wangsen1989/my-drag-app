@@ -55,7 +55,6 @@ const edges = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    // TODO: 将一组数据分依赖
     this.state = {
       data: {
         leftNodes: {
@@ -75,7 +74,7 @@ class App extends React.Component {
     const { data } = this.state;
     return (
       <div className="xxx">
-        {/* LeftDragRight 只接受分好组的数据 */}
+        {/* LeftDragRight 接受未分组组的数据 */}
         <LeftDragRight
           data={data}
           onChange={data => {

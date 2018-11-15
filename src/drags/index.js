@@ -99,8 +99,13 @@ export default class App extends React.Component {
         node => node.id === _.difference(preIds, nowIds)[0]
       );
       // 加入左侧
-      !_.isEmpty(deleteNode) &&
-        (leftNodes = { ...leftNodes, nodes: [deleteNode, ...leftNodes.nodes] });
+      if (!_.isEmpty(deleteNode)) {
+        delete deleteNode.style;
+        leftNodes = {
+          ...leftNodes,
+          nodes: [deleteNode, ...leftNodes.nodes]
+        };
+      }
     }
     // 更新数据并传给父组件
     this.setState({ data: { leftNodes, rightNodes: { nodes, edges } } }, () => {
