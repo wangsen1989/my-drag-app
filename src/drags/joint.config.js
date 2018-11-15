@@ -195,17 +195,55 @@ export const paperCgf = that => {
       end,
       linkView
     ) => {
-      const edges = that.graph.getLinks(); //获取所有边
-      const nodes = that.graph.getElements(); //获取所有节点
       const { validateConnection } = that.props;
-
       let validate = true;
       if (validateConnection) {
-        validate = validateConnection(nodes, edges, cellViewS, cellViewT);
+        validate = validateConnection(cellViewS, cellViewT);
         validate = validate === undefined ? true : validate;
       }
-
       return validate;
     }
   };
+};
+
+// 校验图的数据结构
+export const validateConnectFun = (edges, source, target) => {
+  const sourceId = _.get(source, "model.attributes.originNodeData.id");
+  const targetId = _.get(target, "model.attributes.originNodeData.id");
+
+  if (sourceId === targetId) {
+    console.log("自己不能连自己");
+    return false;
+  } else if (_.find(edges, { sourceId, targetId })) {
+    console.log("不能重复链接");
+    return false;
+  } else {
+    // 拿到某节点的继任者
+    const getKids = v =>
+      edges.filter(edge => edge.sourceId === v).map(edge => edge.targetId);
+
+    //检验当前连线会导致环: 操作 src 去连接 target，而 target 已有继任者是 src
+    const hasLoopFun = (src, target) => {
+      let noLoop = true;
+      const dfs = vertex => {
+        const kids = getKids(vertex);
+        if (kids.length === 0) return; // 没有继任者，不存在环
+        for (let kid of kids) {
+          if (kid === src) {
+            noLoop = false;
+            break; // 有环，跳出
+          } else if (getKids(kid).length > 0) {
+            // 深度遍历继任者
+            dfs(kid);
+          }
+        }
+      };
+      dfs(target);
+      return noLoop;
+    };
+
+    const noLoop = hasLoopFun(sourceId, targetId);
+    !noLoop && console.log("有环！");
+    return noLoop;
+  }
 };
