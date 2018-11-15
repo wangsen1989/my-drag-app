@@ -76,6 +76,53 @@ class App extends React.Component {
         />
         <button
           onClick={() => {
+            let {
+              data: { nodes, edges }
+            } = this.state;
+            nodes = [
+              {
+                id: Math.random(),
+                name: `新节点-${Math.random()}`
+              },
+              ...nodes
+            ];
+            this.setState({ data: { nodes, edges } }, () => {
+              console.log(this.state.data);
+            });
+          }}
+        >
+          增加一个节点
+        </button>
+        <button
+          style={{ margin: "0 10px" }}
+          onClick={() => {
+            let {
+              data: { nodes, edges }
+            } = this.state;
+            nodes = nodes.slice(1);
+            this.setState({ data: { nodes, edges } }, () => {
+              console.log(this.state.data);
+            });
+          }}
+        >
+          删除第一个无依赖节点
+        </button>
+        <button
+          style={{ margin: "0 10px" }}
+          onClick={() => {
+            let {
+              data: { nodes, edges }
+            } = this.state;
+            nodes = nodes.slice(0, nodes.length - 1);
+            this.setState({ data: { nodes, edges } }, () => {
+              console.log(this.state.data);
+            });
+          }}
+        >
+          删除最后一个有依赖节点
+        </button>
+        <button
+          onClick={() => {
             console.log(this.state.data);
           }}
         >
