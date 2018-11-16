@@ -224,33 +224,32 @@ export const validateConnectFun = (edges, source, target) => {
 
     //检验当前连线会导致环: 操作 src 去连接 target，而 target 已有继任者是 src
     const hasLoopFun = (src, target) => {
-      let noLoop = true;
       const hasVisited = []; // 已访问的节点缓存,防止重复访问
-      const dfs = vertex => {
-        console.log('开始深度访问节点', vertex)
-        const kids = getKids(vertex);
-        if (kids.length === 0) return; // 没有继任者，不存在环
 
+      const dfs = vertex => {
+        console.log("开始深度访问节点", vertex);
+        const kids = getKids(vertex);
         for (let kid of kids) {
           if (hasVisited.includes(kid)) {
             console.log(`${kid}已经被缓存过，不需再访问,继续下一轮`);
             continue;
           }
           if (kid === src) {
-            noLoop = false;
-            console.log(kid, "处有环！!!!!!!");
-            break; // 有环，跳出
+            console.log(kid, "处有环, 跳出！!!!!!!");
+            return false; // 有环，跳出
           } else if (getKids(kid).length > 0) {
             // 深度遍历继任者
-            dfs(kid);
+            const noLoop = dfs(kid);
+            // 这样就可以同时跳出掉当下的 for 循环和递归函数，并且向上层递归层层传递 false，使上层 for 循环和递归跳出
+            if (noLoop === false) return false;
           }
-          // vertex 的 kids 里， kid1 访问完毕，在访问下一个同辈 kid 之前，把 kid1 加到已访问的缓存
+          // vertex 的 kids 里， kid1 访问完毕，在访问下一个同辈 kid2 之前，把 kid1 加到已访问的缓存
           hasVisited.push(kid);
           console.log("完全被访问完毕的数组", hasVisited);
         }
       };
 
-      dfs(target);
+      const noLoop = dfs(target);
       return noLoop;
     };
 
