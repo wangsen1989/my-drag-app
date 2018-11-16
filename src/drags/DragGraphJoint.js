@@ -175,12 +175,12 @@ class DragGraphJoint extends React.Component {
     const nodes = _.map(cells, cell => {
       const {
         originNodeData: { id, name },
-        position
+        position: { x: left, y: top }
       } = _.get(cell, "attributes");
       return {
         id,
         name,
-        style: position
+        style: { left, top }
       };
     });
 
