@@ -227,6 +227,7 @@ export const validateConnectFun = (edges, source, target) => {
       let noLoop = true;
       const hasVisited = []; // 已访问的节点缓存,防止重复访问
       const dfs = vertex => {
+        console.log('开始深度访问节点', vertex)
         const kids = getKids(vertex);
         if (kids.length === 0) return; // 没有继任者，不存在环
 
@@ -237,7 +238,7 @@ export const validateConnectFun = (edges, source, target) => {
           }
           if (kid === src) {
             noLoop = false;
-            console.log(kid, "处有环！");
+            console.log(kid, "处有环！!!!!!!");
             break; // 有环，跳出
           } else if (getKids(kid).length > 0) {
             // 深度遍历继任者
@@ -254,6 +255,7 @@ export const validateConnectFun = (edges, source, target) => {
     };
 
     const noLoop = hasLoopFun(sourceId, targetId);
+    console.log("-------------------检测结束-----------------------");
     return noLoop;
   }
 };
