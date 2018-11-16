@@ -1,7 +1,7 @@
 import React from "react";
 import LeftList from "./LeftList";
 import DragGraphJoint from "./DragGraphJoint";
-import { validateConnectFun } from "./joint.config";
+import { validateConnectFun, toPoValitate } from "./joint.config";
 import _ from "lodash";
 import "./index.less";
 
@@ -53,6 +53,12 @@ export default class App extends React.Component {
     this.distanceY = 0;
     // 记录正在拖拽到右侧的节点的放置坐标
     this.draggingNodeStyle = null;
+    // 全局检测环：拓扑排序
+    const noLoop = toPoValitate(
+      _.get(separateData, "rightNodes.nodes"),
+      _.get(separateData, "rightNodes.edges")
+    );
+    console.log(noLoop);
   }
 
   // 左侧拖拽开始时，记录当下拖拽的节点
