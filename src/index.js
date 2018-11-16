@@ -102,6 +102,7 @@ const data = {
     { sourceId: "6", targetId: "left8" },
     { sourceId: "left3", targetId: "left8" },
     { sourceId: "left7", targetId: "left8" },
+    // { sourceId: "left8", targetId: "1" }, // 有环
     { sourceId: "left1", targetId: "4" },
     { sourceId: "left0", targetId: "3" },
     { sourceId: "left2", targetId: "5" }

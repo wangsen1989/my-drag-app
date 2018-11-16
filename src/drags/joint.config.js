@@ -258,3 +258,48 @@ export const validateConnectFun = (edges, source, target) => {
     return noLoop;
   }
 };
+
+/* 
+全局检测环：拓扑排序
+  找出节点中，出度为 0 的节点，因为此边没有出度，故不可能在它身上经过环， 所以删除掉此节点和指向它的边
+  继续重复如上删除，如果没有环， 到最后节点会被删干净
+  最后如果还存在没有被删除的顶点，说明这几个顶点构成了环 [ 删不完会陷入循环，所以用一个字段代表上次循环时节点的长度，如果和这次相等，说明删不完，跳出 ]
+*/
+export const toPoValitate = (nodes, edges) => {
+  let preNodesLen = nodes.length; // 记录节点数组长度
+  let noLoop = true;
+  const toPoSort = (nodes, edges) => {
+    // 找出节点和它的出度
+    let node_outs = _.map(nodes, node => {
+      return {
+        id: node.id,
+        outEdges: _.filter(edges, edge => edge.sourceId === node.id).length
+      };
+    });
+    // 找到出度为 0 的顶点的 ids
+    const nodes_no_out_ids = _.map(
+      _.filter(node_outs, node_out => node_out.outEdges === 0),
+      node => node.id
+    );
+
+    // 删除这些顶点和指向它的边
+    nodes = _.filter(nodes, node => !nodes_no_out_ids.includes(node.id));
+    edges = _.filter(edges, edge => !nodes_no_out_ids.includes(edge.targetId));
+
+    // 继续重复如上删除
+    if (nodes.length === 0) {
+      console.log("没环，全部节点删除完毕", nodes);
+    } else if (nodes.length > 0 && preNodesLen !== nodes.length) {
+      preNodesLen = nodes.length;
+      console.log("继续检测", edges);
+      toPoSort(nodes, edges);
+    } else {
+      noLoop = false;
+      console.log("有环", JSON.stringify(nodes));
+    }
+  };
+
+  toPoSort(nodes, edges);
+  console.log(noLoop);
+  return noLoop;
+};
