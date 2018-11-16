@@ -206,6 +206,22 @@ export const paperCgf = that => {
   };
 };
 
+// index 组件将外部传来的未分组的数据分左右组
+export const separate = (data = {}) => {
+  const { nodes = [], edges = [] } = data;
+  const leftNodes = { nodes: [] }; // 左侧无依赖只有节点
+  const rightNodes = { nodes: [], edges }; // 右侧有节点和边
+  // 有位置信息的放在右侧，无位置信息的放左侧
+  _.forEach(nodes, node => {
+    if (_.isEmpty(node.style)) {
+      leftNodes.nodes.push(node);
+    } else {
+      rightNodes.nodes.push(node);
+    }
+  });
+  return { leftNodes, rightNodes };
+};
+
 // 校验图的数据结构
 export const validateConnectFun = (edges, source, target) => {
   const sourceId = _.get(source, "model.attributes.originNodeData.id");
