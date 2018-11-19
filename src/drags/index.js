@@ -72,7 +72,7 @@ export default class App extends React.Component {
     // 要取 right-content 的 offset，用 currentTarget，不然 targrt 会取到子元素 svg
     const draggingNodeStyle = {
       left: e.clientX - this.distanceX,
-      top: e.clientY -  this.distanceY
+      top: e.clientY - this.distanceY
     };
     this.draggingNodeStyle = draggingNodeStyle;
   };
@@ -179,7 +179,16 @@ export default class App extends React.Component {
             </div>
           </div>
           <div className="right">
-            <div className="right-title">依赖区域</div>
+            <div className="right-title">
+              <button
+                onClick={() => {
+                  console.log(this.state.data);
+                }}
+              >
+                完成
+              </button>
+              <button>取消</button>
+            </div>
             <div
               className="right-content"
               onDragOver={this.onRightOver}

@@ -38,8 +38,9 @@ class DragGraphJoint extends React.Component {
         name,
         style: { left, top }
       } = node;
-      const paperLeft = this.paper.$el[0].offsetLeft;
-      const paperTop = this.paper.$el[0].offsetTop;
+      // offsetParent.offsetLeft 取最近的有定位的父元素的 offsetLeft
+      const paperLeft = this.paper.$el[0].offsetParent.offsetLeft;
+      const paperTop = this.paper.$el[0].offsetParent.offsetTop;
       // 因为 clientToLocalPoint 要的是相对于 client 的坐标，而用户已经保存过的数据不是相对于 client, 而是 paper 内部坐标，所以要加上 paperLeft
       if (init) {
         left += paperLeft;

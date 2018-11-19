@@ -10,38 +10,45 @@
 }
 /* 左侧骨架 */
 .left {
-  width: 25%;
+  width: 10%;
   height: 100%;
-  max-width: 200px;
-  min-width: 100px;
+  width: 184px;
+  min-width: 184px;
   box-sizing: border-box;
-  background: rgba(67, 67, 67, 1);
   border-right: 5px solid rgb(81, 79, 79);
+  background: #ffffff;
+  box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 /* 右侧骨架 */
 .right {
-  width: 75%;
+  width: 90%;
   height: 100%;
   box-sizing: border-box;
   background: rgba(67, 67, 67, 1);
+  position: relative;
 }
 
 /* 两侧标题 */
-.left-title,
-.right-title {
+.left-title {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 5%;
+  max-height: 34px;
   box-sizing: border-box;
-  background: rgba(123, 119, 119, 0.509803921568627);
-  color: #bcbcbc;
+  background: #f7f8fa;
+  color: #a0abbf;
   font-size: 13px;
 }
+.right-title {
+  position: absolute;
+}
 /* 两侧的容器 */
-.left-content,
-.right-content {
+.left-content {
   height: 95%;
+}
+.right-content {
+  height: 100%;
 }
 .left-content {
   overflow: auto;
@@ -55,16 +62,17 @@
 }
 /* 左侧节点 */
 .left-node {
-  margin: 10px 0px;
+  background: #ffffff;
+  border: 1px solid #eff1f5;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  margin: 10px 10px 0px 10px;
   box-sizing: border-box;
-  width: 90%;
-  max-width: 129px;
-  height: 38px;
+  width: 100%;
+  max-width: 164px;
+  height: 60px;
   color: #666666;
-  border: 1px solid #e0e7ed;
-  border-radius: 3px;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(40, 40, 40, 0.15);
   display: flex;
   justify-content: center;
   align-items: center;
