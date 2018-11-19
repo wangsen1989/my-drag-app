@@ -206,8 +206,27 @@ class DragGraphJoint extends React.Component {
     onChange && onChange({ nodes, edges });
   };
 
+  // 缩放画布 最大最小一倍
+  onCanvasMousewheel = e => {
+    let { sx = 1, sy = 1 } = this.paper.scale();
+    const step = 0.2;
+
+    //放大
+    if (e.deltaY < 0) {
+      sx = sx + sx * step > 2 ? 2 : sx + sx * step;
+    }
+    //缩小
+    if (e.deltaY > 0) {
+      sx = sx - sx * step < 0.5 ? 0.5 : sx - sx * step;
+    }
+    sy = sx;
+
+    this.paper.scale(sx, sy, 0, 0);
+    // console.log(sx, this.paper.scale());
+  };
+
   render() {
-    return <div id="placeholder" />;
+    return <div id="placeholder" onWheel={this.onCanvasMousewheel} />;
   }
 }
 
