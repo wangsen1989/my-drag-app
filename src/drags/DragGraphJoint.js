@@ -226,6 +226,8 @@ class DragGraphJoint extends React.Component {
 
   // 拖动画布
   onCanvasMousedown = e => {
+    // 拖动区分节点和画布
+    if (e.target.tagName !== "svg") return;
     this.dragging = true;
     this._initX = e.pageX;
     this._initY = e.pageY;
@@ -234,9 +236,7 @@ class DragGraphJoint extends React.Component {
 
   // 移动画布
   onCanvasMousemove = e => {
-    if (!this.dragging) {
-      return;
-    }
+    if (!this.dragging) return;
     const left = e.pageX - this._initX + (this.hadTx || 0);
     const top = e.pageY - this._initY + (this.hadTy || 0);
     this.paper.translate(left, top);
