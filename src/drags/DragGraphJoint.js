@@ -209,7 +209,7 @@ class DragGraphJoint extends React.Component {
   // 缩放画布 最大最小一倍
   onCanvasMousewheel = e => {
     let { sx = 1, sy = 1 } = this.paper.scale();
-    const step = 0.2;
+    const step = 0.2; // 步长
 
     //放大
     if (e.deltaY < 0) {
@@ -221,12 +221,48 @@ class DragGraphJoint extends React.Component {
     }
     sy = sx;
 
-    this.paper.scale(sx, sy, 0, 0);
-    // console.log(sx, this.paper.scale());
+    this.paper.scale(sx, sy);
+  };
+
+  // 拖动画布
+  onCanvasMousedown = e => {
+    this.dragging = true;
+    this._initX = e.pageX;
+    this._initY = e.pageY;
+    e.target.style.cursor = "move";
+  };
+
+  // 移动画布
+  onCanvasMousemove = e => {
+    if (!this.dragging) {
+      return;
+    }
+    const left = e.pageX - this._initX + (this.hadTx || 0);
+    const top = e.pageY - this._initY + (this.hadTy || 0);
+    this.paper.translate(left, top);
+  };
+
+  // 释放画布
+  onCanvasMouseUpLeave = e => {
+    if (!this.dragging) return;
+    this.dragging = false;
+    const { tx, ty } = this.paper.translate();
+    this.hadTx = tx;
+    this.hadTy = ty;
+    e.target.style.cursor = "";
   };
 
   render() {
-    return <div id="placeholder" onWheel={this.onCanvasMousewheel} />;
+    return (
+      <div
+        id="placeholder"
+        onWheel={this.onCanvasMousewheel}
+        onMouseDown={this.onCanvasMousedown}
+        onMouseMove={this.onCanvasMousemove}
+        onMouseUp={this.onCanvasMouseUpLeave}
+        onMouseLeave={this.onCanvasMouseUpLeave}
+      />
+    );
   }
 }
 
