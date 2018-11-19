@@ -23,7 +23,7 @@ class DragGraphJoint extends React.Component {
     // 初始化画布 view， paperCgf 中会把 model view 双向绑定
     this.paper = new joint.dia.Paper(paperCgf(this));
     // 画节点：改变 view 并把数据录入 model
-    this.drawNodes(nodes);
+    this.drawNodes(nodes, true);
     // 画边：改变 view 并把数据录入 model
     this.drawEdges(edges);
     // view 画布监听点击事件，处理自定义交互
@@ -31,18 +31,25 @@ class DragGraphJoint extends React.Component {
   }
 
   // 画所有传进来的节点。此后用户外部再传节点，再在 componentWillReceiveProps 单独画那一个节点
-  drawNodes = nodes => {
+  drawNodes = (nodes, init) => {
     _.forEach(nodes, node => {
-      const {
+      let {
         id,
         name,
         style: { left, top }
       } = node;
-
-      // view： 按照模板自定义每个节点的位置， 信息
+      const paperLeft = this.paper.$el[0].offsetLeft;
+      const paperTop = this.paper.$el[0].offsetTop;
+      // 因为 clientToLocalPoint 要的是相对于 client 的坐标，而用户已经保存过的数据不是相对于 client, 而是 paper 内部坐标，所以要加上 paperLeft
+      if (init) {
+        left += paperLeft;
+        top += paperTop;
+      }
+      // 将普通的相对于 client 坐标转化为 paper 里的坐标
+      const { x, y } = this.paper.clientToLocalPoint(left, top);
       const cell = nodeComponent
         .clone()
-        .position(Number(left), Number(top))
+        .position(x, y)
         .attr("label/text", name)
         .set("originNodeData", node);
 

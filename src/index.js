@@ -5,58 +5,6 @@ import LeftDragRight from "./drags";
 import "./index.less";
 // mock 图数据结构（节点和边）
 
-// const data = {
-//   nodes: [
-//     ...new Array(20)
-//       .fill("left")
-//       .map((v, i) => ({ id: `left${i}`, name: `left node${i}` })),
-//     {
-//       id: "1",
-//       name: "Node 1",
-//       style: { left: 10, top: 10 }
-//     },
-//     {
-//       id: "2",
-//       name: "Node 2",
-//       style: { left: 150, top: 150 }
-//     },
-//     {
-//       id: "3",
-//       name: "Node 3",
-//       style: { left: 300, top: 300 }
-//     },
-//     {
-//       id: "4",
-//       name: "Node 4",
-//       style: { left: 500, top: 500 }
-//     },
-//     {
-//       id: "5",
-//       name: "Node 5",
-//       style: { left: 600, top: 300 }
-//     },
-//     {
-//       id: "6",
-//       name: "Node 6",
-//       style: { left: 100, top: 500 }
-//     }
-//   ],
-//   edges: [
-//     {
-//       sourceId: "1",
-//       targetId: "2"
-//     },
-//     {
-//       sourceId: "2",
-//       targetId: "3"
-//     },
-//     {
-//       sourceId: "3",
-//       targetId: "4"
-//     }
-//   ]
-// };
-
 const data = {
   nodes: [
     { id: "left4", name: "left node4" },

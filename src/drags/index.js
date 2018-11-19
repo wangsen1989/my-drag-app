@@ -71,8 +71,8 @@ export default class App extends React.Component {
     e.preventDefault();
     // 要取 right-content 的 offset，用 currentTarget，不然 targrt 会取到子元素 svg
     const draggingNodeStyle = {
-      left: e.clientX - (e.currentTarget.offsetLeft || 0) - this.distanceX,
-      top: e.clientY - (e.currentTarget.offsetTop || 0) - this.distanceY
+      left: e.clientX - this.distanceX,
+      top: e.clientY -  this.distanceY
     };
     this.draggingNodeStyle = draggingNodeStyle;
   };
