@@ -2,7 +2,7 @@ import React from "react";
 import joint from "jointjs";
 import _ from "lodash";
 import { nodeComponent, defaultLinkCfg, paperCgf } from "./joint.config";
-import style from "./joint.min.less";
+import style from "./joint.less";
 
 class DragGraphJoint extends React.Component {
   constructor(props) {

@@ -1,7 +1,11 @@
 import React from "react";
 import LeftList from "./LeftList";
-import DragGraphJoint from "./DragGraphJoint";
-import { validateConnectFun, separate, toPoValitate } from "./joint.config";
+import DragGraphJoint from "./rightGraph/DragGraphJoint";
+import {
+  validateConnectFun,
+  separate,
+  toPoValitate
+} from "./rightGraph/joint.config";
 import _ from "lodash";
 import style from "./index.less";
 
@@ -23,7 +27,7 @@ import style from "./index.less";
   }
 */
 
-export default class App extends React.Component {
+export default class LeftDragRight extends React.Component {
   constructor(props) {
     super(props);
     // 将外部传来的未分组的数据分左右组
