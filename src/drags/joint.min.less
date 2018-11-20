@@ -1,14 +1,7 @@
 .joint-paper {
   :global {
     .joint-viewport {
-      -webkit-user-select: none;
-      -moz-user-select: none;
       user-select: none;
-    }
-    /* 画布 */
-
-    .joint-paper-background {
-      // background: rgba(67, 67, 67, 1);
     }
 
     /* 节点矩形元素 */
@@ -22,109 +15,96 @@
       cursor: pointer;
     }
 
-    .joint-element * {
-      user-drag: none;
-    }
     /* svg 缩放时的中心点 */
     .joint-viewport {
       transform-origin: center;
     }
-    .joint-highlight-opacity {
-      opacity: 0.3;
-    }
-    .joint-element .fobj {
-      overflow: hidden;
-    }
-    .joint-element .fobj body {
-      background-color: transparent;
-      margin: 0;
-      position: static;
-    }
-    .joint-element .fobj div {
-      text-align: center;
-      vertical-align: middle;
-      display: table-cell;
-      padding: 0 5px;
-    }
-
     .rect-text {
       font-size: 12px;
     }
 
     /* 节点的锚点和删除按钮 */
-    .joint-element:hover .joint-port-body {
-      stroke-width: 3;
+    .joint-element:hover {
+      .joint-port-body {
+        stroke-width: 3;
+      }
+      .joint-port-body:hover {
+        stroke-width: 8;
+        opacity: 1;
+      }
     }
-    .joint-element:hover .joint-port-body:hover {
-      stroke-width: 8;
-      opacity: 1;
-    }
-    .delete-cell-show .joint-delete-circle {
-      fill: #f05c2b;
-      display: block;
-    }
-    .delete-cell-show .joint-delete-x {
-      fill: #fff;
-      display: block;
-    }
+
     .joint-delete-circle {
       display: none;
     }
     .joint-delete-x {
       display: none;
     }
+    .delete-cell-show {
+      .joint-delete-circle {
+        fill: #f05c2b;
+        display: block;
+      }
+      .joint-delete-x {
+        fill: #fff;
+        display: block;
+      }
+    }
 
     /* 连接线 外层的一层遮罩，hover 上去显现 */
-    .joint-link .connection,
-    .joint-link .connection-wrap {
-      fill: none;
-    }
+    .joint-link {
+      .marker-arrowheads {
+        display: none;
+      }
+      .marker-vertices {
+        cursor: move;
+        opacity: 0;
+      }
 
-    .marker-arrowheads,
-    .marker-vertices {
-      cursor: move;
-      opacity: 0;
-    }
+      .link-tools {
+        opacity: 0;
+        cursor: pointer;
+        .tool-options {
+          display: none;
+        }
+      }
+      &:hover {
+        .link-tools,
+        .marker-vertices {
+          opacity: 1;
+        }
+      }
 
-    .marker-arrowheads {
-      display: none;
-    }
-    .link-tools {
-      opacity: 0;
-      cursor: pointer;
-    }
-    .link-tools .tool-options {
-      display: none;
-    }
-    .joint-link:hover .link-tools,
-    .joint-link:hover .marker-arrowheads,
-    .joint-link:hover .marker-vertices {
-      opacity: 1;
-    }
-    .joint-link.joint-theme-default .connection-wrap {
-      stroke: #72a5ff;
-      stroke-width: 15;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      opacity: 0;
-      // cursor: move;
-    }
-    .joint-link.joint-theme-default .connection-wrap:hover {
-      opacity: 0.4;
-      stroke-opacity: 0.4;
-    }
+      .connection {
+        fill: none;
+      }
 
-    /* 连线上的删除按钮 */
-    .joint-link.joint-theme-default .link-tools .tool-remove circle {
-      fill: #f05c2b;
-      r: 6;
-    }
-    .joint-link.joint-theme-default .link-tools .tool-remove path {
-      fill: #fff;
-      d: path(
-        "M -3.5 0.7, -3.5 -0.7, -0.7 -0.7, -0.7 -3.5, 0.7 -3.5, 0.7 -0.7 ,3.5 -0.7, 3.5 0.7, 0.7 0.7, 0.7 3.5, -0.7 3.5,-0.7 0.7 z"
-      );
-      transform: rotate(45deg) scale(1.5);
+      .connection-wrap {
+        fill: none;
+        stroke: #72a5ff;
+        stroke-width: 15;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0;
+        &:hover {
+          opacity: 0.4;
+          stroke-opacity: 0.4;
+        }
+      }
+
+      .link-tools .tool-remove {
+        circle {
+          fill: #f05c2b;
+          r: 6;
+        }
+        path {
+          fill: #fff;
+          d: path(
+            "M -3.5 0.7, -3.5 -0.7, -0.7 -0.7, -0.7 -3.5, 0.7 -3.5, 0.7 -0.7 ,3.5 -0.7, 3.5 0.7, 0.7 0.7, 0.7 3.5, -0.7 3.5,-0.7 0.7 z"
+          );
+          transform: rotate(45deg) scale(1.5);
+        }
+      }
     }
   }
 }
