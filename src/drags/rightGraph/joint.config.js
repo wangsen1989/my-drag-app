@@ -6,7 +6,7 @@ const baseBlue = "#72a5ff";
 // node 节点模板
 export const nodeComponent = new joint.shapes.standard.Rectangle({
   position: { x: 0, y: 0 }, // 位置信息
-  size: { width: 129, height: 38 }, // 大小
+  size: { width: 164, height: 96 }, // 大小
   // 自定义矩形节点内部元素
   markup: [
     {
@@ -28,13 +28,17 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       // 按钮里的图标
       tagName: "path",
       selector: "x"
+    },
+    {
+      tagName:'foreignObject',
+      selector:'out-box-shadow',
+      className:'out-box-shadow',
     }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
     body: {
-      fill: "#617aa9",
-      stroke: "#000",
+      fill: "#fff",
       "stroke-width": 0,
       rx: 5,
       ty: 5
@@ -43,8 +47,6 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     label: {
       // 内部文字
       pointeEvents: "none",
-      text: "",
-      fill: "#fff",
       class: "rect-text" // 自定义的 class
     },
     delete: {

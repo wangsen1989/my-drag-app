@@ -13,14 +13,25 @@
     }
     .joint-element {
       cursor: pointer;
+      // 最外层一层阴影
+      .out-box-shadow {
+        width: 164px;
+        height: 96px;
+        border: 1px solid #e0dbdb;
+        border-radius: 5px;
+        box-shadow: 0px 4px #e0dbdb;
+      }
+      // header 文字
+      .rect-text {
+        font-size: 12px;
+        fill: #666666;
+        transform: translateX(82px) translateY(28px);
+      }
     }
 
     /* svg 缩放时的中心点 */
     .joint-viewport {
       transform-origin: center;
-    }
-    .rect-text {
-      font-size: 12px;
     }
 
     /* 节点的锚点和删除按钮 */
