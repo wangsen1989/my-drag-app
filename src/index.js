@@ -66,7 +66,7 @@ class App extends React.Component {
   render() {
     const { data } = this.state;
     return (
-      <div className="xxx">
+      <div className="app">
         {/* LeftDragRight 接受未分组组的数据 */}
         <LeftDragRight
           data={data}

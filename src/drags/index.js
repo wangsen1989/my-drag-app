@@ -166,45 +166,43 @@ export default class App extends React.Component {
       data: { leftNodes = {}, rightNodes = {} }
     } = this.state;
     return (
-      <div className="app">
-        <div className="father">
-          <div className="left">
-            <div className="left-title">无依赖区域</div>
-            <div div className="left-content">
-              <LeftList
-                data={leftNodes.nodes}
-                onDragStart={this.onLeftStart}
-                ref={ref => (this.leftListInstance = ref)}
-              />
-            </div>
+      <div className="father">
+        <div className="left">
+          <div className="left-title">无依赖区域</div>
+          <div div className="left-content">
+            <LeftList
+              data={leftNodes.nodes}
+              onDragStart={this.onLeftStart}
+              ref={ref => (this.leftListInstance = ref)}
+            />
           </div>
-          <div className="right">
-            <div className="right-title">
-              <div
-                className="right-title-submit multiply"
-                onClick={() => {
-                  console.log(this.state.data);
-                }}
-              >
-                完成
-              </div>
-              <div className="right-title-cancle multiply">取消</div>
-            </div>
+        </div>
+        <div className="right">
+          <div className="right-title">
             <div
-              className="right-content"
-              onDragOver={this.onRightOver}
-              onDrop={this.onRightDrop}
+              className="right-title-submit multiply"
+              onClick={() => {
+                console.log(this.state.data);
+              }}
             >
-              <DragGraphJoint
-                ref={ref => (this.DragGraphJoint = ref)}
-                data={rightNodes}
-                onChange={this.onRightChange}
-                config={{}}
-                validateConnection={(source, target) =>
-                  validateConnectFun(rightNodes.edges, source, target)
-                }
-              />
+              完成
             </div>
+            <div className="right-title-cancle multiply">取消</div>
+          </div>
+          <div
+            className="right-content"
+            onDragOver={this.onRightOver}
+            onDrop={this.onRightDrop}
+          >
+            <DragGraphJoint
+              ref={ref => (this.DragGraphJoint = ref)}
+              data={rightNodes}
+              onChange={this.onRightChange}
+              config={{}}
+              validateConnection={(source, target) =>
+                validateConnectFun(rightNodes.edges, source, target)
+              }
+            />
           </div>
         </div>
       </div>
