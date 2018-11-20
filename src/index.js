@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import LeftDragRight from "./drags";
-import "./index.less";
+import style from "./index.less";
 // mock 图数据结构（节点和边）
 
 const data = {
@@ -66,7 +66,7 @@ class App extends React.Component {
   render() {
     const { data } = this.state;
     return (
-      <div className="app">
+      <div className={style.app}>
         {/* LeftDragRight 接受未分组组的数据 */}
         <LeftDragRight
           data={data}

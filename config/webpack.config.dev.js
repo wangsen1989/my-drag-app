@@ -156,11 +156,14 @@ module.exports = {
           {
             test: /\.css|less$/,
             use: [
-              require.resolve("style-loader"),
+              "style-loader",
               {
-                loader: require.resolve("css-loader"),
+                loader: "css-loader",
                 options: {
-                  importLoaders: 1
+                  importLoaders: 2,
+                  modules: true,
+                  // camelCase: true,
+                  localIdentName: "[local]__[hash:base64:5]"
                 }
               },
               {
@@ -182,7 +185,8 @@ module.exports = {
                     })
                   ]
                 }
-              }
+              },
+              { loader: "less-loader", options: { sourceMap: true } }
             ]
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.

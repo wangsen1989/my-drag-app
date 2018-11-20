@@ -2,7 +2,7 @@ import React from "react";
 import joint from "jointjs";
 import _ from "lodash";
 import { nodeComponent, defaultLinkCfg, paperCgf } from "./joint.config";
-import "./joint.min.less";
+import style from "./joint.min.less";
 
 class DragGraphJoint extends React.Component {
   constructor(props) {
@@ -264,6 +264,7 @@ class DragGraphJoint extends React.Component {
     return (
       <div
         id="placeholder"
+        className={style["joint-paper"]}
         onWheel={this.onCanvasMousewheel}
         onMouseDown={this.onCanvasMousedown}
         onMouseMove={this.onCanvasMousemove}

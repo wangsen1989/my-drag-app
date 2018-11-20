@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import "./index.less";
+import style from "./index.less";
 
 class LeftList extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class LeftList extends React.Component {
     this.dragged.style.display = "flex";
 
     // 去掉动画的类
-    e.target.classList.remove("drag-up","drag-down");
-    this.over.classList.remove("drag-up","drag-down");
+    e.target.classList.remove(style["drag-up"],style["drag-down"]);
+    this.over.classList.remove(style["drag-up"],style["drag-down"]);
 
     // 数据重新排列
     const { data = [] } = this.state;
@@ -49,10 +49,10 @@ class LeftList extends React.Component {
     const dgIndex = this.dragged.dataset["sortId"];
     const taIndex = e.target.dataset["sortId"];
     const animateName =
-      Number(dgIndex) > Number(taIndex) ? "drag-up" : "drag-down";
+      Number(dgIndex) > Number(taIndex) ? style["drag-up"] : style["drag-down"];
 
     if (this.over) {
-      this.over.classList.remove("drag-up", "drag-down");
+      this.over.classList.remove(style["drag-up"], style["drag-down"]);
     }
 
     if (!e.target.classList.contains(animateName)) {
@@ -67,14 +67,14 @@ class LeftList extends React.Component {
   render() {
     const { data = [] } = this.state;
     return (
-      <ul onDragOver={this.dragOver} className="left-node-contain">
+      <ul onDragOver={this.dragOver} className={style["left-node-contain"]}>
         {data.map((item, i) => {
           return (
             <li
               data-sort-id={i} // 拖动时重新排序的顺序
               data-id={item.id} // 数据真实的 id
               key={item.id}
-              className="left-node"
+              className={style["left-node"]}
               draggable="true"
               onDragEnd={this.dragEnd}
               onDragStart={this.dragStart}

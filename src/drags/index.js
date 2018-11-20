@@ -3,7 +3,7 @@ import LeftList from "./LeftList";
 import DragGraphJoint from "./DragGraphJoint";
 import { validateConnectFun, separate, toPoValitate } from "./joint.config";
 import _ from "lodash";
-import "./index.less";
+import style from "./index.less";
 
 /* 
   // 本组件接受和传输到父组件的数据格式为
@@ -108,7 +108,10 @@ export default class App extends React.Component {
 
     // 清除左侧列表残留的动画样式
     this.leftListInstance.over &&
-      this.leftListInstance.over.classList.remove("drag-up", "drag-down");
+      this.leftListInstance.over.classList.remove(
+        style["drag-up"],
+        style["drag-down"]
+      );
   };
 
   // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态
@@ -166,10 +169,10 @@ export default class App extends React.Component {
       data: { leftNodes = {}, rightNodes = {} }
     } = this.state;
     return (
-      <div className="father">
-        <div className="left">
-          <div className="left-title">无依赖区域</div>
-          <div div className="left-content">
+      <div className={style.father}>
+        <div className={style.left}>
+          <div className={style["left-title"]}>无依赖区域</div>
+          <div div className={style["left-content"]}>
             <LeftList
               data={leftNodes.nodes}
               onDragStart={this.onLeftStart}
@@ -177,20 +180,20 @@ export default class App extends React.Component {
             />
           </div>
         </div>
-        <div className="right">
-          <div className="right-title">
+        <div className={style.right}>
+          <div className={style["right-title"]}>
             <div
-              className="right-title-submit multiply"
+              className={style["right-title-submit"]}
               onClick={() => {
                 console.log(this.state.data);
               }}
             >
               完成
             </div>
-            <div className="right-title-cancle multiply">取消</div>
+            <div className={style["right-title-cancle"]}>取消</div>
           </div>
           <div
-            className="right-content"
+            className={style["right-content"]}
             onDragOver={this.onRightOver}
             onDrop={this.onRightDrop}
           >
