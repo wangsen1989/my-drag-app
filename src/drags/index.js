@@ -180,14 +180,15 @@ export default class App extends React.Component {
           </div>
           <div className="right">
             <div className="right-title">
-              <button
+              <div
+                className="right-title-submit multiply"
                 onClick={() => {
                   console.log(this.state.data);
                 }}
               >
                 完成
-              </button>
-              <button>取消</button>
+              </div>
+              <div className="right-title-cancle multiply">取消</div>
             </div>
             <div
               className="right-content"
