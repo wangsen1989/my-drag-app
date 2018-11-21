@@ -31,14 +31,20 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       // 左下角删除按钮
       tagName: "circle",
       selector: "delete",
+      className: "delete-button"
+    },
+    {
+      // 左下角取消删除按钮
+      tagName: "circle",
+      selector: "delete-cancle",
+      className: "delete-cancle-button"
     }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
     delete: {
       event: "element:delete", // 按钮添加删除事件
-      cursor: "pointer",
-      class: "joint-delete-button"
+      cursor: "pointer"
     }
   },
   //自定义节点四周的锚点
