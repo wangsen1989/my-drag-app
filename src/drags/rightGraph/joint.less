@@ -1,3 +1,5 @@
+@baseBlue: #5ec1df;
+
 .joint-paper {
   :global {
     .joint-viewport {
@@ -21,6 +23,9 @@
         border: 1px solid #e0dbdb;
         border-radius: 5px;
         box-shadow: 0px 4px #e0dbdb;
+        &:hover {
+          border-color: @baseBlue;
+        }
         // 文字
         p {
           height: 64px;
@@ -55,13 +60,27 @@
     }
 
     /* 节点的锚点和删除按钮 */
+    // 一开始不显示链接端口
+    .joint-port-body {
+      fill: none;
+      stroke-width: 0;
+      r: 0.5px;
+    }
     .joint-element:hover {
+      // hover 到节点上显示 端口,半径变大，线宽 2
+
       .joint-port-body {
-        stroke-width: 3;
+        stroke: @baseBlue;
+        stroke-width: 2;
+        r: 5px;
       }
+      // hover 到端口上,半径变小，线宽 12，这样才能增加选中区域面积
+
       .joint-port-body:hover {
-        stroke-width: 8;
+        stroke-width: 12;
+        stroke-opacity: 1;
         opacity: 1;
+        r: 0.5px;
       }
     }
 
