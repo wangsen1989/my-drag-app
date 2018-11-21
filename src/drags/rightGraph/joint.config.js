@@ -16,8 +16,19 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     },
     {
       // 内部文字
-      tagName: "text",
-      selector: "label"
+      tagName: "foreignObject",
+      className:'foreign-object-inner-text',
+      style: {
+        width: "160px",
+        height: "60px"
+      },
+      // 这样写死活渲染不出来，只能在 drawNode 时让 dom append 一个 p 标签
+      // children: [
+      //   {
+      //     tagName: "p",
+      //     textContent: "ccc",
+      //   }
+      // ]
     },
     {
       // 右上角删除按钮
@@ -30,9 +41,9 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       selector: "x"
     },
     {
-      tagName:'foreignObject',
-      selector:'out-box-shadow',
-      className:'out-box-shadow',
+      tagName: "foreignObject",
+      selector: "out-box-shadow",
+      className: "out-box-shadow"
     }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
@@ -44,11 +55,6 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       ty: 5
     },
 
-    label: {
-      // 内部文字
-      pointeEvents: "none",
-      class: "rect-text" // 自定义的 class
-    },
     delete: {
       r: 6,
       fill: "#f05c2b",

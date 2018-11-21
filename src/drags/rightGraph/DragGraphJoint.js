@@ -51,7 +51,7 @@ class DragGraphJoint extends React.Component {
       const cell = nodeComponent
         .clone()
         .position(x, y)
-        .attr("label/text", name)
+        // .attr("label/text", name)
         .set("originNodeData", node);
 
       // 监听节点位置改变
@@ -60,7 +60,10 @@ class DragGraphJoint extends React.Component {
       });
       // model view 中加入节点
       this.graph.addCell(cell);
-
+      // 在 svg 中插入 p 标签
+      const p = document.createElement("p");
+      p.innerHTML = name || "";
+      document.querySelector(`[model-id='${cell.id}'] foreignObject`).append(p);
       // 把 node.id 和 画节点生成的 cell.id 映射，drawEdges 时找到 node 节点对应的 cell
       this.nodeMapToCells.push({
         nodeId: id,
