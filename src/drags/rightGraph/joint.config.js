@@ -65,6 +65,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "circle",
       selector: "portBody",
       attributes: {
+        r: 1, // 锚点半径, 去掉会报错
         magnet: true // 显示选中十字架套索
       }
     }
