@@ -1,7 +1,7 @@
 import joint from "jointjs";
 import _ from "lodash";
 
-const baseBlue = "#72a5ff";
+const baseColor = "#76889C";
 
 // node 节点模板
 export const nodeComponent = new joint.shapes.standard.Rectangle({
@@ -63,7 +63,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
         r: 5, // 锚点半径
         fill: "none", // 锚点填充
         "stroke-width": 1, // 锚点外层圈半径，hover上去会变为 5，太小了鼠标选不上
-        stroke: baseBlue, // 锚点外层圈填充
+        stroke: baseColor, // 锚点外层圈填充
         magnet: true // 显示选中十字架套索
       }
     }
@@ -104,12 +104,12 @@ export const defaultLinkCfg = {
   attrs: {
     // 连接线样式
     ".connection": {
-      stroke: baseBlue,
+      stroke: baseColor,
       "stroke-width": 1
     },
     ".marker-target": {
       // 连接线箭头样式
-      fill: baseBlue,
+      fill: baseColor,
       "stroke-width": 0,
       d: "M 10 0 L 0 5 L 10 10 z"
     }
