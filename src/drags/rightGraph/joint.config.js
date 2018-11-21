@@ -23,41 +23,22 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     },
 
     {
-      // 按钮里的图标
+      // 垃圾桶图标
       tagName: "path",
       className: "rubbish"
     },
     {
-      // 右上角删除按钮
+      // 左下角删除按钮
       tagName: "circle",
-      selector: "delete"
-    },
-    {
-      // 按钮里的图标
-      tagName: "path",
-      selector: "x"
+      selector: "delete",
     }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
     delete: {
-      r: 6,
-      fill: "#f05c2b",
-      refX: "100%",
-      cy: 4,
-      cx: -4,
-      event: "element:delete", // 右上角删除按钮添加点击事件
+      event: "element:delete", // 按钮添加删除事件
       cursor: "pointer",
-      transform: "translate(7.5,-7) scale(1)",
-      class: "joint-delete-circle"
-    },
-    x: {
-      refX: "100%",
-      d:
-        "M -3.5 0.7, -3.5 -0.7, -0.7 -0.7, -0.7 -3.5, 0.7 -3.5, 0.7 -0.7 ,3.5 -0.7, 3.5 0.7, 0.7 0.7, 0.7 3.5, -0.7 3.5,-0.7 0.7 z",
-      transform: "translate(3.5,-2.8) rotate(45deg) scale(1.3)",
-      pointerEvents: "none",
-      class: "joint-delete-x"
+      class: "joint-delete-button"
     }
   },
   //自定义节点四周的锚点

@@ -111,11 +111,15 @@ class DragGraphJoint extends React.Component {
   };
 
   listenPaper(paper) {
-    // 点击节点显示删除节点按钮
-    paper.on("cell:pointerclick", cell => {
-      this.clickedCell && this.clickedCell.classList.remove("delete-cell-show");
-      cell.el.classList.add("delete-cell-show");
-      this.clickedCell = cell.el;
+    // 点击垃圾箱显示删除节点按钮
+    paper.on("cell:pointerclick", (cell, e, x, y) => {
+      const clickRubbish = [...e.target.classList].includes("rubbish");
+      if (clickRubbish) {
+        this.clickedCell &&
+          this.clickedCell.classList.remove("delete-cell-show");
+        cell.el.classList.add("delete-cell-show");
+        this.clickedCell = cell.el;
+      }
     });
     // 点击空白处不显示删除节点按钮
     paper.on("blank:pointerclick", () => {
