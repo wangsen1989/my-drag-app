@@ -32,7 +32,7 @@ const data = {
     { id: "left3", name: "left node3", style: { left: 262, top: 351 } },
     { id: "left5", name: "left node5", style: { left: 452, top: 159 } },
     { id: "left7", name: "left node7", style: { left: 445, top: 351 } },
-    { id: "left8", name: "left node8", style: { left: 294, top: 648 } }
+    { id: "left8", name: "left node8 cccccaaaaaaa", style: { left: 294, top: 648 } }
   ],
   edges: [
     { sourceId: "1", targetId: "2" },

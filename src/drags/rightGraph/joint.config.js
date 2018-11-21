@@ -10,19 +10,10 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
   // 自定义矩形节点内部元素
   markup: [
     {
-      // 矩形
-      tagName: "rect",
-      selector: "body"
-    },
-    {
-      // 内部文字
       tagName: "foreignObject",
-      className:'foreign-object-inner-text',
-      style: {
-        width: "160px",
-        height: "60px"
-      },
-      // 这样写死活渲染不出来，只能在 drawNode 时让 dom append 一个 p 标签
+      selector: "out-box",
+      className: "out-box"
+      // 因为文字要换行，不能用 svg 元素， 但这样写却渲染不出来，只能在 drawNode 时让 dom append 一个 p 标签
       // children: [
       //   {
       //     tagName: "p",
@@ -39,22 +30,10 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       // 按钮里的图标
       tagName: "path",
       selector: "x"
-    },
-    {
-      tagName: "foreignObject",
-      selector: "out-box-shadow",
-      className: "out-box-shadow"
     }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
-    body: {
-      fill: "#fff",
-      "stroke-width": 0,
-      rx: 5,
-      ty: 5
-    },
-
     delete: {
       r: 6,
       fill: "#f05c2b",
