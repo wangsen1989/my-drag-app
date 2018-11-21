@@ -130,18 +130,15 @@ class DragGraphJoint extends React.Component {
     paper.on("blank:pointerclick", () => {
       this.clickedCell && this.clickedCell.classList.remove("delete-cell-show");
     });
-    // 点删除节点按钮提示用户
+    // 点删除节点按钮
     paper.on("element:delete", (elementView, evt) => {
       evt.stopPropagation();
-      if (window.confirm("确定要把该节点移到左侧无依赖区吗?")) {
-        elementView.model.remove();
-        // console.log(elementView.model);
-        this.nodeMapToCells = _.filter(
-          this.nodeMapToCells,
-          nMapC => nMapC.cellId !== elementView.model.id
-        );
-        this.handleChange();
-      }
+      elementView.model.remove();
+      this.nodeMapToCells = _.filter(
+        this.nodeMapToCells,
+        nMapC => nMapC.cellId !== elementView.model.id
+      );
+      this.handleChange();
     });
     // 监听连线成功事件
     paper.on("link:connect", (...rest) => {
