@@ -7,6 +7,11 @@ import style from "./index.less";
 
 const data = {
   nodes: [
+    { id: "left6", name: "left node6" },
+    { id: "left0", name: "left node0" },
+    { id: "left2", name: "left node2" },
+    { id: "5", name: "Node 5" },
+    { id: "3", name: "Node 3" },
     { id: "left4", name: "left node4" },
     { id: "left9", name: "left node9" },
     { id: "left10", name: "left node10" },
@@ -19,41 +24,27 @@ const data = {
     { id: "left17", name: "left node17" },
     { id: "left18", name: "left node18" },
     { id: "left19", name: "left node19" },
-    { id: "1", name: "Node 1", style: { left: 259, top: 29 } },
-    { id: "2", name: "Node 2", style: { left: 13, top: 107 } },
-    { id: "3", name: "Node 3", style: { left: 10, top: 185 } },
-    { id: "4", name: "Node 4", style: { left: 32, top: 263 } },
-    { id: "5", name: "Node 5", style: { left: 49, top: 343 } },
-    { id: "6", name: "Node 6", style: { left: 75, top: 426 } },
-    { id: "left0", name: "left node0", style: { left: 250, top: 124 } },
-    { id: "left1", name: "left node1", style: { left: 247, top: 200 } },
-    { id: "left2", name: "left node2", style: { left: 251, top: 275 } },
+    { id: "1", name: "Node 1", style: { left: 245, top: 26 } },
+    { id: "2", name: "Node 2", style: { left: 14, top: 153 } },
+    { id: "4", name: "Node 4", style: { left: 33, top: 308 } },
+    { id: "6", name: "Node 6", style: { left: 31, top: 470 } },
+    { id: "left1", name: "left node1", style: { left: 229, top: 177 } },
     { id: "left3", name: "left node3", style: { left: 262, top: 351 } },
     { id: "left5", name: "left node5", style: { left: 452, top: 159 } },
-    { id: "left6", name: "left node6", style: { left: 451, top: 255 } },
     { id: "left7", name: "left node7", style: { left: 445, top: 351 } },
-    { id: "left8", name: "left node8", style: { left: 205, top: 510 } }
+    { id: "left8", name: "left node8", style: { left: 294, top: 648 } }
   ],
   edges: [
     { sourceId: "1", targetId: "2" },
-    { sourceId: "2", targetId: "3" },
-    { sourceId: "3", targetId: "4" },
-    { sourceId: "4", targetId: "5" },
-    { sourceId: "5", targetId: "6" },
-    { sourceId: "1", targetId: "left0" },
-    { sourceId: "left0", targetId: "left1" },
-    { sourceId: "left1", targetId: "left2" },
-    { sourceId: "left2", targetId: "left3" },
-    { sourceId: "1", targetId: "left5" },
-    { sourceId: "left5", targetId: "left6" },
-    { sourceId: "left6", targetId: "left7" },
     { sourceId: "6", targetId: "left8" },
     { sourceId: "left3", targetId: "left8" },
     { sourceId: "left7", targetId: "left8" },
-    // { sourceId: "left8", targetId: "1" }, // 有环
-    { sourceId: "left1", targetId: "4" },
-    { sourceId: "left0", targetId: "3" },
-    { sourceId: "left2", targetId: "5" }
+    { sourceId: "2", targetId: "4" },
+    { sourceId: "4", targetId: "6" },
+    { sourceId: "1", targetId: "left1" },
+    { sourceId: "left1", targetId: "left3" },
+    { sourceId: "1", targetId: "left5" },
+    { sourceId: "left5", targetId: "left7" }
   ]
 };
 

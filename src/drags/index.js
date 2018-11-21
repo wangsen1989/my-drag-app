@@ -189,7 +189,13 @@ export default class LeftDragRight extends React.Component {
             <div
               className={style["right-title-submit"]}
               onClick={() => {
-                console.log(this.state.data);
+                // console.log(this.state.data);
+                const {
+                  leftNodes: { nodes: lNode },
+                  rightNodes: { nodes: Rnodes, edges }
+                } = this.state.data;
+                const data = { nodes: [...lNode, ...Rnodes], edges };
+                console.log(data);
               }}
             >
               完成
