@@ -21,6 +21,12 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       //   }
       // ]
     },
+
+    {
+      // 按钮里的图标
+      tagName: "path",
+      className: "rubbish"
+    },
     {
       // 右上角删除按钮
       tagName: "circle",
