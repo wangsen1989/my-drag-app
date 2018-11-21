@@ -91,24 +91,43 @@
         r: 0.5px;
       }
     }
-
-    .delete-button {
+    // 删除按钮组件
+    .delete-button,
+    .delete-button-text,
+    .delete-cancle-button-text {
       display: none;
+      font-family: PingFangSC-Medium;
+      font-size: 12px;
+      letter-spacing: 0;
     }
     .delete-cell-show {
       .delete-button {
+        display: block;
         cy: 89px;
         cx: -21px;
         r: 15px;
         fill: #ef5350;
-        display: block;
+        stroke: #f80c0c;
+        stroke-width: 1px;
       }
       .delete-cancle-button {
+        display: block;
         cy: 120px;
         cx: 11px;
         r: 15px;
-        fill: #dee1e7;
+        fill: #f7f8fa;
+        stroke: #d9d1d1;
+        stroke-width: 1px;
+      }
+      .delete-button-text {
         display: block;
+        transform: translateX(-33px) translateY(94px);
+        fill: #ffffff;
+      }
+      .delete-cancle-button-text {
+        display: block;
+        transform: translateX(0px) translateY(126px);
+        fill: #76889c;
       }
       .rubbish {
         fill: #198bf4;

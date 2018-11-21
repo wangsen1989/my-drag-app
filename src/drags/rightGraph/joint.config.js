@@ -38,6 +38,18 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "circle",
       selector: "delete-cancle",
       className: "delete-cancle-button"
+    },
+    {
+      // 左下角删除按钮文字
+      tagName: "text",
+      textContent: "删除",
+      className: "delete-button-text"
+    },
+    {
+      // 左下角取消删除按钮文字
+      tagName: "text",
+      textContent: "取消",
+      className: "delete-cancle-button-text"
     }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
