@@ -151,14 +151,22 @@ export default class LeftDragRight extends React.Component {
 
   handleChange = () => {
     const { onChange } = this.props;
+    onChange && onChange(this.conbineData());
+  };
+
+  onSubmit = () => {
+    const { onSubmit } = this.props;
+    onSubmit && onSubmit(this.conbineData());
+  };
+
+  // 将所有的 nodes 合并在一起
+  conbineData = () => {
     const {
-      data: {
-        leftNodes: { nodes: lNode = [] },
-        rightNodes: { nodes: Rnodes = [], edges = [] }
-      }
-    } = this.state;
-    // 将所有的 nodes 合并在一起，发给父组件
-    onChange && onChange({ nodes: [...lNode, ...Rnodes], edges });
+      leftNodes: { nodes: lNode },
+      rightNodes: { nodes: Rnodes, edges }
+    } = this.state.data;
+    const data = { nodes: [...lNode, ...Rnodes], edges };
+    return data;
   };
 
   componentWillReceiveProps(nextProps) {
@@ -188,15 +196,7 @@ export default class LeftDragRight extends React.Component {
           <div className={style["right-title"]}>
             <div
               className={style["right-title-submit"]}
-              onClick={() => {
-                // console.log(this.state.data);
-                const {
-                  leftNodes: { nodes: lNode },
-                  rightNodes: { nodes: Rnodes, edges }
-                } = this.state.data;
-                const data = { nodes: [...lNode, ...Rnodes], edges };
-                console.log(data);
-              }}
+              onClick={this.onSubmit}
             >
               完成
             </div>
