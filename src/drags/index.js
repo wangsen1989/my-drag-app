@@ -109,13 +109,6 @@ export default class LeftDragRight extends React.Component {
       { data: { ...data, leftNodes, rightNodes } },
       this.handleChange
     );
-
-    // 清除左侧列表残留的动画样式
-    this.leftListInstance.over &&
-      this.leftListInstance.over.classList.remove(
-        style["drag-up"],
-        style["drag-down"]
-      );
   };
 
   // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态

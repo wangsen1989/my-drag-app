@@ -1,3 +1,8 @@
+/* 
+    如果要单独拼装 n 个本组件，形成一组 list 之间互相拖拽，
+    可以在不同拽事件里触发父组件的事件，让他改造好数据后再通知本组件
+*/
+
 import React from "react";
 import _ from "lodash";
 import style from "./list.less";
@@ -13,6 +18,8 @@ class LeftList extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(this.props.data, nextProps.data)) {
       this.setState({ data: nextProps.data || [] });
+      this.over &&
+        this.over.classList.remove(style["drag-up"], style["drag-down"]);
     }
   }
   dragStart = e => {
@@ -24,8 +31,8 @@ class LeftList extends React.Component {
     this.dragged.style.display = "flex";
 
     // 去掉动画的类
-    e.target.classList.remove(style["drag-up"],style["drag-down"]);
-    this.over.classList.remove(style["drag-up"],style["drag-down"]);
+    e.target.classList.remove(style["drag-up"], style["drag-down"]);
+    this.over.classList.remove(style["drag-up"], style["drag-down"]);
 
     // 数据重新排列
     const { data = [] } = this.state;
@@ -64,10 +71,20 @@ class LeftList extends React.Component {
     onDragOver && onDragOver(e);
   };
 
+  onDrop = e => {
+    // 如果要单独拼装 n 个本组件，可以在这里触发父组件的事件，让他改造好数据后再通知本组件
+    const { onDrop } = this.props;
+    onDrop && onDrop(e);
+  };
+
   render() {
     const { data = [] } = this.state;
     return (
-      <ul onDragOver={this.dragOver} className={style["left-node-contain"]}>
+      <ul
+        className={style["left-node-contain"]}
+        onDragOver={this.dragOver}
+        onDrop={this.onDrop}
+      >
         {data.map((item, i) => {
           return (
             <li

@@ -1,3 +1,9 @@
+/* 
+    本组件可单独作为一个 svg 拖拽组件使用，
+    从父组件接收的数据格式为 data={ nodes: [], edges: [] },
+    可传入不同的校验函数来决定数据结构
+*/
+
 import React from "react";
 import joint from "jointjs";
 import _ from "lodash";
