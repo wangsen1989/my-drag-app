@@ -30,6 +30,7 @@ class LeftList extends React.Component {
     onDragStart && onDragStart(e);
   };
   dragEnd = e => {
+    if (!this.dragged) return;
     this.dragged.style.display = "flex";
 
     // 去掉动画的类
@@ -50,6 +51,7 @@ class LeftList extends React.Component {
   };
 
   dragOver = e => {
+    if (!this.dragged) return;
     e.preventDefault();
     this.dragged.style.display = "none";
     if (e.target.tagName !== "LI") {
