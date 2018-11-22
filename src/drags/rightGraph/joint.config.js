@@ -47,7 +47,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     {
       // 左下角删除按钮文字
       tagName: "text",
-      textContent: "删除",
+      textContent: "确认",
       className: "delete-button-text"
     },
     {
