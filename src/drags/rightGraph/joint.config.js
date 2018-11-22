@@ -106,7 +106,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
 
 // 默认连线样式配置
 export const defaultLinkCfg = {
-  connector: { name: "rounded" }, // 连接线路径风格 https://resources.jointjs.com/demos/routing
+  // connector: { name: "rounded", radius: 2 }, // 此处设置 radius 未生效，连接线路径风格 https://resources.jointjs.com/demos/routing
   router: { name: "manhattan" }, // 连接线路径风格
   attrs: {
     // 连接线样式
@@ -150,6 +150,9 @@ export const paperCgf = that => {
     // 定义当用户自己拖拽时的默认边
     defaultLink: function(cellView) {
       const link = new joint.dia.Link(defaultLinkCfg);
+      link.connector("rounded", {
+        radius: 2
+      });
       // 监听边的删除并传出去, 连自己和连线取消事件也会触发 remove
       link.on("remove", linkView => {
         const { source: { id } = {}, target: { id: _id } = {} } = _.get(

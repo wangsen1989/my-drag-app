@@ -96,6 +96,9 @@ class DragGraphJoint extends React.Component {
         target: { id: targetCellId, port: "pTop" },
         ...defaultLinkCfg
       });
+      link.connector('rounded', {
+        radius: 2
+    });
       // 监听边的删除并传出去, 连自己和连线取消事件也会触发 remove
       link.on("remove", linkView => {
         const { source: { id } = {}, target: { id: _id } = {} } = _.get(
