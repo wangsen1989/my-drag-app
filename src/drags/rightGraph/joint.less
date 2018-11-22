@@ -72,7 +72,7 @@
         x: 10px;
         y: 72px;
         fill: none;
-        pointer-events: all;
+        pointer-events: all; // 已经用了 fill: none；加这句很重要，否则 hover 不灵
         &:hover ~ .rubbish {
           opacity: 0.7;
         }
@@ -97,9 +97,9 @@
     // 一开始不显示链接端口
     .joint-port-body {
       fill: none;
+      pointer-events: all; // 已经用了 fill: none；加这句很重要，否则 hover 不灵
       stroke-width: 0;
       r: 0.5px;
-      pointer-events: all; // 这句很重要，不然偶尔 hover 不灵
     }
     .joint-element:hover {
       // hover 到节点上显示 端口,半径变大，线宽 2
