@@ -1,14 +1,3 @@
-import React from "react";
-import LeftList from "./leftList/LeftList";
-import DragGraphJoint from "./rightGraph/DragGraphJoint";
-import {
-  validateConnectFun,
-  separate,
-  toPoValitate
-} from "./rightGraph/joint.config";
-import _ from "lodash";
-import style from "./index.less";
-
 /* 
   // 本组件接受和传输到父组件的数据格式为
   { 
@@ -20,12 +9,24 @@ import style from "./index.less";
       { sourceId: xx, targetId: xx },
     ]
   }
+
   // 本组件转换并传给左右子组件的数据格式为
   { 
-    leftNodes: { nodes: [] }; // 左侧无依赖只有节点,
+    leftNodes: { nodes: [] }; // 左侧无依赖只有节点
     rightNodes: { nodes: [], edges: [] }; // 右侧有节点和边
   }
 */
+
+import React from "react";
+import LeftList from "./leftList/LeftList";
+import DragGraphJoint from "./rightGraph/DragGraphJoint";
+import {
+  validateConnectFun,
+  separate,
+  toPoValitate
+} from "./rightGraph/joint.config";
+import _ from "lodash";
+import style from "./index.less";
 
 export default class LeftDragRight extends React.Component {
   constructor(props) {
