@@ -24,6 +24,8 @@ class LeftList extends React.Component {
   }
   dragStart = e => {
     this.dragged = e.currentTarget;
+    this.dgIndex = Number(this.dragged.dataset["sortId"]);
+
     const { onDragStart } = this.props;
     onDragStart && onDragStart(e);
   };
@@ -43,6 +45,8 @@ class LeftList extends React.Component {
 
     const { onDragEnd } = this.props;
     onDragEnd && onDragEnd(e);
+    this.over = null;
+    this.dragged = null;
   };
 
   dragOver = e => {
@@ -53,17 +57,24 @@ class LeftList extends React.Component {
     }
 
     //判断当前拖拽target 和 经过的target 的上下顺序，加动画的类
-    const dgIndex = this.dragged.dataset["sortId"];
     const taIndex = e.target.dataset["sortId"];
     const animateName =
-      Number(dgIndex) > Number(taIndex) ? style["drag-up"] : style["drag-down"];
+      Number(this.dgIndex) > Number(taIndex)
+        ? style["drag-up"]
+        : style["drag-down"];
 
-    if (this.over) {
+    if (this.over && this.over !== e.target) {
       this.over.classList.remove(style["drag-up"], style["drag-down"]);
     }
 
-    if (!e.target.classList.contains(animateName)) {
+    if (
+      this.dragged !== e.target &&
+      this.over !== e.target &&
+      !e.target.classList.contains(animateName)
+    ) {
       e.target.classList.add(animateName);
+      this.dgIndex =
+        animateName === style["drag-up"] ? this.dgIndex - 1 : this.dgIndex + 1;
       this.over = e.target;
     }
 
