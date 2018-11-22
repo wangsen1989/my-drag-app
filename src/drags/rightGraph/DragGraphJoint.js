@@ -114,7 +114,7 @@ class DragGraphJoint extends React.Component {
     // 点击垃圾箱显示删除节点按钮
     paper.on("cell:pointerclick", (cell, e, x, y) => {
       const clickClass = [...e.target.classList];
-      if (clickClass.includes("rubbish")) {
+      if (clickClass.includes("rubbish-rect")) {
         // 垃圾桶
         this.clickedCell &&
           this.clickedCell.classList.remove("delete-cell-show");

@@ -38,7 +38,7 @@
           color: #666666;
           letter-spacing: 0;
           line-height: 22px;
-          overflow:hidden;
+          overflow: hidden;
           padding: 10px;
           &:before {
             content: " ";
@@ -53,6 +53,18 @@
           }
         }
       }
+      // 垃圾箱容器，因为垃圾桶中间的空白无法响应点击事件，所以把点击事件加到这里
+      .rubbish-rect {
+        width: 16px;
+        height: 16px;
+        x: 10px;
+        y: 72px;
+        fill: none;
+        pointer-events: all;
+        &:hover ~ .rubbish {
+          opacity: 0.7;
+        }
+      }
       // 垃圾箱
       .rubbish {
         d: path(
@@ -60,9 +72,7 @@
         );
         transform: translateX(5px) translateY(70px);
         opacity: 0.5;
-        &:hover {
-          opacity: 0.7;
-        }
+        pointer-events: none;
       }
     }
 

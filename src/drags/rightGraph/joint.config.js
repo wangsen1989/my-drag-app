@@ -23,6 +23,11 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     },
 
     {
+      // 垃圾桶容器
+      tagName: "rect",
+      className: "rubbish-rect"
+    },
+    {
       // 垃圾桶图标
       tagName: "path",
       className: "rubbish"
