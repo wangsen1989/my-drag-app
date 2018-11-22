@@ -109,7 +109,7 @@ class LeftList extends React.Component {
               onDragEnd={this.dragEnd}
               onDragStart={this.dragStart}
             >
-              {item.name}
+              <p>{item.name}</p>
             </li>
           );
         })}
