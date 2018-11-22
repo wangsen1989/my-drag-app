@@ -1,0 +1,61 @@
+.left-node-contain {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* 左侧节点 */
+  .left-node {
+    background: #ffffff;
+    border: 1px solid #eff1f5;
+    box-shadow: 0 2px 2px 0 #e1e5e7;
+    border-radius: 2px;
+    margin: 10px 10px 0px 10px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 164px;
+    height: 60px;
+    color: #666666;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: move;
+    font-size: 12px;
+  }
+  /* 拖拽动画 */
+  .drag-up {
+    animation: dragup ease 0.6s 1;
+    animation-fill-mode: forwards;
+    border: solid 2px #cccccc;
+    box-sizing: border-box;
+  }
+
+  .drag-down {
+    animation: dragdown ease 0.6s 1;
+    animation-fill-mode: forwards;
+    border: solid 2px #cccccc;
+    box-sizing: border-box;
+  }
+
+  @keyframes dragup {
+    from {
+      margin-top: 10px;
+    }
+    to {
+      margin-top: 60px;
+    }
+  }
+
+  @keyframes dragdown {
+    from {
+      margin-bottom: 10px;
+      margin-top: 60px;
+    }
+    to {
+      margin-bottom: 60px;
+      margin-top: 10px;
+    }
+  }
+}

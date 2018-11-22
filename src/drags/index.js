@@ -1,5 +1,5 @@
 import React from "react";
-import LeftList from "./LeftList";
+import LeftList from "./leftList/LeftList";
 import DragGraphJoint from "./rightGraph/DragGraphJoint";
 import {
   validateConnectFun,

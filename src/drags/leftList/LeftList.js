@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import style from "./index.less";
+import style from "./list.less";
 
 class LeftList extends React.Component {
   constructor(props) {
