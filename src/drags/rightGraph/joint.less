@@ -38,12 +38,13 @@
           color: #666666;
           letter-spacing: 0;
           line-height: 22px;
-          // word-break: break-all;
+          overflow:hidden;
           padding: 10px;
           &:before {
             content: " ";
             display: block;
             width: 16px;
+            min-width: 16px;
             height: 16px;
             margin-right: 5px;
             background-size: 16px;
@@ -59,6 +60,9 @@
         );
         transform: translateX(5px) translateY(70px);
         opacity: 0.5;
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
 
