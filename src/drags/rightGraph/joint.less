@@ -14,7 +14,10 @@
       opacity: 0.7;
     }
     .joint-element {
-      cursor: pointer;
+      cursor: grab;
+      &:active{
+        cursor: grabbing;
+      }
       // 最外层矩形
       .out-box {
         width: 164px;
@@ -72,9 +75,10 @@
         x: 10px;
         y: 72px;
         fill: none;
+        cursor: pointer;
         pointer-events: all; // 已经用了 fill: none；加这句很重要，否则 hover 不灵
         &:hover ~ .rubbish {
-          opacity: 0.7;
+          opacity: 0.5;
         }
       }
       // 垃圾箱
@@ -83,7 +87,7 @@
           "M15.3333333,4.08333333 L12.75,4.08333333 L12,3.33333333 L8.33333333,3.33333333 L7.58333333,4.08333333 L5,4.08333333 L5,5.58333333 L15.25,5.58333333 L15.25,4.08333333 L15.3333333,4.08333333 Z M5.75,15.1666667 L5.75,6.33333333 L14.5833333,6.33333333 L14.5833333,15.1666667 C14.5833333,16 13.9166667,16.6666667 13.0833333,16.6666667 L7.25,16.6666667 C6.41666667,16.6666667 5.75,16 5.75,15.1666667 Z M8,8 L8,14 L9,14 L9,8 L8,8 Z M11,8 L11,14 L12,14 L12,8 L11,8 Z"
         );
         transform: translateX(5px) translateY(70px);
-        opacity: 0.5;
+        opacity: 0.2;
         pointer-events: none;
       }
     }
@@ -120,11 +124,13 @@
     }
     // 删除按钮组件
     .delete-button,
+    .delete-cancle-button,
     .delete-button-text,
     .delete-cancle-button-text {
       display: none;
       font-size: 12px;
       letter-spacing: 0;
+      cursor: pointer;
     }
     .delete-cell-show {
       .delete-button {
