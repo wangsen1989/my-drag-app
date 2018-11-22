@@ -22,7 +22,19 @@
         background-color: #fff;
         border: 1px solid #e0dbdb;
         border-radius: 5px;
-        box-shadow: 0px 4px #e0dbdb;
+        // box-shadow: 0px 4px #e0dbdb;
+        // 直接在本元素加 box-shadow ，拖动时会重绘，严重掉帧卡顿，所以在 :after 上加
+        &::after {
+          content: "";
+          position: absolute;
+          z-index: -1;
+          display: block;
+          width: inherit;
+          height: inherit;
+          border-radius: inherit;
+          box-shadow: 0px 4px #e0dbdb;
+          transform: translateY(-66px) translateX(-1px);
+        }
         &:hover {
           border-color: @baseBlue;
         }
