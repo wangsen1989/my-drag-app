@@ -26,6 +26,7 @@ class LeftList extends React.Component {
     this.dragged = e.currentTarget;
     this.dgIndex = Number(this.dragged.dataset["sortId"]);
     e.target.classList.add(style["drag-start"]);
+    e.target.parentElement.classList.add(style["drag-in-ul"]);
 
     const { onDragStart } = this.props;
     onDragStart && onDragStart(e);
@@ -40,6 +41,8 @@ class LeftList extends React.Component {
       style["drag-down"],
       style["drag-start"]
     );
+    e.target.parentElement.classList.remove(style["drag-in-ul"]);
+
     this.over.classList.remove(style["drag-up"], style["drag-down"]);
 
     // 数据重新排列
@@ -47,12 +50,19 @@ class LeftList extends React.Component {
     const from = Number(this.dragged.dataset["sortId"]);
     const to = Number(this.over.dataset["sortId"]);
     data.splice(to, 0, data.splice(from, 1)[0]);
-    this.setState({ data: data });
+    this.setState({ data: data }, () => {
+      // 拖拽时，鼠标 hover 的目标会变成别的元素，导致样式 bug，请看：https://codepen.io/wangsen1989/pen/LXpwev
+      // 所以不用 css 的 :hover 来显示 li 背景色，而是用 mouse 事件
+      [...document.querySelectorAll(`.${style["left-node"]}`)][
+        from
+      ].classList.remove(style["li-mouse-over"]);
+      this.dragged.classList.add(style["li-mouse-over"]);
+      this.over = null;
+      this.dragged = null;
+    });
 
     const { onDragEnd } = this.props;
     onDragEnd && onDragEnd(e);
-    this.over = null;
-    this.dragged = null;
   };
 
   dragOver = e => {
@@ -95,6 +105,14 @@ class LeftList extends React.Component {
     onDrop && onDrop(e);
   };
 
+  onMouseOver = e => {
+    e.target.classList.add(style["li-mouse-over"]);
+  };
+
+  onMouseOut = e => {
+    e.target.classList.remove(style["li-mouse-over"]);
+  };
+
   render() {
     const { data = [] } = this.state;
     return (
@@ -113,6 +131,8 @@ class LeftList extends React.Component {
               draggable="true"
               onDragEnd={this.dragEnd}
               onDragStart={this.dragStart}
+              onMouseOver={this.onMouseOver}
+              onMouseOut={this.onMouseOut}
             >
               <p>{item.name}</p>
             </li>

@@ -41,11 +41,16 @@
       }
     }
   }
-
-  .drag-start {
+  
+  .li-mouse-over {
     background: #baebec;
     p {
       border: 1px solid #27bae7;
+    }
+  }
+
+  .drag-start {
+    p {
       background: #9ae4ee;
     }
   }
@@ -80,6 +85,15 @@
     to {
       margin-bottom: 70px;
       margin-top: 0px;
+    }
+  }
+}
+
+.drag-in-ul {
+  .li-mouse-over:not(.drag-start) {
+    background: none;
+    p {
+      border: none;
     }
   }
 }
