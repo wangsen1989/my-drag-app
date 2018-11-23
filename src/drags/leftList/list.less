@@ -49,6 +49,9 @@
 
       & ~ li {
         background: none;
+        &:hover {
+          background: none;
+        }
       }
       p {
         border: 1px solid #5ec1df;
@@ -58,32 +61,34 @@
   }
   /* 拖拽动画 */
   .drag-up {
-    animation: dragup ease 0.6s 1;
+    animation: dragup ease 1s 1;
     animation-fill-mode: forwards;
   }
 
   .drag-down {
-    animation: dragdown ease 0.6s 1;
+    animation: dragdown ease 1s 1;
     animation-fill-mode: forwards;
   }
 
   @keyframes dragup {
     from {
-      margin-top: 10px;
+      margin-top: 0px;
+      margin-bottom: 70px;
     }
     to {
-      margin-top: 60px;
+      margin-top: 70px;
+      margin-bottom: 0px;
     }
   }
 
   @keyframes dragdown {
     from {
-      margin-bottom: 10px;
-      margin-top: 60px;
+      margin-bottom: 0px;
+      margin-top: 70px;
     }
     to {
-      margin-bottom: 60px;
-      margin-top: 10px;
+      margin-bottom: 70px;
+      margin-top: 0px;
     }
   }
 }
