@@ -125,6 +125,20 @@ class LeftList extends React.Component {
     e.target.classList.remove(style["li-mouse-over"]);
   };
 
+  // 因为拖拽到右侧放下，本身不会触发本组件的清除左侧列表内残留的样式，所以在组件外部调用
+  clearCursor = lis => {
+    lis = lis || [...document.querySelectorAll(`.${style["left-node"]}`)];
+    _.forEach(lis, el => {
+      el.style.cursor = "";
+    });
+  };
+
+  // 因为拖拽到右侧放下，本身不会触发本组件的清除左侧列表内残留的样式，所以在组件外部调用
+  clearDragInUl = () => {
+    document
+      .querySelector(`.${style["left-node-contain"]}`)
+      .classList.remove(style["drag-in-ul"]);
+  };
   render() {
     const { data = [] } = this.state;
     return (
