@@ -23,6 +23,8 @@ class LeftList extends React.Component {
     }
   }
   dragStart = e => {
+    e.dataTransfer.effectAllowed = "move";
+    e.target.style.cursor = "move";
     this.dragged = e.currentTarget;
     this.dgIndex = Number(this.dragged.dataset["sortId"]);
     e.target.classList.add(style["drag-start"]);
@@ -31,7 +33,9 @@ class LeftList extends React.Component {
     const { onDragStart } = this.props;
     onDragStart && onDragStart(e);
   };
+
   dragEnd = e => {
+    e.target.style.cursor = "";
     if (!this.dragged) return;
     this.dragged.style.display = "flex";
 
@@ -53,10 +57,10 @@ class LeftList extends React.Component {
     this.setState({ data: data }, () => {
       // 拖拽时，鼠标 hover 的目标会变成别的元素，导致样式 bug，请看：https://codepen.io/wangsen1989/pen/LXpwev
       // 所以不用 css 的 :hover 来显示 li 背景色，而是用 mouse 事件
-      [...document.querySelectorAll(`.${style["left-node"]}`)][
-        from
-      ].classList.remove(style["li-mouse-over"]);
+      const lis = [...document.querySelectorAll(`.${style["left-node"]}`)];
+      lis[from].classList.remove(style["li-mouse-over"]);
       this.dragged.classList.add(style["li-mouse-over"]);
+      _.forEach(lis, el => (el.style.cursor = ""));
       this.over = null;
       this.dragged = null;
     });
@@ -72,6 +76,7 @@ class LeftList extends React.Component {
     if (e.target.tagName !== "LI") {
       return;
     }
+    e.target.style.cursor = "move";
 
     //判断当前拖拽target 和 经过的target 的上下顺序，加动画的类
     const taIndex = e.target.dataset["sortId"];

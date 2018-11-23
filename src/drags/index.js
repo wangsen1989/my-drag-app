@@ -54,7 +54,6 @@ export default class LeftDragRight extends React.Component {
   onLeftStart = e => {
     // onLeftStart 的 effectAllowed  和 onRightOver 的 dropEffect 必须一致才能 drop
     e.dataTransfer.effectAllowed = "move";
-
     const {
       data: { leftNodes = {} }
     } = this.state;
@@ -86,6 +85,7 @@ export default class LeftDragRight extends React.Component {
   onRightDrop = e => {
     e.stopPropagation();
     e.preventDefault();
+
     let {
       data,
       data: { leftNodes = {}, rightNodes = {} },
