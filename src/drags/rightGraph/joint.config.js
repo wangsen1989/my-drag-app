@@ -61,6 +61,21 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "path",
       className: "l-path l-path-left-top",
     },
+    {
+      // 节点四周的 4 个 L 标志
+      tagName: "path",
+      className: "l-path l-path-right-top",
+    },
+    {
+      // 节点四周的 4 个 L 标志
+      tagName: "path",
+      className: "l-path l-path-left-buttom",
+    },
+    {
+      // 节点四周的 4 个 L 标志
+      tagName: "path",
+      className: "l-path l-path-right-buttom",
+    },
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
