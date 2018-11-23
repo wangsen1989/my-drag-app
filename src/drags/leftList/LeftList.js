@@ -58,9 +58,12 @@ class LeftList extends React.Component {
       // 拖拽时，鼠标 hover 的目标会变成别的元素，导致样式 bug，请看：https://codepen.io/wangsen1989/pen/LXpwev
       // 所以不用 css 的 :hover 来显示 li 背景色，而是用 mouse 事件
       const lis = [...document.querySelectorAll(`.${style["left-node"]}`)];
-      lis[from].classList.remove(style["li-mouse-over"]);
+      _.forEach(lis, el => {
+        el.classList.remove(style["li-mouse-over"]);
+        el.style.cursor = "";
+      });
       this.dragged.classList.add(style["li-mouse-over"]);
-      _.forEach(lis, el => (el.style.cursor = ""));
+
       this.over = null;
       this.dragged = null;
     });
@@ -111,6 +114,10 @@ class LeftList extends React.Component {
   };
 
   onMouseOver = e => {
+    const lis = [...document.querySelectorAll(`.${style["left-node"]}`)];
+    _.forEach(lis, el => {
+      el.classList.remove(style["li-mouse-over"]);
+    });
     e.target.classList.add(style["li-mouse-over"]);
   };
 
