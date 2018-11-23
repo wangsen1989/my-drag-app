@@ -25,6 +25,7 @@ class LeftList extends React.Component {
   dragStart = e => {
     this.dragged = e.currentTarget;
     this.dgIndex = Number(this.dragged.dataset["sortId"]);
+    e.target.classList.add(style["drag-start"]);
 
     const { onDragStart } = this.props;
     onDragStart && onDragStart(e);
@@ -34,7 +35,11 @@ class LeftList extends React.Component {
     this.dragged.style.display = "flex";
 
     // 去掉动画的类
-    e.target.classList.remove(style["drag-up"], style["drag-down"]);
+    e.target.classList.remove(
+      style["drag-up"],
+      style["drag-down"],
+      style["drag-start"]
+    );
     this.over.classList.remove(style["drag-up"], style["drag-down"]);
 
     // 数据重新排列
