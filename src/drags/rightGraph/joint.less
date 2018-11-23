@@ -15,8 +15,14 @@
     }
     .joint-element {
       cursor: grab;
-      &:active{
+      &:active {
         cursor: grabbing;
+        .out-box {
+          background-color: #baebec;
+          p {
+            border-bottom: 1px solid @baseBlue;
+          }
+        }
       }
       // 最外层矩形
       .out-box {
@@ -44,7 +50,7 @@
         // 矩形里的文字
         p {
           height: 64px;
-          border-bottom: 2px solid #e7e8ed;
+          border-bottom: 1px solid #e7e8ed;
           display: flex;
           justify-content: center;
           align-items: center;
