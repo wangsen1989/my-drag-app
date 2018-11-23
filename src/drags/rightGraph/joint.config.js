@@ -55,7 +55,12 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "text",
       textContent: "取消",
       className: "delete-cancle-button-text"
-    }
+    },
+    {
+      // 节点四周的 4 个 L 标志
+      tagName: "path",
+      className: "l-path l-path-left-top",
+    },
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
