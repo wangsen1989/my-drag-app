@@ -112,8 +112,7 @@ export default class LeftDragRight extends React.Component {
     );
 
     // 因为左侧拖拽到右侧放下，本身不会触发左侧组件的清除左侧列表内残留的样式，所以在其组件外部调用
-    this.leftListInstance.clearCursor();
-    this.leftListInstance.clearDragInUl();
+    this.leftListInstance.clear_drag_style();
   };
 
   // 右侧内部操作发来的通知，更新本组件存储的右侧的最新状态
