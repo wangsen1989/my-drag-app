@@ -1,3 +1,5 @@
+@baseBlue: #5ec1df;
+
 .left-node-contain {
   width: 100%;
   display: flex;
@@ -65,14 +67,15 @@
       border: 1px solid #fbfbfc;
     }
     to {
-      border: 1px solid #5ec1e0;
+      border: 1px solid @baseBlue;
     }
   }
   // 左侧节点，被拖拽时的样式
   .drag-start {
     cursor: move;
     p {
-      background: #ceecf5;
+      background: #b2e1ee;
+      border: 1px solid @baseBlue;
     }
   }
 
