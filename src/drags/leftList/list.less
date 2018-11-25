@@ -6,7 +6,8 @@
   align-items: center;
 
   /* 左侧节点 */
-  // 左侧节点，基本样式
+
+  // 基本样式
   .left-node {
     width: 100%;
     height: 70px;
@@ -75,17 +76,7 @@
     }
   }
 
-  // 左侧节点，在拖动中，hover 和 mouse 事件都自动会加到经过的目标上，所以不准他们有样式
-  .drag-in-ul {
-    .li-mouse-over:not(.drag-start) {
-      animation: none;
-      p {
-        animation: none;
-      }
-    }
-  }
-
-  /* 拖拽时节点上线浮动的动画 */
+  /* 拖拽时节点上下挪动的动画 */
   .drag-up {
     animation: dragup ease 1s 1;
     animation-fill-mode: forwards;
@@ -115,6 +106,16 @@
     to {
       margin-bottom: 70px;
       margin-top: 0px;
+    }
+  }
+}
+
+// 在拖动中，hover 和 mouse 事件都自动会加到经过的目标上，所以不准他们有样式
+.drag-in-ul {
+  .li-mouse-over:not(.drag-start) {
+    animation: none;
+    p {
+      animation: none;
     }
   }
 }
