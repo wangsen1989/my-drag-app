@@ -17,15 +17,6 @@
       cursor: grab;
       &:active {
         cursor: grabbing;
-        .out-box {
-          background-color: #baebec;
-          p {
-            border-bottom: 1px solid @baseBlue;
-          }
-        }
-        .l-path {
-          fill: #2196f3;
-        }
       }
       // 最外层矩形
       .out-box {
@@ -121,6 +112,18 @@
       }
       .l-path-right-buttom {
         transform: translateX(170px) translateY(107px) rotate(180deg);
+      }
+    }
+    // 拖拽节点的特效
+    .cell-dragging {
+      .out-box {
+        background-color: #baebec;
+        p {
+          border-bottom: 1px solid @baseBlue;
+        }
+      }
+      .l-path {
+        fill: #2196f3;
       }
     }
 

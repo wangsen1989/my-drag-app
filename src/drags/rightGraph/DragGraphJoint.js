@@ -63,6 +63,8 @@ class DragGraphJoint extends React.Component {
       // 监听节点位置改变
       cell.on("change:position", (element1, position) => {
         this.handleChange();
+        // 加拖拽标志，方便 css 加特效
+        document.querySelector(`[model-id='${cell.id}']`).classList.add('cell-dragging');
       });
       // model view 中加入节点
       this.graph.addCell(cell);
@@ -134,6 +136,10 @@ class DragGraphJoint extends React.Component {
         this.clickedCell &&
           this.clickedCell.classList.remove("delete-cell-show");
       }
+    });
+    // 拖拽结束去掉拖拽标志
+    paper.on("cell:pointerup", (cellView,e) => {
+      cellView.el.classList.remove('cell-dragging')
     });
     // 点击空白处不显示删除节点按钮
     paper.on("blank:pointerclick", () => {
