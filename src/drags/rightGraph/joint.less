@@ -108,10 +108,10 @@
         transform: translateX(170px) translateY(-7px) rotate(90deg);
       }
       .l-path-left-buttom {
-        transform: translateX(-7px) translateY(107px) rotate(-90deg);
+        transform: translateX(-7px) translateY(104px) rotate(-90deg);
       }
       .l-path-right-buttom {
-        transform: translateX(170px) translateY(107px) rotate(180deg);
+        transform: translateX(170px) translateY(104px) rotate(180deg);
       }
     }
     // 拖拽节点的特效
@@ -120,6 +120,9 @@
         background-color: #baebec;
         p {
           border-bottom: 1px solid @baseBlue;
+        }
+        &::after {
+          display: none;
         }
       }
       .l-path {
