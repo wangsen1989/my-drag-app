@@ -59,23 +59,23 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
     {
       // 节点四周的 4 个 L 标志
       tagName: "path",
-      className: "l-path l-path-left-top",
+      className: "l-path l-path-left-top"
     },
     {
       // 节点四周的 4 个 L 标志
       tagName: "path",
-      className: "l-path l-path-right-top",
+      className: "l-path l-path-right-top"
     },
     {
       // 节点四周的 4 个 L 标志
       tagName: "path",
-      className: "l-path l-path-left-buttom",
+      className: "l-path l-path-left-buttom"
     },
     {
       // 节点四周的 4 个 L 标志
       tagName: "path",
-      className: "l-path l-path-right-buttom",
-    },
+      className: "l-path l-path-right-buttom"
+    }
   ],
   // 自定义矩形节点内部元素的属性，键和 markup 里的 selector 对应
   attrs: {
@@ -152,7 +152,8 @@ const CustomLinkView = joint.dia.LinkView.extend({
   // 自定义 options:
   options: joint.util.defaults(
     {
-      linkToolsOffset: 50
+      linkToolsOffset: 50,
+      shortLinkLength: 10
     },
     joint.dia.LinkView.prototype.options
   )

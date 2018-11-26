@@ -64,7 +64,9 @@ class DragGraphJoint extends React.Component {
       cell.on("change:position", (element1, position) => {
         this.handleChange();
         // 加拖拽标志，方便 css 加特效
-        document.querySelector(`[model-id='${cell.id}']`).classList.add('cell-dragging');
+        document
+          .querySelector(`[model-id='${cell.id}']`)
+          .classList.add("cell-dragging");
       });
       // model view 中加入节点
       this.graph.addCell(cell);
@@ -98,9 +100,9 @@ class DragGraphJoint extends React.Component {
         target: { id: targetCellId, port: "pTop" },
         ...defaultLinkCfg
       });
-      link.connector('rounded', {
+      link.connector("rounded", {
         radius: 2
-    });
+      });
       // 监听边的删除并传出去, 连自己和连线取消事件也会触发 remove
       link.on("remove", linkView => {
         const { source: { id } = {}, target: { id: _id } = {} } = _.get(
@@ -138,8 +140,8 @@ class DragGraphJoint extends React.Component {
       }
     });
     // 拖拽结束去掉拖拽标志
-    paper.on("cell:pointerup", (cellView,e) => {
-      cellView.el.classList.remove('cell-dragging')
+    paper.on("cell:pointerup", (cellView, e) => {
+      cellView.el.classList.remove("cell-dragging");
     });
     // 点击空白处不显示删除节点按钮
     paper.on("blank:pointerclick", () => {
@@ -158,6 +160,12 @@ class DragGraphJoint extends React.Component {
     // 监听连线成功事件
     paper.on("link:connect", (...rest) => {
       this.handleChange();
+    });
+    // 鼠标移入连接线显示删除按钮，默认无法居中，手动加居中
+    paper.on("link:mouseenter", function(linkView) {
+      const len = linkView.getConnectionLength();
+      linkView.options.linkToolsOffset = len / 2;
+      linkView.updateToolsPosition();
     });
   }
 
