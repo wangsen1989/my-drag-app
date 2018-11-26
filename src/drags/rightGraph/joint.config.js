@@ -220,10 +220,17 @@ export const paperCgf = that => {
         validate = validateConnection(cellViewS, cellViewT);
         validate = validate === undefined ? true : validate;
       }
+
+      const { magnetT: _magnetT, linkView: _linkView } =
+        that.validateFails || {};
+
+      // 校验正常，去掉上次错误的端口样式
+      if (validate === undefined || validate) {
+        _magnetT && _magnetT.classList.remove("validate-fail");
+      }
+
       // 校验出错 && 不是自己链接自己的那种
       if (validate === false && magnetS !== magnetT) {
-        const { magnetT: _magnetT, linkView: _linkView } =
-          that.validateFails || {};
         // 去掉上次错误的端口样式
         if (magnetT !== _magnetT) {
           _magnetT && _magnetT.classList.remove("validate-fail");
