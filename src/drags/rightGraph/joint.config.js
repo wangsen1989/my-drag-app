@@ -188,6 +188,7 @@ export const paperCgf = that => {
           that.handleChange({ links });
         }
       });
+
       return link;
     },
     interactive: { vertexAdd: false }, // 禁止点击连线多出节点
@@ -219,6 +220,22 @@ export const paperCgf = that => {
         validate = validateConnection(cellViewS, cellViewT);
         validate = validate === undefined ? true : validate;
       }
+      // 校验出错 && 不是自己链接自己的那种
+      if (validate === false && magnetS !== magnetT) {
+        const { magnetT: _magnetT, linkView: _linkView } =
+          that.validateFails || {};
+        // 去掉上次错误的端口样式
+        if (magnetT !== _magnetT) {
+          _magnetT && _magnetT.classList.remove("validate-fail");
+        }
+        // 给这次错误的端口加样式
+        magnetT && magnetT.classList.add("validate-fail");
+        // 更新错误链接数据
+        that.validateFails = {
+          magnetT,
+          linkView
+        };
+      }
       return validate;
     }
   };
@@ -246,10 +263,10 @@ export const validateConnectFun = (edges, source, target) => {
   const targetId = _.get(target, "model.attributes.originNodeData.id");
 
   if (sourceId === targetId) {
-    console.log("自己不能连自己");
+    // console.log("自己不能连自己");
     return false;
   } else if (_.find(edges, { sourceId, targetId })) {
-    console.log("不能重复链接");
+    // console.log("不能重复链接");
     return false;
   } else {
     // 拿到某节点的继任者
@@ -261,15 +278,15 @@ export const validateConnectFun = (edges, source, target) => {
       const hasVisited = []; // 已访问的节点缓存,防止重复访问
 
       const dfs = vertex => {
-        console.log("开始深度访问节点", vertex);
+        // console.log("开始深度访问节点", vertex);
         const kids = getKids(vertex);
         for (let kid of kids) {
           if (hasVisited.includes(kid)) {
-            console.log(`${kid}已经被缓存过，不需再访问,继续下一轮`);
+            // console.log(`${kid}已经被缓存过，不需再访问,继续下一轮`);
             continue;
           }
           if (kid === src) {
-            console.log(kid, "处有环, 跳出！!!!!!!");
+            // console.log(kid, "处有环, 跳出！!!!!!!");
             return false; // 有环，跳出
           } else if (getKids(kid).length > 0) {
             // 深度遍历继任者
@@ -279,7 +296,7 @@ export const validateConnectFun = (edges, source, target) => {
           }
           // vertex 的 kids 里， kid1 访问完毕，在访问下一个同辈 kid2 之前，把 kid1 加到已访问的缓存
           hasVisited.push(kid);
-          console.log("完全被访问完毕的数组", hasVisited);
+          // console.log("完全被访问完毕的数组", hasVisited);
         }
       };
 
@@ -288,7 +305,7 @@ export const validateConnectFun = (edges, source, target) => {
     };
 
     const noLoop = hasLoopFun(sourceId, targetId);
-    console.log("-------------------检测结束-----------------------");
+    // console.log("-------------------检测结束-----------------------");
     return noLoop;
   }
 };
@@ -322,18 +339,18 @@ export const toPoValitate = (nodes, edges) => {
 
     // 继续重复如上删除
     if (nodes.length === 0) {
-      console.log("没环，全部节点删除完毕", nodes);
+      // console.log("没环，全部节点删除完毕", nodes);
     } else if (nodes.length > 0 && preNodesLen !== nodes.length) {
       preNodesLen = nodes.length;
-      console.log("继续检测", edges);
+      // console.log("继续检测", edges);
       toPoSort(nodes, edges);
     } else {
       noLoop = false;
-      console.log("有环", JSON.stringify(nodes));
+      // console.log("有环", JSON.stringify(nodes));
     }
   };
 
   toPoSort(nodes, edges);
-  console.log(noLoop);
+  // console.log(noLoop);
   return noLoop;
 };

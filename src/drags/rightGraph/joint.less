@@ -147,19 +147,32 @@
       &:hover {
         // hover 到节点上显示 端口,半径变大，线宽 2
 
-        .joint-port-body {
+        .joint-port-body:not(.validate-fail) {
           stroke: @baseBlue;
           stroke-width: 2;
           r: 5px;
         }
         // hover 到端口上,半径变小，线宽 12，这样才能增加选中区域面积
 
-        .joint-port-body:hover {
+        .joint-port-body:not(.validate-fail):hover {
           stroke-width: 12;
           stroke-opacity: 1;
           opacity: 1;
           r: 0.5px;
         }
+      }
+    }
+    // 校验失败禁止链接
+    .validate-fail {
+      stroke: red;
+      stroke-width: 2;
+      r: 5px;
+      &:hover {
+        fill: none;
+        stroke: red;
+        stroke-width: 2;
+        r: 5px;
+        cursor: not-allowed;
       }
     }
     // 删除按钮组件
