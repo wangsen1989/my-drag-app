@@ -114,7 +114,7 @@
         transform: translateX(170px) translateY(104px) rotate(180deg);
       }
     }
-    // 拖拽节点的特效
+    // 拖拽时节点的特效
     .cell-dragging {
       .out-box {
         background-color: #d7eff6;
@@ -173,6 +173,9 @@
       cursor: pointer;
     }
     .delete-cell-show {
+      .out-box {
+        border-color: @baseBlue;
+      }
       .delete-button {
         display: block;
         cy: 89px;
