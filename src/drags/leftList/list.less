@@ -1,3 +1,5 @@
+/* 左侧列表 */
+
 @baseBlue: #5ec1df;
 
 .left-node-contain {
@@ -6,8 +8,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* 左侧节点 */
 
   // 基本样式
   .left-node {
@@ -45,7 +45,7 @@
       }
     }
   }
-  // 左侧节点，鼠标滑过的样式
+  // 鼠标滑过的样式
   .li-mouse-over {
     animation: li-mouse-over-ani ease 0.7s 1;
     animation-fill-mode: forwards;
@@ -70,7 +70,7 @@
       border: 1px solid @baseBlue;
     }
   }
-  // 左侧节点，被拖拽时的样式
+  // 被拖拽时的样式
   .drag-start {
     cursor: move;
     background: #e8f6fa;
@@ -80,7 +80,7 @@
     }
   }
 
-  /* 拖拽时节点上下挪动的动画 */
+  // 拖拽时节点上下挪动的动画
   .drag-up {
     animation: dragup ease 1s 1;
     animation-fill-mode: forwards;
