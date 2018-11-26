@@ -143,21 +143,23 @@
       stroke-width: 0;
       r: 0.5px;
     }
-    .joint-element:hover {
-      // hover 到节点上显示 端口,半径变大，线宽 2
+    .joint-element:not(.cell-dragging) {
+      &:hover {
+        // hover 到节点上显示 端口,半径变大，线宽 2
 
-      .joint-port-body {
-        stroke: @baseBlue;
-        stroke-width: 2;
-        r: 5px;
-      }
-      // hover 到端口上,半径变小，线宽 12，这样才能增加选中区域面积
+        .joint-port-body {
+          stroke: @baseBlue;
+          stroke-width: 2;
+          r: 5px;
+        }
+        // hover 到端口上,半径变小，线宽 12，这样才能增加选中区域面积
 
-      .joint-port-body:hover {
-        stroke-width: 12;
-        stroke-opacity: 1;
-        opacity: 1;
-        r: 0.5px;
+        .joint-port-body:hover {
+          stroke-width: 12;
+          stroke-opacity: 1;
+          opacity: 1;
+          r: 0.5px;
+        }
       }
     }
     // 删除按钮组件
