@@ -73,6 +73,7 @@
   // 左侧节点，被拖拽时的样式
   .drag-start {
     cursor: move;
+    background: #e8f6fa;
     p {
       background: #b2e1ee;
       border: 1px solid @baseBlue;
@@ -113,12 +114,21 @@
   }
 }
 
-// 在拖动中，hover 和 mouse 事件都自动会加到经过的目标上，所以不准他们有样式
+// 在拖动中，hover 和 mouse 事件都自动会加到经过的目标上，所以不准他们有鼠标滑过的样式
 .drag-in-ul {
-  .li-mouse-over:not(.drag-start) {
+  .li-mouse-over {
     animation: none;
     p {
       animation: none;
     }
+  }
+  .drag-up {
+    animation: dragup ease 1s 1;
+    animation-fill-mode: forwards;
+  }
+
+  .drag-down {
+    animation: dragdown ease 1s 1;
+    animation-fill-mode: forwards;
   }
 }
