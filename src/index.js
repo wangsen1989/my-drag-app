@@ -1,9 +1,12 @@
+// 这是一个 demo ，为了演示 LeftDragRight， AutoSortGraph 组件
+
 import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import LeftDragRight from "./drags";
 import AutoSortGraph from "./drags/autoSortGraph";
 import style from "./index.less";
+
 // mock 图数据结构（节点和边）
 
 const data = {
@@ -53,7 +56,7 @@ const data = {
   ]
 };
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data };
