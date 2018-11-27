@@ -152,13 +152,13 @@
           stroke-width: 2;
           r: 5px;
         }
-        // hover 到端口上,半径变小，线宽 12，这样才能增加选中区域面积
+        // hover 到端口上,半径变小，线宽 12，这样才不会线连接后和节点之间有缝隙
 
         .port-circle:not(.validate-fail):hover {
           stroke-width: 12;
           stroke-opacity: 1;
           opacity: 1;
-          r: 0.5px;
+          r: 0.1px;
         }
       }
     }
