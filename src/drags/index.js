@@ -2,11 +2,11 @@
   // 本组件接受和传输到父组件的数据格式为
   { 
     nodes: [
-      { id: xx, name: xx, style: { left: xx, top: xx } },
-      { id: xx, name: xx }
+      { id: xx, name: xx } // 无 style 是左侧无依赖节点
+      { id: xx, name: xx, style: { left: xx, top: xx } }, // 有 style 是右侧依赖区节点
     ],
     edges: [
-      { sourceId: xx, targetId: xx },
+      { sourceId: xx, targetId: xx }, // 右侧依赖的边
     ]
   }
 
@@ -18,6 +18,7 @@
 */
 
 import React from "react";
+import PropTypes from "prop-types";
 import LeftList from "./leftList/LeftList";
 import DragGraphJoint from "./rightGraph/DragGraphJoint";
 import {
@@ -63,7 +64,7 @@ export default class LeftDragRight extends React.Component {
     this.setState({ draggingNode });
     // 清空上次记录的节点的放置坐标
     this.draggingNodeStyle = null;
-    // 记录鼠标到 正在拖拽节点的内边 的距离，便于 drop 时计算节点的放置坐标
+    // 记录鼠标到 正在拖拽节点的边 的距离，便于 drop 到右侧时计算节点的放置坐标
     this.distanceX = e.clientX - (e.currentTarget.offsetLeft || 0);
     this.distanceY = e.clientY - (e.currentTarget.offsetTop || 0);
   };
@@ -193,9 +194,7 @@ export default class LeftDragRight extends React.Component {
             </div>
             <div className={style["right-title-cancle"]}>取消</div>
           </div>
-          <div
-            className={style["right-content"]}
-          >
+          <div className={style["right-content"]}>
             <DragGraphJoint
               ref={ref => (this.DragGraphJoint = ref)}
               data={rightNodes}
@@ -213,3 +212,9 @@ export default class LeftDragRight extends React.Component {
     );
   }
 }
+
+LeftDragRight.propTypes = {
+  data: PropTypes.object,
+  onChange: PropTypes.func, // 数据变化时通知父组件的回调
+  onSubmit: PropTypes.func // 提交数据时通知父组件的回调
+};

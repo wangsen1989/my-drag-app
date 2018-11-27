@@ -1,10 +1,20 @@
 /* 
     本组件可单独作为一个 svg 拖拽组件使用，
     从父组件接收的数据格式为 data={ nodes: [], edges: [] },
+    { 
+      nodes: [
+        { id: xx, name: xx, style: { left: xx, top: xx } },
+        {...}
+      ],
+      edges: [
+        { sourceId: xx, targetId: xx },
+      ]
+    }  
     可传入不同的校验函数来决定数据结构
 */
 
 import React from "react";
+import PropTypes from "prop-types";
 import joint from "jointjs";
 import _ from "lodash";
 import { nodeComponent, defaultLinkCfg, paperCgf } from "./joint.config";
@@ -297,12 +307,14 @@ class DragGraphJoint extends React.Component {
     e.target.style.cursor = "";
   };
 
+  // 从外部的左侧拖拽节点到本组件上方时，通知父组件的回调
   onDragOver = e => {
     e.dataTransfer.dropEffect = "move";
     e.preventDefault();
     const { onDragOver } = this.props;
     onDragOver && onDragOver(e);
   };
+  // 从外部的左侧拖拽节点放到本组件时，通知父组件的回调
   onDrop = e => {
     e.stopPropagation();
     e.preventDefault();
@@ -327,4 +339,12 @@ class DragGraphJoint extends React.Component {
   }
 }
 
+DragGraphJoint.propTypes = {
+  data: PropTypes.object, // 从父组件接收的数据
+  config: PropTypes.object, // TODO: 将拖拽器的配置传入，方便定制
+  onChange: PropTypes.func, // 数据变化时通知父组件的回调
+  validateConnection: PropTypes.func, // 自定义校验，可规定数据结构
+  onDragOver: PropTypes.func, // 从外部的左侧拖拽节点到本组件上方时，通知父组件的回调
+  onDrop: PropTypes.func // 从外部的左侧拖拽节点放到本组件时，通知父组件的回调
+};
 export default DragGraphJoint;

@@ -1,9 +1,15 @@
 /* 
+    本组件接受的数据格式为一组表示节点的数组
+    [
+      { id: xx, name: xx },
+      { id: xx, name: xx }
+    ]
     如果要单独拼装 n 个本组件，形成一组 list 之间互相拖拽，
-    可以在不同拽事件里触发父组件的事件，让他改造好数据后再通知本组件
+    可以在不同拽事件里触发父组件的事件，改造好数据后再通知本组件
 */
 
 import React from "react";
+import PropTypes from "prop-types";
 import _ from "lodash";
 import style from "./list.less";
 
@@ -168,4 +174,9 @@ class LeftList extends React.Component {
     );
   }
 }
+
+LeftList.propTypes = {
+  data: PropTypes.array,
+  onDragStart: PropTypes.func, // 记录鼠标到 正在拖拽节点的边 的距离，便于 drop 到右侧时计算节点的放置坐标
+};
 export default LeftList;

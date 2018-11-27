@@ -13,13 +13,7 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
       tagName: "foreignObject",
       selector: "out-box",
       className: "out-box"
-      // 因为文字要换行，不能用 svg 元素， 但这样写却渲染不出来，只能在 drawNode 时让 dom append 一个 p 标签
-      // children: [
-      //   {
-      //     tagName: "p",
-      //     textContent: "ccc",
-      //   }
-      // ]
+      // 因为边框外要加阴影，内部文字要换行，所以不能用 svg 元素，只能在 drawNode 时让 dom append 一个 p 标签
     },
 
     {
