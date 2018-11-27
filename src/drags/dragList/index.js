@@ -178,5 +178,9 @@ class DragList extends React.Component {
 DragList.propTypes = {
   data: PropTypes.array,
   onDragStart: PropTypes.func, // 记录鼠标到 正在拖拽节点的边 的距离，便于 drop 到右侧时计算节点的放置坐标
+  onDragEnd: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDrop: PropTypes.func,
+  
 };
 export default DragList;
