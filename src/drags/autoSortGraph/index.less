@@ -1,4 +1,27 @@
 .autoSortGraph {
   width: 100%;
   height: 100%;
+  pointer-events: none;
+  user-select: none;
+  :global {
+    /* 连接线 外层的一层遮罩，hover 上去显现 */
+    .joint-link {
+      .marker-arrowheads,
+      .marker-vertices,
+      .link-tools {
+        display: none;
+      }
+      .connection {
+        fill: none;
+      }
+      .connection-wrap {
+        fill: none;
+        stroke: #000000;
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0;
+      }
+    }
+  }
 }

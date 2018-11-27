@@ -1,34 +1,100 @@
 import React from "react";
 import PropTypes from "prop-types";
+import joint from "jointjs";
+import _ from "lodash";
 import style from "./index.less";
 
-const data = {
-  nodes: [
-    { id: "1", name: "Node 1" },
-    { id: "2", name: "Node 2" },
-    { id: "3", name: "Node 2", style: { left: 14, top: 153 } },
-    { id: "4", name: "Node 2", style: { left: 14, top: 153 } },
-    // { id: "5", name: "Node 4", style: { left: 33, top: 308 } },
-    { id: "6", name: "Node 6", style: { left: 31, top: 470 } }
-  ],
-  edges: [
-    { sourceId: "1", targetId: "2" },
-    { sourceId: "1", targetId: "3" },
-    { sourceId: "2", targetId: "3" },
-    { sourceId: "2", targetId: "4" },
-    { sourceId: "4", targetId: "6" }
-  ]
+const adjacencyList = {
+  "This is\nan element": ["b", "c"],
+  b: ["f"],
+  c: ["e", "d"],
+  d: [],
+  e: [],
+  f: ["g"],
+  g: []
 };
 
 export default class AutoSortGraph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data };
+    this.state = { adjacencyList };
+  }
+  componentDidMount() {
+    const graph = new joint.dia.Graph();
+    new joint.dia.Paper({
+      el: document.querySelector("#auto-sort-graph"),
+      width: 600,
+      height: 300,
+      gridSize: 1,
+      model: graph
+    });
+    const cells = this.buildGraphFromAdjacencyList(adjacencyList);
+    graph.resetCells(cells);
+    joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false });
   }
 
+  buildGraphFromAdjacencyList = adjacencyList => {
+    const elements = [];
+    const links = [];
+
+    _.each(adjacencyList, (edges, parentElementLabel) => {
+      elements.push(this.makeElement(parentElementLabel));
+
+      _.each(edges, childElementLabel => {
+        links.push(this.makeLink(parentElementLabel, childElementLabel));
+      });
+    });
+
+    return elements.concat(links);
+  };
+
+  makeLink = (parentElementLabel, childElementLabel) => {
+    return new joint.dia.Link({
+      source: { id: parentElementLabel },
+      target: { id: childElementLabel },
+      attrs: { ".marker-target": { d: "M 4 0 L 0 2 L 4 4 z" } },
+      smooth: true
+    });
+  };
+
+  makeElement = label => {
+    const maxLineLength = _.max(label.split("\n"), function(l) {
+      return l.length;
+    }).length;
+
+    // Compute width/height of the rectangle based on the number
+    // of lines in the label and the letter size. 0.6 * letterSize is
+    // an approximation of the monospace font letter width.
+    const letterSize = 8;
+    const width = 2 * (letterSize * (0.6 * maxLineLength + 1));
+    const height = 2 * ((label.split("\n").length + 1) * letterSize);
+
+    return new joint.shapes.basic.Rect({
+      id: label,
+      size: { width: width, height: height },
+      attrs: {
+        text: {
+          text: label,
+          "font-size": letterSize,
+          "font-family": "monospace"
+        },
+        rect: {
+          width: width,
+          height: height,
+          rx: 5,
+          ry: 5,
+          stroke: "#555"
+        }
+      }
+    });
+  };
+
   render() {
-    const { data } = this.state;
-    return <div className={style.autoSortGraph}>cd</div>;
+    return (
+      <div className={style.autoSortGraph} id="auto-sort-graph">
+        cd
+      </div>
+    );
   }
 }
 
