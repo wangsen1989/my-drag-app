@@ -3,12 +3,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
-import LeftDragRight from "./drags";
-import AutoSortGraph from "./drags/autoSortGraph";
+import { LeftDragRight, AutoSortGraph } from "./drags";
 import style from "./index.less";
 
 // mock 图数据结构（节点和边）
-
 const data = {
   nodes: [
     { id: "left6", name: "left node6" },

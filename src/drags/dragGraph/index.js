@@ -17,10 +17,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import joint from "jointjs";
 import _ from "lodash";
-import { nodeComponent, defaultLinkCfg, paperCgf } from "./joint.config";
-import style from "./joint.less";
+import { nodeComponent, defaultLinkCfg, paperCgf } from "./config";
+import style from "./index.less";
 
-class DragGraphJoint extends React.Component {
+class DragGraph extends React.Component {
   constructor(props) {
     super(props);
     const { edges = [], nodes = [] } = _.get(props, "data", {});
@@ -339,7 +339,7 @@ class DragGraphJoint extends React.Component {
   }
 }
 
-DragGraphJoint.propTypes = {
+DragGraph.propTypes = {
   data: PropTypes.object, // 从父组件接收的数据
   config: PropTypes.object, // TODO: 将拖拽器的配置传入，方便定制
   onChange: PropTypes.func, // 数据变化时通知父组件的回调
@@ -347,4 +347,4 @@ DragGraphJoint.propTypes = {
   onDragOver: PropTypes.func, // 从外部的左侧拖拽节点到本组件上方时，通知父组件的回调
   onDrop: PropTypes.func // 从外部的左侧拖拽节点放到本组件时，通知父组件的回调
 };
-export default DragGraphJoint;
+export default DragGraph;

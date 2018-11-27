@@ -11,9 +11,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import style from "./list.less";
+import style from "./index.less";
 
-class LeftList extends React.Component {
+class DragList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...props };
@@ -175,8 +175,8 @@ class LeftList extends React.Component {
   }
 }
 
-LeftList.propTypes = {
+DragList.propTypes = {
   data: PropTypes.array,
   onDragStart: PropTypes.func, // 记录鼠标到 正在拖拽节点的边 的距离，便于 drop 到右侧时计算节点的放置坐标
 };
-export default LeftList;
+export default DragList;
