@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import LeftDragRight from "./drags";
+import AutoSortGraph from "./drags/autoSortGraph";
 import style from "./index.less";
 // mock 图数据结构（节点和边）
 
@@ -62,16 +63,21 @@ class App extends React.Component {
     const { data } = this.state;
     return (
       <div className={style.app}>
-        {/* LeftDragRight 接受未分组组的数据 */}
-        <LeftDragRight
-          data={data}
-          onChange={newData => {
-            this.setState({ data: newData });
-          }}
-          onSubmit={data => {
-            console.log('要提交的数据为',data)
-          }}
-        />
+        <div className={style.leftDragRight}>
+          {/* LeftDragRight 接受未分组组的数据 */}
+          <LeftDragRight
+            data={data}
+            onChange={newData => {
+              this.setState({ data: newData });
+            }}
+            onSubmit={data => {
+              console.log("要提交的数据为", data);
+            }}
+          />
+        </div>
+        <div className={style.autoSortGraph}>
+          <AutoSortGraph />
+        </div>
       </div>
     );
   }
