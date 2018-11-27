@@ -64,9 +64,13 @@ export default class LeftDragRight extends React.Component {
     this.setState({ draggingNode });
     // 清空上次记录的节点的放置坐标
     this.draggingNodeStyle = null;
+    // left 容器 div 的滚动高度
+    const scrollTop =
+      e.currentTarget.parentElement.parentElement.scrollTop || 0;
+
     // 记录鼠标到 正在拖拽节点的边 的距离，便于 drop 到右侧时计算节点的放置坐标
     this.distanceX = e.clientX - (e.currentTarget.offsetLeft || 0);
-    this.distanceY = e.clientY - (e.currentTarget.offsetTop || 0);
+    this.distanceY = e.clientY - ((e.currentTarget.offsetTop || 0) - scrollTop);
   };
 
   // 鼠标拖拽由左进入右时，计算被拖拽节点在右侧应该放置的新坐标
