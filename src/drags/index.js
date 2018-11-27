@@ -71,8 +71,6 @@ export default class LeftDragRight extends React.Component {
 
   // 鼠标拖拽由左进入右时，计算被拖拽节点在右侧应该放置的新坐标
   onRightOver = e => {
-    e.dataTransfer.dropEffect = "move";
-    e.preventDefault();
     // 要取 right-content 的 offset，用 currentTarget，不然 targrt 会取到子元素 svg
     const draggingNodeStyle = {
       left: e.clientX - this.distanceX,
@@ -83,9 +81,6 @@ export default class LeftDragRight extends React.Component {
 
   // 左侧拖拽结束，drop 在右侧时，把当下拖拽的节点加入右侧，并从左侧剔除
   onRightDrop = e => {
-    e.stopPropagation();
-    e.preventDefault();
-
     let {
       data,
       data: { leftNodes = {}, rightNodes = {} },
@@ -201,17 +196,17 @@ export default class LeftDragRight extends React.Component {
           </div>
           <div
             className={style["right-content"]}
-            onDragOver={this.onRightOver}
-            onDrop={this.onRightDrop}
           >
             <DragGraphJoint
               ref={ref => (this.DragGraphJoint = ref)}
               data={rightNodes}
               onChange={this.onRightChange}
-              config={{}}
+              config={{}} // TODO: 将拖拽器的配置传入，方便定制
               validateConnection={(source, target) =>
                 validateConnectFun(rightNodes.edges, source, target)
               }
+              onDragOver={this.onRightOver}
+              onDrop={this.onRightDrop}
             />
           </div>
         </div>

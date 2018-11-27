@@ -297,6 +297,19 @@ class DragGraphJoint extends React.Component {
     e.target.style.cursor = "";
   };
 
+  onDragOver = e => {
+    e.dataTransfer.dropEffect = "move";
+    e.preventDefault();
+    const { onDragOver } = this.props;
+    onDragOver && onDragOver(e);
+  };
+  onDrop = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    const { onDrop } = this.props;
+    onDrop && onDrop(e);
+  };
+  
   render() {
     return (
       <div
@@ -307,6 +320,8 @@ class DragGraphJoint extends React.Component {
         onMouseMove={this.onCanvasMousemove}
         onMouseUp={this.onCanvasMouseUpLeave}
         onMouseLeave={this.onCanvasMouseUpLeave}
+        onDragOver={this.onDragOver}
+        onDrop={this.onDrop}
       />
     );
   }
