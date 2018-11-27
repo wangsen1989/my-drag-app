@@ -36,6 +36,9 @@ export default class AutoSortGraph extends React.Component {
     // 布局
     joint.layout.DirectedGraph.layout(this.graph, {
       rankDir: "LR",
+      nodeSep: 5,
+      edgeSep: 10,
+      rankSep: 50,
       marginX: 10,
       marginY: 10
     });
@@ -90,7 +93,7 @@ export default class AutoSortGraph extends React.Component {
     return new joint.dia.Link({
       source: { id: parentElementLabel, port: "pRight" },
       target: { id: childElementLabel, port: "pLeft" },
-      attrs: { ".marker-target": { d: "M 4 0 L 0 2 L 4 4 z" } },
+      attrs: { ".marker-target": { d: "M 10 0 L 0 5 L 10 10 z" } },
       smooth: true
     });
   };
@@ -107,23 +110,6 @@ export default class AutoSortGraph extends React.Component {
           className: "out-box"
         }
       ],
-      ports: {
-        //锚点自定义组，位置和数量
-        groups: { p: { position: "absolute" } },
-        //每个节点 2 个锚点
-        items: [
-          {
-            id: "pRight",
-            group: "p",
-            args: { x: "100%", y: "100%" }
-          },
-          {
-            id: "pLeft",
-            group: "p",
-            args: { x: 0, y: "100%" }
-          }
-        ]
-      }
     });
     return cell;
   };
