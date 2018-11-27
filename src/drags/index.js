@@ -43,17 +43,16 @@ export default class LeftDragRight extends React.Component {
     // 记录正在拖拽到右侧的节点的放置坐标
     this.draggingNodeStyle = null;
     // 全局检测环：拓扑排序
-    const noLoop = toPoValitate(
+    // TODO: 全局环的报错提示样式
+    toPoValitate(
       _.get(separateData, "rightNodes.nodes"),
       _.get(separateData, "rightNodes.edges")
     );
-    console.log(noLoop);
+    // console.log(noLoop);
   }
 
   // 左侧拖拽开始时，记录当下拖拽的节点
   onLeftStart = e => {
-    // onLeftStart 的 effectAllowed  和 onRightOver 的 dropEffect 必须一致才能 drop
-    e.dataTransfer.effectAllowed = "move";
     const {
       data: { leftNodes = {} }
     } = this.state;

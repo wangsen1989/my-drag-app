@@ -65,7 +65,7 @@ class App extends React.Component {
             this.setState({ data: newData });
           }}
           onSubmit={data=>{
-            console.log('要提交的数据为',data)
+            // console.log('要提交的数据为',data)
           }}
         />
       </div>
