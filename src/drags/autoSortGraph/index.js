@@ -11,7 +11,8 @@ const adjacencyList = {
   d: [],
   e: [],
   f: ["g"],
-  g: []
+  g: [],
+  gc: [],
 };
 
 export default class AutoSortGraph extends React.Component {
@@ -20,17 +21,21 @@ export default class AutoSortGraph extends React.Component {
     this.state = { adjacencyList };
   }
   componentDidMount() {
-    const graph = new joint.dia.Graph();
+    this.graph = new joint.dia.Graph();
     new joint.dia.Paper({
       el: document.querySelector("#auto-sort-graph"),
       width: "100%",
       height: "100%",
       gridSize: 1,
-      model: graph
+      model: this.graph
     });
+    this.drawGrapg(adjacencyList);
+  }
+
+  drawGrapg = adjacencyList => {
     const cells = this.buildGraphFromAdjacencyList(adjacencyList);
-    graph.resetCells(cells);
-    joint.layout.DirectedGraph.layout(graph, {
+    this.graph.resetCells(cells);
+    joint.layout.DirectedGraph.layout(this.graph, {
       rankDir: "LR",
       marginX: 10,
       marginY: 10
@@ -45,7 +50,7 @@ export default class AutoSortGraph extends React.Component {
       p.innerHTML = node.id || "";
       document.querySelector(`[model-id='${node.id}'] foreignObject`).append(p);
     });
-  }
+  };
 
   buildGraphFromAdjacencyList = adjacencyList => {
     const elements = [];
