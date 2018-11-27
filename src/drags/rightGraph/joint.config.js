@@ -88,11 +88,15 @@ export const nodeComponent = new joint.shapes.standard.Rectangle({
   portMarkup: [
     {
       tagName: "circle",
-      selector: "portBody",
       attributes: {
         r: 1, // 锚点半径, 去掉会报错
         magnet: true // 显示选中十字架套索
-      }
+      },
+      className: "port-circle"
+    },
+    {
+      tagName: "path",
+      className: "port-path"
     }
   ],
   ports: {
@@ -229,8 +233,8 @@ export const paperCgf = that => {
         _magnetT && _magnetT.classList.remove("validate-fail");
       }
 
-      // 校验出错 && 不是自己链接自己的那种
-      if (validate === false && magnetS !== magnetT) {
+      // 校验出错 && 不是自己链接自己的那种, 自己链接自己就不用爆红了
+      if (validate === false && cellViewS !== cellViewT) {
         // 去掉上次错误的端口样式
         if (magnetT !== _magnetT) {
           _magnetT && _magnetT.classList.remove("validate-fail");

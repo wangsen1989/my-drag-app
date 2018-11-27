@@ -169,7 +169,6 @@ class DragGraphJoint extends React.Component {
     });
     // 连线时，鼠标松开去掉错误的端口样式
     paper.on("link:pointerup", evt => {
-      // console.log("pointerup");
       const { magnetT, linkView } = this.validateFails || {};
       magnetT && magnetT.classList.remove("validate-fail");
     });

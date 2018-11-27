@@ -137,7 +137,7 @@
 
     /* 节点的锚点和删除按钮 */
     // 一开始不显示链接端口
-    .joint-port-body {
+    .port-circle {
       fill: none;
       pointer-events: all; // 已经用了 fill: none；加这句很重要，否则 hover 不灵
       stroke-width: 0;
@@ -147,14 +147,14 @@
       &:hover {
         // hover 到节点上显示 端口,半径变大，线宽 2
 
-        .joint-port-body:not(.validate-fail) {
+        .port-circle:not(.validate-fail) {
           stroke: @baseBlue;
           stroke-width: 2;
           r: 5px;
         }
         // hover 到端口上,半径变小，线宽 12，这样才能增加选中区域面积
 
-        .joint-port-body:not(.validate-fail):hover {
+        .port-circle:not(.validate-fail):hover {
           stroke-width: 12;
           stroke-opacity: 1;
           opacity: 1;
@@ -164,15 +164,17 @@
     }
     // 校验失败禁止链接
     .validate-fail {
+      fill: red;
       stroke: red;
       stroke-width: 2;
       r: 5px;
-      &:hover {
-        fill: none;
-        stroke: red;
-        stroke-width: 2;
-        r: 5px;
-        cursor: not-allowed;
+
+      & ~ path {
+        fill: #fff;
+        transform: translate(-6.5px, -6.5px) scale(0.4);
+        d: path(
+          "M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"
+        );
       }
     }
     // 删除按钮组件
