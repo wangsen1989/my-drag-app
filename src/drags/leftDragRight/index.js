@@ -25,7 +25,7 @@ import {
   validateConnectFun,
   separate,
   toPoValitate
-} from "../rightGraph/config";
+} from "../dragGraph/config";
 import _ from "lodash";
 import style from "./index.less";
 
