@@ -76,7 +76,7 @@ class App extends React.Component {
           />
         </div>
         <div className={style.autoSortGraph}>
-          <AutoSortGraph />
+          <AutoSortGraph data={data} />
         </div>
       </div>
     );

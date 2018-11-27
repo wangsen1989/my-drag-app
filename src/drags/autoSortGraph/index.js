@@ -4,21 +4,12 @@ import joint from "jointjs";
 import _ from "lodash";
 import style from "./index.less";
 
-const adjacencyList = {
-  "dddddddddddnan element": ["b", "c"],
-  b: ["f"],
-  c: ["e", "d"],
-  d: [],
-  e: [],
-  f: ["g"],
-  g: [],
-  gc: [],
-};
-
 export default class AutoSortGraph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { adjacencyList };
+    this.state = {
+      data: props.data || {}
+    };
   }
   componentDidMount() {
     this.graph = new joint.dia.Graph();
@@ -29,29 +20,58 @@ export default class AutoSortGraph extends React.Component {
       gridSize: 1,
       model: this.graph
     });
-    this.drawGrapg(adjacencyList);
+    this.drawGraph();
   }
 
-  drawGrapg = adjacencyList => {
+  drawGraph = () => {
+    const {
+      data: { nodes, edges }
+    } = this.state;
+    // 将边的信息转为邻接表
+    const adjacencyList = this.edgesToAdjacencyList(edges);
+    // 将邻接表加工成该库接受的图数据
     const cells = this.buildGraphFromAdjacencyList(adjacencyList);
+    // 加入 dom
     this.graph.resetCells(cells);
+    // 布局
     joint.layout.DirectedGraph.layout(this.graph, {
       rankDir: "LR",
       marginX: 10,
       marginY: 10
     });
-    const nodes = _.filter(
+    // 找出所有节点
+    const rects = _.filter(
       cells,
       cell => _.get(cell, "attributes.type") === "basic.Rect"
     );
-    _.forEach(nodes, node => {
+    // 给节点添加展示名称 name ，而非 id
+    _.forEach(rects, rect => {
       // 在 svg 中插入 p 标签
       const p = document.createElement("p");
-      p.innerHTML = node.id || "";
-      document.querySelector(`[model-id='${node.id}'] foreignObject`).append(p);
+      const nodeName = _.find(nodes, node => node.id === rect.id).name;
+      p.innerHTML = nodeName || "";
+      document.querySelector(`[model-id='${rect.id}'] foreignObject`).append(p);
     });
   };
 
+  // 将依赖信息转为邻接表
+  edgesToAdjacencyList = edges => {
+    const adjacencyList = {};
+    _.forEach(edges, edge => {
+      // 将起点这个节点，和他的依赖，加入邻接表
+      if (adjacencyList[edge.sourceId] === undefined) {
+        adjacencyList[edge.sourceId] = [edge.targetId];
+      } else {
+        adjacencyList[edge.sourceId].push([edge.targetId]);
+      }
+      // 将终点这个节点，加入邻接表
+      if (adjacencyList[edge.targetId] === undefined) {
+        adjacencyList[edge.targetId] = [];
+      }
+    });
+    return adjacencyList;
+  };
+  // 将邻接表加工成该库接受的图数据
   buildGraphFromAdjacencyList = adjacencyList => {
     const elements = [];
     const links = [];
@@ -65,7 +85,7 @@ export default class AutoSortGraph extends React.Component {
     });
     return elements.concat(links);
   };
-
+  // 画线
   makeLink = (parentElementLabel, childElementLabel) => {
     return new joint.dia.Link({
       source: { id: parentElementLabel, port: "pRight" },
@@ -74,7 +94,7 @@ export default class AutoSortGraph extends React.Component {
       smooth: true
     });
   };
-
+  // 画节点
   makeElement = label => {
     const cell = new joint.shapes.basic.Rect({
       id: label,
@@ -108,11 +128,20 @@ export default class AutoSortGraph extends React.Component {
     return cell;
   };
 
+  // 外部变化就刷新
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(this.props.data, nextProps.data)) {
+      this.setState({ data: nextProps.data }, () => {
+        this.drawGraph();
+      });
+    }
+  }
+
   render() {
     return <div className={style.autoSortGraph} id="auto-sort-graph" />;
   }
 }
 
 AutoSortGraph.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object // 数据格式为 { nodes: [], edges: [] }
 };
