@@ -225,7 +225,7 @@ export const paperCgf = that => {
         validate = validate === undefined ? true : validate;
       }
 
-      const { magnetT: _magnetT, linkView: _linkView } =
+      const { magnetT: _magnetT } =
         that.validateFails || {};
 
       // 校验正常，去掉上次错误的端口样式
