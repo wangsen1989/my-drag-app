@@ -5,7 +5,7 @@ import _ from "lodash";
 import style from "./index.less";
 
 const adjacencyList = {
-  "This is\nan element": ["b", "c"],
+  "dddddddddddnan element": ["b", "c"],
   b: ["f"],
   c: ["e", "d"],
   d: [],
@@ -23,14 +23,28 @@ export default class AutoSortGraph extends React.Component {
     const graph = new joint.dia.Graph();
     new joint.dia.Paper({
       el: document.querySelector("#auto-sort-graph"),
-      width: 600,
-      height: 300,
+      width: "100%",
+      height: "100%",
       gridSize: 1,
       model: graph
     });
     const cells = this.buildGraphFromAdjacencyList(adjacencyList);
     graph.resetCells(cells);
-    joint.layout.DirectedGraph.layout(graph, { setLinkVertices: false });
+    joint.layout.DirectedGraph.layout(graph, {
+      rankDir: "LR",
+      marginX: 10,
+      marginY: 10
+    });
+    const nodes = _.filter(
+      cells,
+      cell => _.get(cell, "attributes.type") === "basic.Rect"
+    );
+    _.forEach(nodes, node => {
+      // 在 svg 中插入 p 标签
+      const p = document.createElement("p");
+      p.innerHTML = node.id || "";
+      document.querySelector(`[model-id='${node.id}'] foreignObject`).append(p);
+    });
   }
 
   buildGraphFromAdjacencyList = adjacencyList => {
@@ -44,7 +58,6 @@ export default class AutoSortGraph extends React.Component {
         links.push(this.makeLink(parentElementLabel, childElementLabel));
       });
     });
-
     return elements.concat(links);
   };
 
@@ -58,43 +71,23 @@ export default class AutoSortGraph extends React.Component {
   };
 
   makeElement = label => {
-    const maxLineLength = _.max(label.split("\n"), function(l) {
-      return l.length;
-    }).length;
-
-    // Compute width/height of the rectangle based on the number
-    // of lines in the label and the letter size. 0.6 * letterSize is
-    // an approximation of the monospace font letter width.
-    const letterSize = 8;
-    const width = 2 * (letterSize * (0.6 * maxLineLength + 1));
-    const height = 2 * ((label.split("\n").length + 1) * letterSize);
-
-    return new joint.shapes.basic.Rect({
+    const cell = new joint.shapes.basic.Rect({
       id: label,
-      size: { width: width, height: height },
-      attrs: {
-        text: {
-          text: label,
-          "font-size": letterSize,
-          "font-family": "monospace"
-        },
-        rect: {
-          width: width,
-          height: height,
-          rx: 5,
-          ry: 5,
-          stroke: "#555"
+      size: { width: 119, height: 32 },
+      // 因为，内部文字要换行，所以不能用 svg 元素，只能在 drawNode 时让 dom append 一个 p 标签
+      markup: [
+        {
+          tagName: "foreignObject",
+          selector: "out-box",
+          className: "out-box"
         }
-      }
+      ]
     });
+    return cell;
   };
 
   render() {
-    return (
-      <div className={style.autoSortGraph} id="auto-sort-graph">
-        cd
-      </div>
-    );
+    return <div className={style.autoSortGraph} id="auto-sort-graph" />;
   }
 }
 
