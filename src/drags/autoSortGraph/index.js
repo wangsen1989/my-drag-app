@@ -63,8 +63,8 @@ export default class AutoSortGraph extends React.Component {
 
   makeLink = (parentElementLabel, childElementLabel) => {
     return new joint.dia.Link({
-      source: { id: parentElementLabel },
-      target: { id: childElementLabel },
+      source: { id: parentElementLabel, port: "pRight" },
+      target: { id: childElementLabel, port: "pLeft" },
       attrs: { ".marker-target": { d: "M 4 0 L 0 2 L 4 4 z" } },
       smooth: true
     });
@@ -81,7 +81,24 @@ export default class AutoSortGraph extends React.Component {
           selector: "out-box",
           className: "out-box"
         }
-      ]
+      ],
+      ports: {
+        //锚点自定义组，位置和数量
+        groups: { p: { position: "absolute" } },
+        //每个节点 2 个锚点
+        items: [
+          {
+            id: "pRight",
+            group: "p",
+            args: { x: "100%", y: "100%" }
+          },
+          {
+            id: "pLeft",
+            group: "p",
+            args: { x: 0, y: "100%" }
+          }
+        ]
+      }
     });
     return cell;
   };
