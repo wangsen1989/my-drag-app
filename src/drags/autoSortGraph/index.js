@@ -10,13 +10,13 @@ export default class AutoSortGraph extends React.Component {
     this.state = {
       data: props.data || {}
     };
+    this.graph = new joint.dia.Graph();
   }
   componentDidMount() {
-    this.graph = new joint.dia.Graph();
     new joint.dia.Paper({
       el: document.querySelector("#auto-sort-graph"),
-      width: "100%",
-      height: "100%",
+      // width: "100%",
+      // height: "100%",
       gridSize: 1,
       model: this.graph
     });
@@ -55,6 +55,7 @@ export default class AutoSortGraph extends React.Component {
       p.innerHTML = nodeName || "";
       document.querySelector(`[model-id='${rect.id}'] foreignObject`).append(p);
     });
+    this.forceUpdate();
   };
 
   // 将依赖信息转为邻接表
@@ -109,7 +110,7 @@ export default class AutoSortGraph extends React.Component {
           selector: "out-box",
           className: "out-box"
         }
-      ],
+      ]
     });
     return cell;
   };
@@ -124,7 +125,16 @@ export default class AutoSortGraph extends React.Component {
   }
 
   render() {
-    return <div className={style.autoSortGraph} id="auto-sort-graph" />;
+    const { width = 0, height = 0 } = this.graph.getBBox() || {};
+    const styles = { width: width + 20, height: height + 20 };
+    // console.log(styles);
+    return (
+      <div
+        className={style.autoSortGraph}
+        style={styles}
+        id="auto-sort-graph"
+      />
+    );
   }
 }
 
