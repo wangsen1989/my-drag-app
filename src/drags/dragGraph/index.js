@@ -44,8 +44,35 @@ class DragGraph extends React.Component {
     this.drawEdges(edges);
     // view 画布监听点击事件，处理自定义交互
     this.listenPaper(this.paper);
+    this.handleHasLinkedPort(undefined, true);
   }
-
+  handleHasLinkedPort = (_links, initial) => {
+    // 获取所有连线
+    const links = _links || this.graph.getLinks();
+    console.log(links);
+    // 先移除所有加过的标记
+    if (!initial) {
+      const hasLinkedPorts = document.querySelectorAll(".joint-port-body");
+      _.forEach(hasLinkedPorts, hasLinkedPort => {
+        hasLinkedPort && hasLinkedPort.classList.remove("has-linked-port");
+      });
+    }
+    // 把所有连线的起止锚点加上已连接的标志
+    _.forEach(links, link => {
+      // 目标卡片
+      const target = link.target(); //{id: "xxx", port: "pTop"}
+      // 起点卡片
+      const source = link.source();
+      // 给卡片下的已连接的锚点，加已连接标志
+      _.forEach([target, source], (element = {}) => {
+        const { id, port } = element;
+        const hasLinkedPort = document.querySelector(
+          `[model-id='${id}'] [port=${port}]`
+        );
+        hasLinkedPort && hasLinkedPort.classList.add("has-linked-port");
+      });
+    });
+  };
   // 画所有传进来的节点。此后用户外部再传节点，再在 componentWillReceiveProps 单独画那一个节点
   drawNodes = (nodes, init) => {
     _.forEach(nodes, node => {
@@ -72,7 +99,7 @@ class DragGraph extends React.Component {
 
       // 监听节点位置改变
       cell.on("change:position", (element1, position) => {
-        this.handleChange();
+        this.handleChange(undefined, false);
         // 加拖拽标志，方便 css 加特效
         document
           .querySelector(`[model-id='${cell.id}']`)
@@ -124,7 +151,7 @@ class DragGraph extends React.Component {
           // remove 后，数据没有马上变化，所以过滤一下
           let links = this.graph.getLinks(); //获取所有边
           links = _.filter(links, link => link.id !== linkView.id);
-          this.handleChange({ links });
+          this.handleChange({ links }, true);
         }
       });
 
@@ -165,11 +192,11 @@ class DragGraph extends React.Component {
         this.nodeMapToCells,
         nMapC => nMapC.cellId !== elementView.model.id
       );
-      this.handleChange();
+      this.handleChange(undefined, true);
     });
     // 监听连线成功事件
     paper.on("link:connect", (...rest) => {
-      this.handleChange();
+      this.handleChange(undefined, true);
     });
     // 鼠标移入连接线显示删除按钮，默认无法居中，手动加居中
     paper.on("link:mouseenter", function(linkView) {
@@ -223,7 +250,7 @@ class DragGraph extends React.Component {
     }
   }
 
-  handleChange = ({ links: _links } = {}) => {
+  handleChange = ({ links: _links } = {}, handlePort) => {
     const links = _links || this.graph.getLinks(); //获取所有边
     const cells = this.graph.getElements(); //获取所有节点
 
@@ -259,6 +286,7 @@ class DragGraph extends React.Component {
 
     const { onChange } = this.props;
     onChange && onChange({ nodes, edges });
+    handlePort && this.handleHasLinkedPort(links, false);
   };
 
   // 缩放画布 最大最小一倍

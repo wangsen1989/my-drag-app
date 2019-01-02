@@ -183,7 +183,7 @@ export const paperCgf = that => {
           // remove 后，数据没有马上变化，所以过滤一下
           let links = that.graph.getLinks(); //获取所有边
           links = _.filter(links, link => link.id !== linkView.id);
-          that.handleChange({ links });
+          that.handleChange({ links }, true);
         }
       });
 
@@ -219,8 +219,7 @@ export const paperCgf = that => {
         validate = validate === undefined ? true : validate;
       }
 
-      const { magnetT: _magnetT } =
-        that.validateFails || {};
+      const { magnetT: _magnetT } = that.validateFails || {};
 
       // 校验正常，去掉上次错误的端口样式
       if (validate === undefined || validate) {
