@@ -162,7 +162,7 @@
         }
         // 已连接的锚点样式
         .has-linked-port {
-          path {
+          .port-circle:not(.validate-fail) ~ path {
             fill: @baseBlue;
             transform: translate(0px, -9px) scale(0.4) rotate(45deg);
             d: path(
@@ -188,7 +188,8 @@
         );
       }
     }
-    .is-linking-port{
+    // 正在链接的锚点
+    .is-linking-port:not(.validate-fail) {
       stroke: @baseBlue;
       stroke-width: 2;
       r: 5px;
@@ -304,6 +305,14 @@
           );
           transform: rotate(45deg) scale(1.5);
         }
+      }
+    }
+    .validate-fail-line {
+      .connection {
+        stroke: red;
+      }
+      .marker-target {
+        fill: red;
       }
     }
   }

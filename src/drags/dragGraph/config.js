@@ -224,6 +224,7 @@ export const paperCgf = that => {
       // 校验正常，去掉上次错误的端口样式
       if (validate === undefined || validate) {
         _magnetT && _magnetT.classList.remove("validate-fail");
+        linkView.el.classList.remove("validate-fail-line");
       }
 
       // 校验出错 && 不是自己链接自己的那种, 自己链接自己就不用爆红了
@@ -234,6 +235,8 @@ export const paperCgf = that => {
         }
         // 给这次错误的端口加样式
         magnetT && magnetT.classList.add("validate-fail");
+        // 给这次错误的连线加样式
+        linkView.el.classList.add("validate-fail-line");
         // 更新错误链接数据
         that.validateFails = {
           magnetT,
