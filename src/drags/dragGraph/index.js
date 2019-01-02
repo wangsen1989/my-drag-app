@@ -70,7 +70,7 @@ class DragGraph extends React.Component {
       _.forEach([target, source], (element = {}) => {
         const { id, port } = element;
         const hasLinkedPort = document.querySelector(
-          `[model-id='${id}'] [port=${port}]`
+          `[model-id='${id}'] [port=${port}] .port-circle`
         );
         hasLinkedPort && hasLinkedPort.classList.add("has-linked-port");
       });
