@@ -240,6 +240,22 @@ export const paperCgf = that => {
           linkView
         };
       }
+
+      // 去掉旧的正在链接标志，增加新的正在链接标志
+      if (_.get(that.preLinkingPorts, "magnetT") && cellViewS !== cellViewT) {
+        that.preLinkingPorts.magnetT.classList.remove("is-linking-port");
+      }
+      magnetS.querySelector(".port-circle").classList.add("is-linking-port");
+      if (magnetT && cellViewS !== cellViewT) {
+        !magnetT.classList.contains("validate-fail") &&
+          magnetT.classList.add("is-linking-port");
+      }
+
+      that.preLinkingPorts = {
+        magnetS: magnetS.querySelector(".port-circle"),
+        magnetT
+      };
+
       return validate;
     }
   };

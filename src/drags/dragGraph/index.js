@@ -44,8 +44,11 @@ class DragGraph extends React.Component {
     this.drawEdges(edges);
     // view 画布监听点击事件，处理自定义交互
     this.listenPaper(this.paper);
+    // 锚点增加已连接标志
     this.handleHasLinkedPort(undefined, true);
   }
+
+  // 连线两端的锚点增加已连接标志
   handleHasLinkedPort = (_links, initial) => {
     // 获取所有连线
     const links = _links || this.graph.getLinks();
@@ -204,10 +207,14 @@ class DragGraph extends React.Component {
       linkView.options.linkToolsOffset = len / 2;
       linkView.updateToolsPosition();
     });
-    // 连线时，鼠标松开去掉错误的端口样式
+    // 连线时，鼠标松开去掉错误的端口样式 和 上次显示端口可用的标志
     paper.on("link:pointerup", evt => {
       const { magnetT } = this.validateFails || {};
       magnetT && magnetT.classList.remove("validate-fail");
+      const { magnetS: _magnetS, magnetT: _magnetT } =
+        this.preLinkingPorts || {};
+      _magnetS && _magnetS.classList.remove("is-linking-port");
+      _magnetT && _magnetT.classList.remove("is-linking-port");
     });
   }
 
