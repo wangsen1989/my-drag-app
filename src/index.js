@@ -3,8 +3,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
-import { LeftDragRight, AutoSortGraph } from "./drags";
-// import { LeftDragRight, AutoSortGraph } from "@caicloud/web-lib";
+// import { LeftDragRight, AutoSortGraph } from "./drags";
+import { Drags } from "@caicloud/web-lib";
 import style from "./index.less";
 
 // mock 图数据结构（节点和边）
@@ -67,7 +67,7 @@ export default class App extends React.Component {
       <div className={style.app}>
         <div className={style.leftDragRight}>
           {/* LeftDragRight 接受未分组组的数据 */}
-          <LeftDragRight
+          <Drags.LeftDragRight
             data={data}
             onChange={newData => {
               this.setState({ data: newData });
@@ -78,7 +78,7 @@ export default class App extends React.Component {
           />
         </div>
         <div className={style.autoSortGraph}>
-          <AutoSortGraph data={data} />
+          <Drags.AutoSortGraph data={data} />
         </div>
       </div>
     );
